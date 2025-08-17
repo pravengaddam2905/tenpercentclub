@@ -1,13 +1,18 @@
 :root{
-    --bg:#ffffff;
-    --ink:#0f172a;        /* slate-900 */
-    --muted:#64748b;      /* slate-500/600 */
-    --line:#e2e8f0;       /* slate-200 */
-    --card:#ffffff;
-    --alt:#f8fafc;        /* slate-50 */
-    --ink-inv:#ffffff;
-    --ink-weak:#475569;
-  }
+  --bg:#ffffff;
+  --ink:#0f172a;
+  --muted:#64748b;
+  --line:#e2e8f0;
+  --card:#ffffff;
+  --alt:#f8fafc;
+  --ink-inv:#ffffff;
+  --ink-weak:#475569;
+
+  /* NEW: gold palette for buttons/brand accents */
+  --gold:#D4A017;          /* main gold */
+  --gold-hover:#B78C14;    /* hover shade */
+  --gold-ink:#111827;      /* text on gold (near-black) */
+}
   
   *{box-sizing:border-box} html{scroll-behavior:smooth}
   body{margin:0;font:16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;color:var(--ink);background:var(--bg)}
@@ -112,10 +117,26 @@
   height: 760px; /* adjust if needed */
 }
 
-@media (max-width: 600px) {
-  .calendly-inline-widget { height: 1000px; } /* more vertical room on phones */
+/* Bigger logo + brand name */
+.brand { display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit; }
+.brand-logo { width:30px; height:30px; }        /* was 22px */
+.brand-name { font-size:20px; font-weight:800; }/* bigger + bolder */
+
+@media (max-width:900px){
+  .brand-logo { width:26px; height:26px; }
+  .brand-name { font-size:18px; }
 }
 
-/* Optional: gold button style used in hero */
-.btn-gold{background:#c9a227;color:#151515;border:1px solid transparent;box-shadow:0 10px 30px rgba(0,0,0,.08)}
-.btn-gold:hover{background:#f3d46b}
+/* Gold button */
+.btn-gold{
+  background:var(--gold);
+  color:var(--gold-ink);
+  border-color:transparent;
+  box-shadow:0 2px 10px rgba(212,160,23,.25);
+  font-weight:700;
+}
+.btn-gold:hover{ background:var(--gold-hover); }
+
+.btn-dark { border:1px solid transparent; }
+.btn-dark:focus-visible,
+.btn-gold:focus-visible { outline:3px solid rgba(212,160,23,.35); outline-offset:2px; }
