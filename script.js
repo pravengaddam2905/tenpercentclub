@@ -25,7 +25,31 @@ if (form) {
       `Name: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone || ''}\n\nMessage:\n${data.message}`
     );
     // Replace with your email address:
-    window.location.href = `mailto:praveen@example.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:praveengreddy@hotmail.com?subject=${subject}&body=${body}`;
     note.textContent = 'Opening your email app… To capture leads automatically, connect this form to Formspree/Getform.';
+  });
+}
+
+// Team opportunity interest form -> opens email with prefilled details
+const joinForm = document.getElementById('joinForm');
+const joinNote = document.getElementById('joinFormNote');
+if (joinForm) {
+  joinForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(joinForm).entries());
+    const subject = 'Team opportunity — new interest';
+    const body = `Name: ${data.name}
+Email: ${data.email}
+Phone: ${data.phone || ''}
+Province: ${data.province || ''}
+Current role: ${data.role || ''}
+Hours available: ${data.hours || ''}
+
+Message:
+${data.message}`;
+
+    // Send to you
+    window.location.href = `mailto:praveengreddy@hotmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    if (joinNote) joinNote.textContent = 'Thanks! Your email app is opening. Or book a quick info session above.';
   });
 }
