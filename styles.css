@@ -140,3 +140,5 @@
 .btn-dark { border:1px solid transparent; }
 .btn-dark:focus-visible,
 .btn-gold:focus-visible { outline:3px solid rgba(212,160,23,.35); outline-offset:2px; }
+
+.fineprint{color:var(--muted);font-size:12px;margin-top:8px}
