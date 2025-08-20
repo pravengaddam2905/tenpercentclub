@@ -182,3 +182,80 @@ input:focus,textarea:focus{border-color:#94a3b8;box-shadow:0 0 0 3px rgba(148,16
 @media (max-width:900px){
   .grid-2,.grid-3,.cards-3,.cards-2,.grid-2-contact{grid-template-columns:1fr}
 }
+
+/* ===== Opportunity section polish ===== */
+#opportunity{
+  background: var(--alt);
+  padding: 72px 0;
+}
+#opportunity .container{ max-width: 1100px }
+
+/* Section heading + lead */
+#opportunity h2{
+  font-size: clamp(26px, 3.2vw, 32px);
+  margin-bottom: 8px;
+}
+#opportunity .muted{ color: var(--muted) }
+
+/* Top 3 cards row */
+.opp-row{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 18px 0 16px;
+}
+.opp-card{
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 1px 0 rgba(15,23,42,.03);
+}
+.opp-card .icon{ font-size:22px; display:inline-block; margin-right:6px }
+.opp-card h4{ margin:0 0 6px; font-size:18px }
+.opp-card ul{ padding-left: 16px; margin: 8px 0 0 }
+.opp-card li{ margin: 4px 0 }
+
+/* Main two-column area */
+.opp-grid{
+  display:grid;
+  grid-template-columns: 1.6fr 1fr; /* left content bigger */
+  gap: 18px;
+  align-items: start;
+}
+
+/* Left: “What it takes/What it’s not” card */
+.opp-left.card{ border-radius: 18px; padding: 18px }
+.opp-left h4{ margin: 10px 0 6px; font-size: 18px }
+.opp-left p{ margin: 6px 0 }
+
+/* Right: sticky CTA + form */
+.opp-right{
+  position: sticky;
+  top: 86px; /* sits under your sticky header */
+}
+.opp-right .card{ border-radius: 18px; padding: 18px }
+.opp-right .btn-gold{
+  width: 100%;
+  justify-content: center;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+.opp-right label{
+  font-size: 13px; color: var(--ink-weak);
+  display:block; margin: 10px 0 4px;
+}
+.opp-right input, .opp-right textarea, .opp-right select{
+  width: 100%;
+}
+.opp-right .btn-dark{
+  width: 140px; justify-content:center;
+}
+.opp-right .fineprint{ margin-top: 8px }
+
+/* Mobile stacking */
+@media (max-width: 900px){
+  .opp-row{ grid-template-columns: 1fr }
+  .opp-grid{ grid-template-columns: 1fr }
+  .opp-right{ position: static; }
+}
