@@ -2,27 +2,41 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Ten Percent Club</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ten Percent Club | Licensed Financial Planner | Kitchener, Ontario</title>
   <link rel="stylesheet" href="styles.css" />
-  <meta name="description" content="Helping Canadian families protect income and grow wealth with simple, personalized financial planning." />
+  <meta name="description" content="Licensed financial professional helping Canadian families with tax planning, insurance, investments, and retirement strategies. Free consultation available." />
   
-  <!-- Favicon (put favicon.png in your repo root) -->
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png" sizes="32x32">
   <link rel="apple-touch-icon" href="favicon.png">
-  <!-- Calendly (official) -->
+  
+  <!-- Calendly -->
   <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
   <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 </head>
 <body>
+
+  <!-- Urgent Tax Banner -->
+  <div class="tax-banner">
+    <div class="container">
+      <span class="tax-icon">⏰</span>
+      <span class="tax-text"><strong>Year-End Tax Savings:</strong> Maximize your RRSP/TFSA before March 1, 2026</span>
+      <a href="#tax-calculator" class="tax-link">Calculate Savings →</a>
+    </div>
+  </div>
+
   <!-- Header -->
   <header class="site-header">
     <div class="container nav">
       <a href="#home" class="brand">
-        <svg class="brand-logo" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+        <svg class="brand-logo" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z" fill="currentColor"/>
         </svg>
-        <span class="brand-name">Ten Percent Club</span>
+        <div class="brand-text">
+          <span class="brand-name">Ten Percent Club</span>
+          <span class="brand-license">Licensed ID: 241194</span>
+        </div>
       </a>
 
       <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">
@@ -30,341 +44,378 @@
       </button>
 
       <nav class="menu" id="menu">
-        <a href="#about">About</a>
-        <a href="#services">What I Do</a>
-        <a href="#process">How It Works</a>
-        <a href="#results">Results</a>
-        <!-- <a href="#opportunity">Business Opportunity</a> -->
-        <a href="#faq">FAQ</a>
-        <a href="#contact">Contact</a>
-        <a href="#book" class="btn btn-gold">Book a Call</a>
+        <a href="#services">Services</a>
+        <a href="#tax-calculator">Tax Calculator</a>
+        <a href="#process">Process</a>
+        <a href="#resources">Resources</a>
+        <a href="#book" class="btn btn-gold">Book Free Call</a>
       </nav>
     </div>
   </header>
 
-  <!-- Hero -->
+  <!-- Hero Section -->
   <section id="home" class="section hero">
-    <div class="container grid-2">
-      <div>
-        <p class="badge">Licensed Financial Professional</p>
-        <h1>Protect your income. Grow your wealth. <span class="muted">Plan with confidence.</span></h1>
-        <p class="lead">I help Canadian families build simple, personalized plans for insurance, investments, retirement, and education savings—without the jargon.</p>
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <span class="badge badge-blue">WFG Licensed Professional</span>
+        <h1>Build Your Financial Future with <span class="highlight">Confidence</span></h1>
+        <p class="lead">Comprehensive financial planning for Canadian families: insurance protection, tax-advantaged investing, and retirement strategies—tailored to your goals.</p>
 
-        <div class="actions">
-          <a href="#book" class="btn btn-gold">Free 30-min Consultation</a>
-          <a href="#services" class="btn btn-light">Explore Services</a>
+        <div class="hero-actions">
+          <a href="#book" class="btn btn-gold btn-lg">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            Free 30-min Consultation
+          </a>
+          <a href="#tax-calculator" class="btn btn-outline">Calculate Tax Savings</a>
         </div>
 
-        <ul class="ticks">
-          <li>✅ No-fee planning</li>
-          <li>✅ Multiple providers</li>
-          <li>✅ Tailored to your budget</li>
+        <ul class="hero-checks">
+          <li>✓ No-fee financial planning</li>
+          <li>✓ Multiple providers, unbiased advice</li>
+          <li>✓ Virtual or in-person (GTA)</li>
         </ul>
       </div>
 
       <div class="hero-card">
-        <div class="feature">
-          <div class="icon">🛡️</div>
+        <div class="service-item">
+          <div class="service-icon">🛡️</div>
           <div>
-            <h4>Protection</h4>
-            <p>Term • Whole • UL • Travel Insurance</p>
+            <h4>Protection First</h4>
+            <p>Life, Critical Illness, Disability Insurance</p>
           </div>
         </div>
-        <div class="feature">
-          <div class="icon">📈</div>
+        <div class="service-item">
+          <div class="service-icon">📈</div>
           <div>
-            <h4>Tax Saving & Investing</h4>
-            <p>RRSP • TFSA • FHSA • RESP</p>
+            <h4>Tax-Advantaged Growth</h4>
+            <p>RRSP, TFSA, FHSA, RESP</p>
           </div>
         </div>
-        <div class="feature">
-          <div class="icon">💰</div>
+        <div class="service-item">
+          <div class="service-icon">📋</div>
           <div>
-            <h4>Saving</h4>
-            <p>Goals,Debts & Cash flow</p>
+            <h4>Comprehensive Planning</h4>
+            <p>Retirement, Estate, Tax Strategy</p>
           </div>
         </div>
-        <div class="feature">
-          <div class="icon">💰</div>
+        <div class="service-item">
+          <div class="service-icon">🏠</div>
           <div>
-            <h4>Referrals</h4>
-            <p>Home Mortgages · Auto & Home Insurance</p>
+            <h4>Trusted Partners</h4>
+            <p>Mortgage & Insurance Referrals</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- About -->
-  <section id="about" class="section">
-    <div class="container grid-3">
-      <div>
-        <h2>Who I am</h2>
-        <p>I’m Praveen, a licensed financial professional. I partner with multiple leading institutions under WFG, to provide unbiased solutions tailored to your goals and budget.</p>
-      </div>
-      <div class="card">
-        <h3>What I believe</h3>
-        <p>Planning should be simple, transparent, and focused on protecting your family first—then growing long-term wealth.</p>
-      </div>
-      <div class="card">
-        <h3>How I work</h3>
-        <p>30-minute discovery call → data gathering → custom plan → implementation → annual reviews.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Services -->
-  <section id="services" class="section alt">
+  <!-- Tax Calculator Section -->
+  <section id="tax-calculator" class="section alt">
     <div class="container">
-      <h2>What I do</h2>
-      <p class="muted maxw">Comprehensive planning with flexible entry points. Start small, scale as your life evolves.</p>
+      <div class="section-header">
+        <h2>Year-End Tax Savings Calculator</h2>
+        <p class="subtitle">See how much you could save before March 1, 2026</p>
+      </div>
 
-      <div class="cards-3">
-        <div class="card">
-          <div class="icon-lg">🛡️</div>
-          <h3>Insurance Planning</h3>
-          <p>Term, Whole, UL, and Critical Illness—protect income and create peace of mind.</p>
+      <div class="calculator-card">
+        <div class="calculator-input">
+          <label for="income">Annual Income (Ontario)</label>
+          <input type="range" id="income" min="40000" max="200000" step="5000" value="80000">
+          <div class="calculator-value" id="incomeValue">$80,000</div>
         </div>
-        <div class="card">
-          <div class="icon-lg">📊</div>
-          <h3>Investment Strategy</h3>
-          <p>Smart, goal-based investing using RRSP, TFSA, and non-registered options.</p>
+
+        <div class="calculator-input">
+          <label for="rrsp">RRSP Contribution</label>
+          <input type="range" id="rrsp" min="0" max="30000" step="1000" value="10000">
+          <div class="calculator-value" id="rrspValue">$10,000</div>
         </div>
-        <div class="card">
-          <div class="icon-lg">🎓</div>
-          <h3>Education & Savings</h3>
-          <p>RESP setup and contribution strategy that maximizes grants and growth.</p>
+
+        <div class="calculator-result">
+          <div class="result-label">Estimated Tax Savings</div>
+          <div class="result-amount" id="taxSavings">$2,900</div>
+          <p class="result-note">This is an estimate for Ontario residents. Actual savings may vary.</p>
+        </div>
+
+        <a href="#book" class="btn btn-gold btn-block">Let's Optimize Your Tax Strategy →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section with Tabs -->
+  <section id="services" class="section">
+    <div class="container">
+      <h2 class="section-title">How I Help You Build Wealth</h2>
+
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="tax-savings">Tax Savings</button>
+        <button class="tab-btn" data-tab="protection">Protection</button>
+        <button class="tab-btn" data-tab="retirement">Retirement</button>
+        <button class="tab-btn" data-tab="estate">Estate</button>
+      </div>
+
+      <div class="tab-content-wrapper">
+        <!-- Tab 1: Tax Savings -->
+        <div class="tab-content active" id="tax-savings">
+          <h3>Tax-Advantaged Investing</h3>
+          <p>Maximize your RRSP contributions to reduce taxable income, leverage TFSA for tax-free growth, use FHSA for first-time home buyers, and optimize RESP grants for children's education.</p>
+          <ul class="benefit-list">
+            <li><span class="check">✓</span> RRSP: Reduce income tax by 30-50% on contributions</li>
+            <li><span class="check">✓</span> TFSA: Tax-free growth on investments</li>
+            <li><span class="check">✓</span> FHSA: Save $8,000/year for your first home</li>
+            <li><span class="check">✓</span> RESP: Free government grants up to $7,200 per child</li>
+          </ul>
+        </div>
+
+        <!-- Tab 2: Protection -->
+        <div class="tab-content" id="protection">
+          <h3>Insurance & Risk Management</h3>
+          <p>Protect your family's income and future with the right coverage. I'll compare multiple providers to find optimal protection at the best value.</p>
+          <ul class="benefit-list">
+            <li><span class="check">✓</span> Term Life: Affordable income replacement</li>
+            <li><span class="check">✓</span> Whole Life: Permanent coverage with cash value</li>
+            <li><span class="check">✓</span> Critical Illness: Lump sum if diagnosed with serious illness</li>
+            <li><span class="check">✓</span> Disability: Income replacement if unable to work</li>
+          </ul>
+        </div>
+
+        <!-- Tab 3: Retirement -->
+        <div class="tab-content" id="retirement">
+          <h3>Retirement Planning</h3>
+          <p>Build a retirement strategy that ensures financial independence. We'll project your needs and create a roadmap to get there.</p>
+          <ul class="benefit-list">
+            <li><span class="check">✓</span> Calculate retirement income needs</li>
+            <li><span class="check">✓</span> Optimize CPP/OAS timing</li>
+            <li><span class="check">✓</span> Tax-efficient withdrawal strategies</li>
+            <li><span class="check">✓</span> Estate planning for legacy goals</li>
+          </ul>
+        </div>
+
+        <!-- Tab 4: Estate -->
+        <div class="tab-content" id="estate">
+          <h3>Estate & Legacy Planning</h3>
+          <p>Ensure your wealth transfers efficiently to your loved ones while minimizing taxes and probate fees.</p>
+          <ul class="benefit-list">
+            <li><span class="check">✓</span> Beneficiary designation optimization</li>
+            <li><span class="check">✓</span> Tax-efficient wealth transfer strategies</li>
+            <li><span class="check">✓</span> Charitable giving planning</li>
+            <li><span class="check">✓</span> Coordination with will and power of attorney</li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Process -->
+  <!-- Resources Section -->
+  <section id="resources" class="section alt">
+    <div class="container">
+      <h2 class="section-title">Free Financial Resources</h2>
+      
+      <div class="resource-grid">
+        <div class="resource-card">
+          <div class="resource-icon">📄</div>
+          <h3>RRSP Contribution Guide</h3>
+          <p>Step-by-step guide to maximizing your RRSP before the deadline</p>
+          <a href="#book" class="resource-link">Download PDF →</a>
+        </div>
+        <div class="resource-card">
+          <div class="resource-icon">🧮</div>
+          <h3>Insurance Needs Calculator</h3>
+          <p>Calculate how much life insurance your family needs</p>
+          <a href="#book" class="resource-link">Use Calculator →</a>
+        </div>
+        <div class="resource-card">
+          <div class="resource-icon">✅</div>
+          <h3>Retirement Planning Checklist</h3>
+          <p>Comprehensive checklist for Canadian retirement planning</p>
+          <a href="#book" class="resource-link">Get Checklist →</a>
+        </div>
+      </div>
+
+      <div class="cta-card">
+        <h3>Want personalized guidance?</h3>
+        <p>Book a free 30-minute consultation to discuss your specific situation</p>
+        <a href="#book" class="btn btn-gold">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          Schedule Free Call
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process Section -->
   <section id="process" class="section">
     <div class="container">
-      <h2>How it works</h2>
-      <div class="steps">
-        <div class="step"><span>1</span><h4>Book</h4><p>Pick a time that works for you.</p></div>
-        <div class="step"><span>2</span><h4>Discover</h4><p>We clarify goals, budget, and risk.</p></div>
-        <div class="step"><span>3</span><h4>Design</h4><p>I compare providers and craft your plan.</p></div>
-        <div class="step"><span>4</span><h4>Implement</h4><p>We put your plan in place and review annually.</p></div>
+      <h2 class="section-title">Simple, Transparent Process</h2>
+      
+      <div class="process-grid">
+        <div class="process-step">
+          <div class="step-number">1</div>
+          <h4>Discovery Call</h4>
+          <p>30-minute free consultation to understand your goals and situation</p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">2</div>
+          <h4>Data Gathering</h4>
+          <p>Collect information about income, assets, and current coverage</p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">3</div>
+          <h4>Custom Plan</h4>
+          <p>Compare providers and create personalized recommendations</p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">4</div>
+          <h4>Implementation</h4>
+          <p>Put your plan into action with ongoing annual reviews</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Results -->
-  <section id="results" class="section alt">
+  <!-- About Section -->
+  <section class="section alt">
+    <div class="container about-container">
+      <h2 class="section-title">About Praveen</h2>
+      <p class="about-intro">I'm a licensed financial professional partnering with World Financial Group (WFG) and multiple leading Canadian institutions. My mission is simple: help families protect their income, save on taxes, and build long-term wealth through unbiased, personalized planning.</p>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">Licensed</div>
+          <div class="stat-label">LLQP & Provincial Licensing</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">Multiple Providers</div>
+          <div class="stat-label">Unbiased Product Comparison</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">No Fees</div>
+          <div class="stat-label">Planning at No Cost to You</div>
+        </div>
+      </div>
+
+      <p class="about-quote">"I'm building my practice by focusing on long-term relationships, not quick sales. I take the time to understand your unique situation and build a plan that actually works for you."</p>
+    </div>
+  </section>
+
+  <!-- Team Building Section -->
+  <section class="section team-section">
     <div class="container">
-      <h2>Results you can feel</h2>
-      <div class="stats">
-        <div class="stat"><strong>3+</strong><span>Families educated</span></div>
-        <div class="stat"><strong>$2M+</strong><span>Coverage in force</span></div>
-        <div class="stat"><strong>99%</strong><span>Client retention</span></div>
-      </div>
+      <div class="team-content">
+        <div class="team-icon">👥</div>
+        <h2>Build Your Financial Career (Part-Time or Full-Time)</h2>
+        <p class="team-subtitle">Join a growing team of licensed professionals helping Canadian families. Flexible hours, comprehensive training, and unlimited earning potential.</p>
+        
+        <div class="team-grid">
+          <div class="team-card">
+            <h4>Who It's For</h4>
+            <ul>
+              <li>Working professionals (5-10 hrs/week)</li>
+              <li>Career changers</li>
+              <li>Recent grads & newcomers</li>
+            </ul>
+          </div>
+          <div class="team-card">
+            <h4>What You Get</h4>
+            <ul>
+              <li>Licensing support & training</li>
+              <li>Lead generation strategies</li>
+              <li>Commission + team overrides</li>
+            </ul>
+          </div>
+          <div class="team-card">
+            <h4>Requirements</h4>
+            <ul>
+              <li>5-10 hours per week minimum</li>
+              <li>Pass background check</li>
+              <li>Coachable & client-focused</li>
+            </ul>
+          </div>
+        </div>
 
-      <div class="cards-2">
-        <blockquote class="card">
-          “Praveen made insurance simple and found us a plan that fit our budget. We finally feel protected.”
-          <footer>— Shivani Medipally, Kitchener</footer>
-        </blockquote>
-        <blockquote class="card">
-          “Clear, unbiased advice. We consolidated investments and started our RESP the right way.”
-          <footer>— Akshith, Kitchener</footer>
-        </blockquote>
+        <a href="mailto:tenpercentclub10@gmail.com" class="btn btn-white">Learn About Team Opportunity</a>
       </div>
     </div>
   </section>
 
-  <!-- Opportunity 
-<section id="opportunity" class="section alt">
-  <div class="container">
-    <h2>Part-time opportunity (remote-friendly)</h2>
-    <p class="muted maxw">
-      Start a flexible, licensed financial professional side income with training and mentorship. Help families protect income & grow wealth—on evenings or weekends—while keeping your full-time job.
-    </p>
-
-    <div class="cards-3" style="margin-top:16px">
-      <div class="card">
-        <div class="icon-lg">🎯</div>
-        <h3>Who it’s for</h3>
-        <ul class="ticks">
-          <li>Working professionals (5–10 hrs/week)</li>
-          <li>Career switchers & parents</li>
-          <li>International grads/newcomers (Canada-based)</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <div class="icon-lg">💼</div>
-        <h3>How you earn</h3>
-        <ul class="ticks">
-          <li>Insurance solutions (commission when a policy starts)</li>
-          <li>Investments (RRSP/TFSA/RESP) where licensed</li>
-          <li>Team leadership: earn small overrides for training licensed associates</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <div class="icon-lg">📚</div>
-        <h3>Support & training</h3>
-        <ul class="ticks">
-          <li>Mentorship & simple playbook</li>
-          <li>Access to multiple providers</li>
-          <li>Guidance on licensing & compliance</li>
-        </ul>
-      </div>
-    </div>
-    -->
-<!--
-    <div class="grid-2" style="margin-top:20px">
-      <div class="card pad-lg">
-        <h3>What it takes</h3>
-        <ul class="ticks">
-          <li>Consistent 5–10 hours per week</li>
-          <li>Pass background check; obtain provincial licensing (LLQP; other licenses optional)</li>
-          <li>Client-first mindset; coachable and ethical</li>
-        </ul>
-
-        <h3 style="margin-top:16px">What it’s not</h3>
-        <ul class="ticks">
-          <li>No salary; commission-only, independent contractor</li>
-          <li>No income guarantees—results vary by effort, skills, and market</li>
-          <li>No aggressive quotas—sustainable, relationship-based growth</li>
-        </ul>
-
-        <p class="fineprint">
-          <strong>Compliance note:</strong> Licensing and appointments are required before compensation. 
-          Compensation is paid by providers/agency, not by clients. Earnings vary and are not guaranteed.
-        </p>
-      </div>
-    -->
-      <!-- Right: CTA + interest form -->
-      <div class="card pad-lg">
-        <h3>Curious? Book a quick intro</h3>
-        <!-- Replace with your Calendly event for the opportunity intro -->
-        <a href="https://calendly.com/YOUR_USERNAME/opportunity-intro" class="btn btn-gold" style="margin:8px 0 14px">Book 20-min Info Session</a>
-
-        <h3>Or send your details</h3>
-        <form id="joinForm">
-          <label>Full name
-            <input name="name" placeholder="Your name" required />
-          </label>
-          <div class="row">
-            <label>Email
-              <input name="email" type="email" placeholder="you@example.com" required />
-            </label>
-            <label>Phone
-              <input name="phone" placeholder="(xxx) xxx-xxxx" />
-            </label>
-          </div>
-          <div class="row">
-            <label>Province
-              <input name="province" placeholder="e.g., ON" />
-            </label>
-            <label>Hours available / week
-              <input name="hours" placeholder="e.g., 5–10" />
-            </label>
-          </div>
-          <label>Current role
-            <input name="role" placeholder="Your job today" />
-          </label>
-          <label>Message
-            <textarea name="message" rows="4" placeholder="Tell me why you’re interested…" required></textarea>
-          </label>
-          <button type="submit" class="btn btn-dark">Send interest</button>
-          <p id="joinFormNote" class="form-note">This form opens your email. For auto-capture, connect Formspree/Getform.</p>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
-
-  <!-- Booking (Calendly inline widget) -->
+  <!-- Booking Section -->
   <section id="book" class="section">
     <div class="container">
-      <div class="card pad-lg">
-        <h2>Book a free 30-minute consultation</h2>
-        <p class="muted">Pick a time that works for you. We’ll discuss goals, budget, and the best path forward—no pressure.</p>
-
-        <!-- Replace ONLY the data-url value with your Calendly link -->
+      <div class="booking-card">
+        <h2>Book Your Free Consultation</h2>
+        <p class="booking-subtitle">No pressure, no obligation. Let's discuss your goals and see how I can help.</p>
+        
+        <!-- Calendly Inline Widget -->
         <div class="calendly-inline-widget"
-             data-url="https://calendly.com/praveengaddam/30min?hide_landing_page_details=1&hide_event_type_details=1&primary_color=c9a227&text_color=0f172a&background_color=ffffff"
-             style="min-width:320px;height:760px;"></div>
+             data-url="https://calendly.com/praveengaddam/30min?hide_landing_page_details=1&hide_event_type_details=1&primary_color=d4a017&text_color=0f172a&background_color=ffffff"
+             style="min-width:320px;height:700px;"></div>
       </div>
     </div>
   </section>
 
-  <!-- FAQ -->
-  <section id="faq" class="section alt">
+  <!-- FAQ Section -->
+  <section class="section alt">
     <div class="container">
-      <h2>FAQ</h2>
-      <div class="cards-2">
-        <div class="card">
-          <h3>Do you charge a fee?</h3>
-          <p>No. I’m compensated by the financial providers when we implement your plan.</p>
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h4>Do you charge planning fees?</h4>
+          <p>No. I'm compensated by the financial institutions when we implement your plan. My planning services are completely free to you.</p>
         </div>
-        <div class="card">
-          <h3>Are you tied to one company?</h3>
-          <p>No. I work with multiple leading institutions to compare options and find the right fit.</p>
+        <div class="faq-item">
+          <h4>Are you tied to one insurance company?</h4>
+          <p>No. I partner with multiple leading providers through WFG, which allows me to compare options and find the best fit for your needs and budget.</p>
         </div>
-        <div class="card">
-          <h3>Can we start small?</h3>
-          <p>Absolutely. We can begin with a starter policy or savings plan and scale over time.</p>
+        <div class="faq-item">
+          <h4>I'm just starting out. Is this for me?</h4>
+          <p>Absolutely. We can start with basic protection and build from there as your income grows. Even small steps now compound over time.</p>
         </div>
-        <div class="card">
-          <h3>Where do you meet clients?</h3>
-          <p>Online across Canada, or in person in the GTA.</p>
+        <div class="faq-item">
+          <h4>What if I already have insurance or investments?</h4>
+          <p>Perfect! I'll review your existing coverage to ensure it's still appropriate and identify any gaps or optimization opportunities.</p>
+        </div>
+        <div class="faq-item">
+          <h4>How do I prepare for our first meeting?</h4>
+          <p>No preparation needed. Just bring an open mind and be ready to discuss your goals, current situation, and concerns. I'll guide you through the rest.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Where are you located?</h4>
+          <p>I'm based in Kitchener, Ontario, and serve clients virtually across Canada or in-person in the Greater Toronto Area.</p>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Contact -->
-  <section id="contact" class="section">
-    <div class="container grid-2-contact">
-      <div>
-        <h2>Get in touch</h2>
-        <p class="muted">Have questions before booking? Send a message and I’ll reply within one business day.</p>
-        <ul class="contact-list">
-          <li>✉️ tenpercentclub10@gmail.com</li>
-          <li>👔 Licensed Financial Professional</li>
-          <li>🆔 Licensed ID: 241194</li>
-          <li>📍 Kitchener,Ontario</li>
-        </ul>
-      </div>
-
-      <!-- Static sample form; connect to Formspree/Getform or your backend -->
-      <form id="contactForm" class="card">
-        <label>Full name
-          <input name="name" placeholder="Your name" required />
-        </label>
-        <div class="row">
-          <label>Email
-            <input name="email" type="email" placeholder="you@example.com" required />
-          </label>
-          <label>Phone
-            <input name="phone" placeholder="(xxx) xxx-xxxx" />
-          </label>
-        </div>
-        <label>Message
-          <textarea name="message" rows="4" placeholder="Write your question here" required></textarea>
-        </label>
-        <button type="submit" class="btn btn-dark">Send message</button>
-        <p id="formNote" class="form-note">Note: This demo form opens your email. Hook it to Formspree/Getform to capture leads.</p>
-      </form>
     </div>
   </section>
 
   <!-- Footer -->
   <footer class="site-footer">
-    <div class="container foot">
-      <p>© <span id="year"></span> Ten Percent Club. All rights reserved.</p>
-      <nav class="foot-links">
-        <a href="#book">Book</a>
-        <a href="#services">Services</a>
-        <a href="#opportunity">Business Opportunities</a>
-        <a href="#contact">Contact</a>
-      </nav>
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <svg width="32" height="32" viewBox="0 0 24 24">
+          <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z" fill="currentColor"/>
+        </svg>
+        <span class="footer-brand-name">Ten Percent Club</span>
+      </div>
+      
+      <div class="footer-info">
+        <p>Licensed Financial Professional | License ID: 241194</p>
+        <p>Kitchener, Ontario | Serving all of Canada virtually</p>
+        <p><a href="mailto:tenpercentclub10@gmail.com">tenpercentclub10@gmail.com</a></p>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="copyright">© <span id="year"></span> Ten Percent Club. All rights reserved.</p>
+        <p class="disclaimer">Insurance products and services are provided through World Financial Group Insurance Agency. Investment products and services are provided through World Financial Group, Inc. (WFG), member FINRA/SIPC.</p>
+      </div>
     </div>
   </footer>
 
