@@ -380,7 +380,7 @@ p {
 }
 
 .calculator-card {
-  max-width: 700px;
+  max-width: 900px;
   margin: 0 auto;
   background: white;
   border-radius: 24px;
@@ -389,15 +389,97 @@ p {
   border: 1px solid var(--line);
 }
 
-.calculator-input {
-  margin-bottom: 32px;
+.calculator-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 32px 0 20px 0;
+  color: var(--ink);
 }
 
-.calculator-input label {
-  display: block;
-  font-weight: 700;
+.calculator-card h3:first-of-type {
+  margin-top: 24px;
+}
+
+/* Maximum Contributions Section */
+.max-contribution-section {
+  background: var(--blue-light);
+  border-radius: 16px;
+  padding: 24px;
+  margin: 24px 0 32px 0;
+}
+
+.max-contribution-section h3 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 18px;
+}
+
+.limits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.limit-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.limit-label {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.limit-value {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--blue);
+}
+
+/* Investment Options */
+.investment-options {
+  margin: 32px 0;
+}
+
+.calculator-input {
+  margin-bottom: 28px;
+  padding: 20px;
+  background: var(--alt);
+  border-radius: 12px;
+  transition: all 0.2s;
+}
+
+.calculator-input:has(input[type="checkbox"]:checked) {
+  background: white;
+  border: 2px solid var(--gold);
+}
+
+.input-header {
   margin-bottom: 12px;
-  font-size: 15px;
+}
+
+.input-header label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.input-header input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--gold);
+}
+
+.tooltip-icon {
+  font-size: 16px;
+  cursor: help;
+  opacity: 0.7;
 }
 
 .calculator-input input[type="range"] {
@@ -407,6 +489,12 @@ p {
   background: var(--line);
   outline: none;
   -webkit-appearance: none;
+  transition: opacity 0.2s;
+}
+
+.calculator-input input[type="range"]:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
 .calculator-input input[type="range"]::-webkit-slider-thumb {
@@ -418,6 +506,16 @@ p {
   background: var(--gold);
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(212, 160, 23, 0.3);
+  transition: transform 0.2s;
+}
+
+.calculator-input input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+
+.calculator-input input[type="range"]:disabled::-webkit-slider-thumb {
+  cursor: not-allowed;
+  background: var(--muted);
 }
 
 .calculator-input input[type="range"]::-moz-range-thumb {
@@ -428,13 +526,50 @@ p {
   cursor: pointer;
   border: none;
   box-shadow: 0 2px 8px rgba(212, 160, 23, 0.3);
+  transition: transform 0.2s;
+}
+
+.calculator-input input[type="range"]::-moz-range-thumb:hover {
+  transform: scale(1.1);
+}
+
+.calculator-input input[type="range"]:disabled::-moz-range-thumb {
+  cursor: not-allowed;
+  background: var(--muted);
 }
 
 .calculator-value {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 800;
   color: var(--gold);
-  margin-top: 12px;
+  margin-top: 8px;
+}
+
+.savings-preview {
+  font-size: 14px;
+  color: var(--green);
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+/* Total Results */
+.calculator-result-total {
+  background: var(--green-light);
+  border: 2px solid var(--green);
+  border-radius: 20px;
+  padding: 32px;
+  margin: 32px 0 24px 0;
+}
+
+.total-contributions,
+.total-savings,
+.effective-cost {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.effective-cost {
+  margin-bottom: 0;
 }
 
 .calculator-result {
@@ -450,20 +585,29 @@ p {
   font-size: 14px;
   color: var(--muted);
   margin-bottom: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .result-amount {
-  font-size: 56px;
+  font-size: 48px;
   font-weight: 800;
   color: var(--green);
   line-height: 1;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
+}
+
+.result-amount.highlight {
+  color: var(--gold);
+  font-size: 56px;
 }
 
 .result-note {
   font-size: 13px;
   color: var(--muted);
-  margin: 0;
+  margin: 16px 0 0 0;
+  line-height: 1.5;
 }
 
 /* Tabs */

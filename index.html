@@ -118,30 +118,135 @@
   <section id="tax-calculator" class="section alt">
     <div class="container">
       <div class="section-header">
-        <h2>Year-End Tax Savings Calculator</h2>
-        <p class="subtitle">See how much you could save before March 1, 2026</p>
+        <h2>Comprehensive Tax Savings Calculator</h2>
+        <p class="subtitle">See how much you can save with RRSP, TFSA, FHSA, RESP & Spouse RRSP</p>
       </div>
 
       <div class="calculator-card">
+        <!-- Salary Input -->
         <div class="calculator-input">
-          <label for="income">Annual Income (Ontario)</label>
-          <input type="range" id="income" min="40000" max="200000" step="5000" value="80000">
+          <label for="income">Your Annual Salary (Ontario)</label>
+          <input type="range" id="income" min="30000" max="250000" step="5000" value="80000">
           <div class="calculator-value" id="incomeValue">$80,000</div>
         </div>
 
-        <div class="calculator-input">
-          <label for="rrsp">RRSP Contribution</label>
-          <input type="range" id="rrsp" min="0" max="30000" step="1000" value="10000">
-          <div class="calculator-value" id="rrspValue">$10,000</div>
+        <!-- Maximum Contributions Section -->
+        <div class="max-contribution-section">
+          <h3>Annual Contribution Limits</h3>
+          <div class="limits-grid">
+            <div class="limit-item">
+              <span class="limit-label">RRSP (18% of income)</span>
+              <span class="limit-value" id="maxRRSP">$14,400</span>
+            </div>
+            <div class="limit-item">
+              <span class="limit-label">TFSA (2024)</span>
+              <span class="limit-value">$7,000</span>
+            </div>
+            <div class="limit-item">
+              <span class="limit-label">FHSA (First Home)</span>
+              <span class="limit-value">$8,000</span>
+            </div>
+            <div class="limit-item">
+              <span class="limit-label">RESP (per child)</span>
+              <span class="limit-value">$2,500</span>
+            </div>
+          </div>
         </div>
 
-        <div class="calculator-result">
-          <div class="result-label">Estimated Tax Savings</div>
-          <div class="result-amount" id="taxSavings">$2,900</div>
-          <p class="result-note">This is an estimate for Ontario residents. Actual savings may vary.</p>
+        <!-- Investment Options -->
+        <div class="investment-options">
+          <h3>Your Planned Contributions</h3>
+
+          <div class="calculator-input">
+            <div class="input-header">
+              <label for="rrsp">
+                <input type="checkbox" id="rrspEnabled" checked>
+                RRSP Contribution
+                <span class="tooltip-icon" title="Tax-deductible, reduces your taxable income">ℹ️</span>
+              </label>
+            </div>
+            <input type="range" id="rrsp" min="0" max="30000" step="500" value="10000">
+            <div class="calculator-value" id="rrspValue">$10,000</div>
+            <div class="savings-preview" id="rrspSavings">Tax Savings: $2,900</div>
+          </div>
+
+          <div class="calculator-input">
+            <div class="input-header">
+              <label for="tfsa">
+                <input type="checkbox" id="tfsaEnabled">
+                TFSA Contribution
+                <span class="tooltip-icon" title="Tax-free growth, no deduction">ℹ️</span>
+              </label>
+            </div>
+            <input type="range" id="tfsa" min="0" max="7000" step="500" value="5000" disabled>
+            <div class="calculator-value" id="tfsaValue">$5,000</div>
+            <div class="savings-preview" id="tfsaSavings">No immediate tax savings (tax-free growth)</div>
+          </div>
+
+          <div class="calculator-input">
+            <div class="input-header">
+              <label for="fhsa">
+                <input type="checkbox" id="fhsaEnabled">
+                FHSA Contribution
+                <span class="tooltip-icon" title="Tax-deductible + tax-free withdrawal for first home">ℹ️</span>
+              </label>
+            </div>
+            <input type="range" id="fhsa" min="0" max="8000" step="500" value="8000" disabled>
+            <div class="calculator-value" id="fhsaValue">$8,000</div>
+            <div class="savings-preview" id="fhsaSavings">Tax Savings: $2,320</div>
+          </div>
+
+          <div class="calculator-input">
+            <div class="input-header">
+              <label for="resp">
+                <input type="checkbox" id="respEnabled">
+                RESP Contribution
+                <span class="tooltip-icon" title="Get 20% grant (up to $500/year) + tax-deferred growth">ℹ️</span>
+              </label>
+            </div>
+            <input type="range" id="resp" min="0" max="2500" step="100" value="2500" disabled>
+            <div class="calculator-value" id="respValue">$2,500</div>
+            <div class="savings-preview" id="respSavings">Government Grant: $500</div>
+          </div>
+
+          <div class="calculator-input">
+            <div class="input-header">
+              <label for="spouseRRSP">
+                <input type="checkbox" id="spouseRRSPEnabled">
+                Spouse RRSP Contribution
+                <span class="tooltip-icon" title="Reduce household taxes through income splitting">ℹ️</span>
+              </label>
+            </div>
+            <input type="range" id="spouseRRSP" min="0" max="15000" step="500" value="5000" disabled>
+            <div class="calculator-value" id="spouseRRSPValue">$5,000</div>
+            <div class="savings-preview" id="spouseRRSPSavings">Tax Savings: $1,450</div>
+          </div>
         </div>
 
-        <a href="#book" class="btn btn-gold btn-block">Let's Optimize Your Tax Strategy →</a>
+        <!-- Total Results -->
+        <div class="calculator-result-total">
+          <div class="total-contributions">
+            <div class="result-label">Total Annual Contributions</div>
+            <div class="result-amount" id="totalContributions">$10,000</div>
+          </div>
+
+          <div class="total-savings">
+            <div class="result-label">Total Tax Savings & Benefits</div>
+            <div class="result-amount highlight" id="totalSavings">$2,900</div>
+          </div>
+
+          <div class="effective-cost">
+            <div class="result-label">Effective Out-of-Pocket Cost</div>
+            <div class="result-amount" id="effectiveCost">$7,100</div>
+            <p class="result-note">After tax refunds and government grants</p>
+          </div>
+        </div>
+
+        <div class="result-note">
+          <p><strong>Note:</strong> This calculator provides estimates for Ontario residents based on 2024 tax rates. Actual savings depend on your specific tax situation, available contribution room, and other deductions. TFSA provides tax-free growth but no immediate deduction.</p>
+        </div>
+
+        <a href="#book" class="btn btn-gold btn-block">Let's Maximize Your Tax Savings →</a>
       </div>
     </div>
   </section>

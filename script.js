@@ -33,12 +33,19 @@ tabBtns.forEach(btn => {
   });
 });
 
-// ===== Tax Calculator =====
+// ===== Comprehensive Tax Calculator =====
 const incomeSlider = document.getElementById('income');
 const rrspSlider = document.getElementById('rrsp');
-const incomeValue = document.getElementById('incomeValue');
-const rrspValue = document.getElementById('rrspValue');
-const taxSavings = document.getElementById('taxSavings');
+const tfsaSlider = document.getElementById('tfsa');
+const fhsaSlider = document.getElementById('fhsa');
+const respSlider = document.getElementById('resp');
+const spouseRRSPSlider = document.getElementById('spouseRRSP');
+
+const rrspEnabled = document.getElementById('rrspEnabled');
+const tfsaEnabled = document.getElementById('tfsaEnabled');
+const fhsaEnabled = document.getElementById('fhsaEnabled');
+const respEnabled = document.getElementById('respEnabled');
+const spouseRRSPEnabled = document.getElementById('spouseRRSPEnabled');
 
 function formatCurrency(value) {
   return new Intl.NumberFormat('en-CA', {
@@ -49,40 +56,170 @@ function formatCurrency(value) {
   }).format(value);
 }
 
-function calculateTaxSavings(income, rrsp) {
-  // Ontario 2024 combined federal + provincial tax rates (simplified)
-  let taxRate = 0;
-  
+function getMarginalTaxRate(income) {
+  // Ontario 2024 combined federal + provincial marginal tax rates
   if (income > 235675) {
-    taxRate = 0.53; // Top bracket
+    return 0.5353; // Top bracket
   } else if (income > 173205) {
-    taxRate = 0.48;
+    return 0.4862;
   } else if (income > 106717) {
-    taxRate = 0.43;
+    return 0.4341;
+  } else if (income > 86698) {
+    return 0.3148;
   } else if (income > 55867) {
-    taxRate = 0.29;
+    return 0.2965;
+  } else if (income > 51446) {
+    return 0.2457;
   } else {
-    taxRate = 0.20; // Lowest bracket
+    return 0.2005; // Lowest bracket
   }
-  
-  return Math.round(rrsp * taxRate);
+}
+
+function calculateTaxSavings(income, contribution) {
+  const taxRate = getMarginalTaxRate(income);
+  return Math.round(contribution * taxRate);
+}
+
+function calculateRESPGrant(respContribution) {
+  // Basic CESG is 20% of contribution, max $500/year (on first $2,500)
+  return Math.min(Math.round(respContribution * 0.20), 500);
 }
 
 function updateCalculator() {
   const income = parseInt(incomeSlider.value);
+
+  // Update income display
+  document.getElementById('incomeValue').textContent = formatCurrency(income);
+
+  // Update max RRSP limit (18% of income, max $31,560 for 2024)
+  const maxRRSPLimit = Math.min(Math.round(income * 0.18), 31560);
+  document.getElementById('maxRRSP').textContent = formatCurrency(maxRRSPLimit);
+
+  let totalContributions = 0;
+  let totalSavings = 0;
+
+  // RRSP Calculation
   const rrsp = parseInt(rrspSlider.value);
-  
-  incomeValue.textContent = formatCurrency(income);
-  rrspValue.textContent = formatCurrency(rrsp);
-  
-  const savings = calculateTaxSavings(income, rrsp);
-  taxSavings.textContent = formatCurrency(savings);
+  document.getElementById('rrspValue').textContent = formatCurrency(rrsp);
+
+  if (rrspEnabled.checked) {
+    const rrspSavings = calculateTaxSavings(income, rrsp);
+    document.getElementById('rrspSavings').textContent = `Tax Savings: ${formatCurrency(rrspSavings)}`;
+    totalContributions += rrsp;
+    totalSavings += rrspSavings;
+  } else {
+    document.getElementById('rrspSavings').textContent = 'Not selected';
+  }
+
+  // TFSA Calculation (no immediate tax benefit)
+  const tfsa = parseInt(tfsaSlider.value);
+  document.getElementById('tfsaValue').textContent = formatCurrency(tfsa);
+
+  if (tfsaEnabled.checked) {
+    document.getElementById('tfsaSavings').textContent = 'No immediate tax savings (tax-free growth)';
+    totalContributions += tfsa;
+    // TFSA doesn't provide immediate tax savings, so we don't add to totalSavings
+  } else {
+    document.getElementById('tfsaSavings').textContent = 'Not selected';
+  }
+
+  // FHSA Calculation (tax-deductible like RRSP)
+  const fhsa = parseInt(fhsaSlider.value);
+  document.getElementById('fhsaValue').textContent = formatCurrency(fhsa);
+
+  if (fhsaEnabled.checked) {
+    const fhsaSavings = calculateTaxSavings(income, fhsa);
+    document.getElementById('fhsaSavings').textContent = `Tax Savings: ${formatCurrency(fhsaSavings)}`;
+    totalContributions += fhsa;
+    totalSavings += fhsaSavings;
+  } else {
+    document.getElementById('fhsaSavings').textContent = 'Not selected';
+  }
+
+  // RESP Calculation (government grant)
+  const resp = parseInt(respSlider.value);
+  document.getElementById('respValue').textContent = formatCurrency(resp);
+
+  if (respEnabled.checked) {
+    const respGrant = calculateRESPGrant(resp);
+    document.getElementById('respSavings').textContent = `Government Grant: ${formatCurrency(respGrant)}`;
+    totalContributions += resp;
+    totalSavings += respGrant;
+  } else {
+    document.getElementById('respSavings').textContent = 'Not selected';
+  }
+
+  // Spouse RRSP Calculation
+  const spouseRRSP = parseInt(spouseRRSPSlider.value);
+  document.getElementById('spouseRRSPValue').textContent = formatCurrency(spouseRRSP);
+
+  if (spouseRRSPEnabled.checked) {
+    const spouseRRSPSavings = calculateTaxSavings(income, spouseRRSP);
+    document.getElementById('spouseRRSPSavings').textContent = `Tax Savings: ${formatCurrency(spouseRRSPSavings)}`;
+    totalContributions += spouseRRSP;
+    totalSavings += spouseRRSPSavings;
+  } else {
+    document.getElementById('spouseRRSPSavings').textContent = 'Not selected';
+  }
+
+  // Update totals
+  document.getElementById('totalContributions').textContent = formatCurrency(totalContributions);
+  document.getElementById('totalSavings').textContent = formatCurrency(totalSavings);
+
+  const effectiveCost = totalContributions - totalSavings;
+  document.getElementById('effectiveCost').textContent = formatCurrency(effectiveCost);
 }
 
-if (incomeSlider && rrspSlider) {
+// Enable/disable sliders based on checkboxes
+function setupCheckboxListeners() {
+  if (rrspEnabled) {
+    rrspEnabled.addEventListener('change', () => {
+      rrspSlider.disabled = !rrspEnabled.checked;
+      updateCalculator();
+    });
+  }
+
+  if (tfsaEnabled) {
+    tfsaEnabled.addEventListener('change', () => {
+      tfsaSlider.disabled = !tfsaEnabled.checked;
+      updateCalculator();
+    });
+  }
+
+  if (fhsaEnabled) {
+    fhsaEnabled.addEventListener('change', () => {
+      fhsaSlider.disabled = !fhsaEnabled.checked;
+      updateCalculator();
+    });
+  }
+
+  if (respEnabled) {
+    respEnabled.addEventListener('change', () => {
+      respSlider.disabled = !respEnabled.checked;
+      updateCalculator();
+    });
+  }
+
+  if (spouseRRSPEnabled) {
+    spouseRRSPEnabled.addEventListener('change', () => {
+      spouseRRSPSlider.disabled = !spouseRRSPEnabled.checked;
+      updateCalculator();
+    });
+  }
+}
+
+// Initialize calculator
+if (incomeSlider) {
   incomeSlider.addEventListener('input', updateCalculator);
-  rrspSlider.addEventListener('input', updateCalculator);
-  
+
+  if (rrspSlider) rrspSlider.addEventListener('input', updateCalculator);
+  if (tfsaSlider) tfsaSlider.addEventListener('input', updateCalculator);
+  if (fhsaSlider) fhsaSlider.addEventListener('input', updateCalculator);
+  if (respSlider) respSlider.addEventListener('input', updateCalculator);
+  if (spouseRRSPSlider) spouseRRSPSlider.addEventListener('input', updateCalculator);
+
+  setupCheckboxListeners();
+
   // Initial calculation
   updateCalculator();
 }
