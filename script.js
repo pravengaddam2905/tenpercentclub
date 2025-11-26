@@ -70,8 +70,30 @@ function getMarginalTaxRate(income) {
     return 0.2965;
   } else if (income > 51446) {
     return 0.2457;
-  } else {
+  } else if (income > 0) {
     return 0.2005; // Lowest bracket
+  } else {
+    return 0; // No income
+  }
+}
+
+function getTaxBracketInfo(income) {
+  if (income === 0) {
+    return { range: '-', rate: '-' };
+  } else if (income > 235675) {
+    return { range: 'Over $235,675', rate: '53.53%' };
+  } else if (income > 173205) {
+    return { range: '$173,206 - $235,675', rate: '48.62%' };
+  } else if (income > 106717) {
+    return { range: '$106,718 - $173,205', rate: '43.41%' };
+  } else if (income > 86698) {
+    return { range: '$86,699 - $106,717', rate: '31.48%' };
+  } else if (income > 55867) {
+    return { range: '$55,868 - $86,698', rate: '29.65%' };
+  } else if (income > 51446) {
+    return { range: '$51,447 - $55,867', rate: '24.57%' };
+  } else {
+    return { range: 'Up to $51,446', rate: '20.05%' };
   }
 }
 
@@ -91,24 +113,61 @@ function updateCalculator() {
   // Update income display
   document.getElementById('incomeValue').textContent = formatCurrency(income);
 
-  // Update max RRSP limit (18% of income, max $31,560 for 2024)
-  const maxRRSPLimit = Math.min(Math.round(income * 0.18), 31560);
-  document.getElementById('maxRRSP').textContent = formatCurrency(maxRRSPLimit);
+  // Show/hide sections based on income
+  const limitsSection = document.getElementById('limitsSection');
+  const contributionsSection = document.getElementById('contributionsSection');
+  const taxBracketInfo = document.getElementById('taxBracketInfo');
 
+  if (income > 0) {
+    limitsSection.style.display = 'block';
+    contributionsSection.style.display = 'block';
+    taxBracketInfo.style.display = 'block';
+
+    // Update tax bracket info
+    const bracketInfo = getTaxBracketInfo(income);
+    document.getElementById('taxBracketValue').textContent = bracketInfo.range;
+    document.getElementById('taxBracketRate').textContent = `Marginal Rate: ${bracketInfo.rate}`;
+
+    // Update max RRSP limit (18% of income, max $31,560 for 2024)
+    const maxRRSPLimit = Math.min(Math.round(income * 0.18), 31560);
+    document.getElementById('maxRRSP').textContent = formatCurrency(maxRRSPLimit);
+
+    // Update RRSP slider max
+    rrspSlider.max = maxRRSPLimit;
+  } else {
+    limitsSection.style.display = 'none';
+    contributionsSection.style.display = 'none';
+    taxBracketInfo.style.display = 'none';
+    document.getElementById('summarySection').style.display = 'none';
+    return;
+  }
+
+  // Calculate contributions and savings
   let totalContributions = 0;
-  let totalSavings = 0;
+  let totalRefunds = 0;
+  let hasContributions = false;
 
   // RRSP Calculation
   const rrsp = parseInt(rrspSlider.value);
   document.getElementById('rrspValue').textContent = formatCurrency(rrsp);
 
   if (rrspEnabled.checked) {
-    const rrspSavings = calculateTaxSavings(income, rrsp);
-    document.getElementById('rrspSavings').textContent = `Tax Savings: ${formatCurrency(rrspSavings)}`;
+    const rrspRefund = calculateTaxSavings(income, rrsp);
+    document.getElementById('rrspSavings').textContent = `Tax Refund: ${formatCurrency(rrspRefund)}`;
     totalContributions += rrsp;
-    totalSavings += rrspSavings;
+    totalRefunds += rrspRefund;
+
+    if (rrsp > 0) {
+      hasContributions = true;
+      document.getElementById('summaryRRSPRow').style.display = 'flex';
+      document.getElementById('summaryRRSP').textContent = formatCurrency(rrsp);
+      document.getElementById('summaryRRSPRefund').textContent = formatCurrency(rrspRefund);
+    } else {
+      document.getElementById('summaryRRSPRow').style.display = 'none';
+    }
   } else {
-    document.getElementById('rrspSavings').textContent = 'Not selected';
+    document.getElementById('rrspSavings').textContent = 'Select to calculate tax refund';
+    document.getElementById('summaryRRSPRow').style.display = 'none';
   }
 
   // TFSA Calculation (no immediate tax benefit)
@@ -116,11 +175,19 @@ function updateCalculator() {
   document.getElementById('tfsaValue').textContent = formatCurrency(tfsa);
 
   if (tfsaEnabled.checked) {
-    document.getElementById('tfsaSavings').textContent = 'No immediate tax savings (tax-free growth)';
+    document.getElementById('tfsaSavings').textContent = 'No immediate tax refund (tax-free growth)';
     totalContributions += tfsa;
-    // TFSA doesn't provide immediate tax savings, so we don't add to totalSavings
+
+    if (tfsa > 0) {
+      hasContributions = true;
+      document.getElementById('summaryTFSARow').style.display = 'flex';
+      document.getElementById('summaryTFSA').textContent = formatCurrency(tfsa);
+    } else {
+      document.getElementById('summaryTFSARow').style.display = 'none';
+    }
   } else {
-    document.getElementById('tfsaSavings').textContent = 'Not selected';
+    document.getElementById('tfsaSavings').textContent = 'Select to add contribution';
+    document.getElementById('summaryTFSARow').style.display = 'none';
   }
 
   // FHSA Calculation (tax-deductible like RRSP)
@@ -128,12 +195,22 @@ function updateCalculator() {
   document.getElementById('fhsaValue').textContent = formatCurrency(fhsa);
 
   if (fhsaEnabled.checked) {
-    const fhsaSavings = calculateTaxSavings(income, fhsa);
-    document.getElementById('fhsaSavings').textContent = `Tax Savings: ${formatCurrency(fhsaSavings)}`;
+    const fhsaRefund = calculateTaxSavings(income, fhsa);
+    document.getElementById('fhsaSavings').textContent = `Tax Refund: ${formatCurrency(fhsaRefund)}`;
     totalContributions += fhsa;
-    totalSavings += fhsaSavings;
+    totalRefunds += fhsaRefund;
+
+    if (fhsa > 0) {
+      hasContributions = true;
+      document.getElementById('summaryFHSARow').style.display = 'flex';
+      document.getElementById('summaryFHSA').textContent = formatCurrency(fhsa);
+      document.getElementById('summaryFHSARefund').textContent = formatCurrency(fhsaRefund);
+    } else {
+      document.getElementById('summaryFHSARow').style.display = 'none';
+    }
   } else {
-    document.getElementById('fhsaSavings').textContent = 'Not selected';
+    document.getElementById('fhsaSavings').textContent = 'Select to calculate tax refund';
+    document.getElementById('summaryFHSARow').style.display = 'none';
   }
 
   // RESP Calculation (government grant)
@@ -144,9 +221,19 @@ function updateCalculator() {
     const respGrant = calculateRESPGrant(resp);
     document.getElementById('respSavings').textContent = `Government Grant: ${formatCurrency(respGrant)}`;
     totalContributions += resp;
-    totalSavings += respGrant;
+    totalRefunds += respGrant;
+
+    if (resp > 0) {
+      hasContributions = true;
+      document.getElementById('summaryRESPRow').style.display = 'flex';
+      document.getElementById('summaryRESP').textContent = formatCurrency(resp);
+      document.getElementById('summaryRESPGrant').textContent = formatCurrency(respGrant);
+    } else {
+      document.getElementById('summaryRESPRow').style.display = 'none';
+    }
   } else {
-    document.getElementById('respSavings').textContent = 'Not selected';
+    document.getElementById('respSavings').textContent = 'Select to calculate government grant';
+    document.getElementById('summaryRESPRow').style.display = 'none';
   }
 
   // Spouse RRSP Calculation
@@ -154,20 +241,41 @@ function updateCalculator() {
   document.getElementById('spouseRRSPValue').textContent = formatCurrency(spouseRRSP);
 
   if (spouseRRSPEnabled.checked) {
-    const spouseRRSPSavings = calculateTaxSavings(income, spouseRRSP);
-    document.getElementById('spouseRRSPSavings').textContent = `Tax Savings: ${formatCurrency(spouseRRSPSavings)}`;
+    const spouseRRSPRefund = calculateTaxSavings(income, spouseRRSP);
+    document.getElementById('spouseRRSPSavings').textContent = `Tax Refund: ${formatCurrency(spouseRRSPRefund)}`;
     totalContributions += spouseRRSP;
-    totalSavings += spouseRRSPSavings;
+    totalRefunds += spouseRRSPRefund;
+
+    if (spouseRRSP > 0) {
+      hasContributions = true;
+      document.getElementById('summarySpouseRRSPRow').style.display = 'flex';
+      document.getElementById('summarySpouseRRSP').textContent = formatCurrency(spouseRRSP);
+      document.getElementById('summarySpouseRRSPRefund').textContent = formatCurrency(spouseRRSPRefund);
+    } else {
+      document.getElementById('summarySpouseRRSPRow').style.display = 'none';
+    }
   } else {
-    document.getElementById('spouseRRSPSavings').textContent = 'Not selected';
+    document.getElementById('spouseRRSPSavings').textContent = 'Select to calculate tax refund';
+    document.getElementById('summarySpouseRRSPRow').style.display = 'none';
   }
 
-  // Update totals
-  document.getElementById('totalContributions').textContent = formatCurrency(totalContributions);
-  document.getElementById('totalSavings').textContent = formatCurrency(totalSavings);
+  // Show/hide summary section
+  const summarySection = document.getElementById('summarySection');
+  if (hasContributions) {
+    summarySection.style.display = 'block';
 
-  const effectiveCost = totalContributions - totalSavings;
-  document.getElementById('effectiveCost').textContent = formatCurrency(effectiveCost);
+    // Update summary values
+    const bracketInfo = getTaxBracketInfo(income);
+    document.getElementById('summarySalary').textContent = formatCurrency(income);
+    document.getElementById('summaryTaxBracket').textContent = `${bracketInfo.range} (${bracketInfo.rate})`;
+    document.getElementById('summaryTotalContributions').textContent = formatCurrency(totalContributions);
+    document.getElementById('summaryTotalRefunds').textContent = formatCurrency(totalRefunds);
+
+    const netCost = totalContributions - totalRefunds;
+    document.getElementById('summaryNetCost').textContent = formatCurrency(netCost);
+  } else {
+    summarySection.style.display = 'none';
+  }
 }
 
 // Enable/disable sliders based on checkboxes
