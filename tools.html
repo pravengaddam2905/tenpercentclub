@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Financial Tools & Calculators | Ten Percent Club</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="description" content="Free Canadian financial calculators and tools: Tax savings calculator, CAGR calculator, GIC rates, savings account comparison, and more." />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="favicon.png">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="brand">
+        <svg class="brand-logo" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z" fill="currentColor"/>
+        </svg>
+        <div class="brand-text">
+          <span class="brand-name">Ten Percent Club</span>
+          <span class="brand-license">Licensed ID: 241194</span>
+        </div>
+      </a>
+
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="menu" id="menu">
+        <a href="index.html#services">Services</a>
+        <a href="tools.html">Tools</a>
+        <a href="index.html#process">Process</a>
+        <a href="index.html#resources">Resources</a>
+        <a href="index.html#book" class="btn btn-gold">Book Free Call</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Tools Hero Section -->
+  <section class="tools-hero">
+    <div class="container">
+      <h1 class="tools-title">Financial Tools & Calculators</h1>
+      <p class="tools-subtitle">Free calculators and comparison tools to help you make smart financial decisions</p>
+    </div>
+  </section>
+
+  <!-- Tools Layout with Sidebar -->
+  <section class="tools-layout">
+    <div class="container-full">
+      <div class="tools-wrapper">
+
+        <!-- Sidebar Navigation -->
+        <aside class="tools-sidebar">
+          <nav class="tools-nav">
+            <button class="tool-nav-btn active" data-tool="tax-calculator">
+              <span class="tool-nav-icon">💰</span>
+              <span class="tool-nav-text">Tax Savings Calculator</span>
+            </button>
+            <button class="tool-nav-btn" data-tool="cagr-calculator">
+              <span class="tool-nav-icon">📈</span>
+              <span class="tool-nav-text">CAGR Calculator</span>
+            </button>
+            <button class="tool-nav-btn" data-tool="gic-rates">
+              <span class="tool-nav-icon">🏦</span>
+              <span class="tool-nav-text">GIC Rates</span>
+            </button>
+            <button class="tool-nav-btn" data-tool="savings-rates">
+              <span class="tool-nav-icon">💵</span>
+              <span class="tool-nav-text">Savings Accounts</span>
+            </button>
+            <button class="tool-nav-btn" data-tool="chequing-rates">
+              <span class="tool-nav-icon">🏧</span>
+              <span class="tool-nav-text">Chequing Accounts</span>
+            </button>
+            <button class="tool-nav-btn" data-tool="life-insurance-calculator">
+              <span class="tool-nav-icon">🛡️</span>
+              <span class="tool-nav-text">Life Insurance Calculator</span>
+            </button>
+          </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="tools-content">
+
+          <!-- Tax Calculator Tool -->
+          <div id="tax-calculator" class="tool-panel active">
+            <h2>Tax Savings Calculator</h2>
+            <p class="tool-description">Calculate your tax refunds from RRSP, TFSA, FHSA, RESP, and Spouse RRSP contributions</p>
+
+            <div class="calculator-card">
+              <!-- Step 1: Salary Input -->
+              <div class="step-section">
+                <h3>Step 1: Enter Your Annual Salary</h3>
+                <div class="calculator-input-main">
+                  <label for="income">Your Annual Salary (Ontario)</label>
+                  <input type="range" id="income" min="0" max="250000" step="5000" value="0">
+                  <div class="calculator-value" id="incomeValue">$0</div>
+                </div>
+
+                <!-- Tax Bracket Display -->
+                <div class="tax-bracket-info" id="taxBracketInfo" style="display: none;">
+                  <div class="bracket-label">Your Tax Bracket:</div>
+                  <div class="bracket-value" id="taxBracketValue">-</div>
+                  <div class="bracket-rate" id="taxBracketRate">-</div>
+                </div>
+              </div>
+
+              <!-- Step 2: Contribution Limits (shown only when salary > 0) -->
+              <div class="step-section" id="limitsSection" style="display: none;">
+                <h3>Step 2: Your Annual Contribution Limits</h3>
+                <div class="limits-grid">
+                  <div class="limit-item">
+                    <span class="limit-label">RRSP (18% of income, max $31,560)</span>
+                    <span class="limit-value" id="maxRRSP">$0</span>
+                  </div>
+                  <div class="limit-item">
+                    <span class="limit-label">TFSA (2024 limit)</span>
+                    <span class="limit-value">$7,000</span>
+                  </div>
+                  <div class="limit-item">
+                    <span class="limit-label">FHSA (Annual limit)</span>
+                    <span class="limit-value">$8,000</span>
+                  </div>
+                  <div class="limit-item">
+                    <span class="limit-label">RESP (To maximize grant)</span>
+                    <span class="limit-value">$2,500</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 3: Investment Options (shown only when salary > 0) -->
+              <div class="step-section" id="contributionsSection" style="display: none;">
+                <h3>Step 3: Enter Your Contributions</h3>
+
+                <div class="calculator-input">
+                  <div class="input-header">
+                    <label for="rrsp">
+                      <input type="checkbox" id="rrspEnabled">
+                      RRSP Contribution
+                      <span class="tooltip-icon" title="Tax-deductible, reduces your taxable income">ℹ️</span>
+                    </label>
+                  </div>
+                  <input type="range" id="rrsp" min="0" max="31560" step="500" value="0" disabled>
+                  <div class="calculator-value" id="rrspValue">$0</div>
+                  <div class="savings-preview" id="rrspSavings">Select to calculate tax refund</div>
+                </div>
+
+                <div class="calculator-input">
+                  <div class="input-header">
+                    <label for="tfsa">
+                      <input type="checkbox" id="tfsaEnabled">
+                      TFSA Contribution
+                      <span class="tooltip-icon" title="Tax-free growth, no tax deduction">ℹ️</span>
+                    </label>
+                  </div>
+                  <input type="range" id="tfsa" min="0" max="7000" step="500" value="0" disabled>
+                  <div class="calculator-value" id="tfsaValue">$0</div>
+                  <div class="savings-preview" id="tfsaSavings">Select to add contribution</div>
+                </div>
+
+                <div class="calculator-input">
+                  <div class="input-header">
+                    <label for="fhsa">
+                      <input type="checkbox" id="fhsaEnabled">
+                      FHSA Contribution
+                      <span class="tooltip-icon" title="Tax-deductible + tax-free withdrawal for first home">ℹ️</span>
+                    </label>
+                  </div>
+                  <input type="range" id="fhsa" min="0" max="8000" step="500" value="0" disabled>
+                  <div class="calculator-value" id="fhsaValue">$0</div>
+                  <div class="savings-preview" id="fhsaSavings">Select to calculate tax refund</div>
+                </div>
+
+                <div class="calculator-input">
+                  <div class="input-header">
+                    <label for="resp">
+                      <input type="checkbox" id="respEnabled">
+                      RESP Contribution
+                      <span class="tooltip-icon" title="Get 20% grant (up to $500/year) + tax-deferred growth">ℹ️</span>
+                    </label>
+                  </div>
+                  <input type="range" id="resp" min="0" max="2500" step="100" value="0" disabled>
+                  <div class="calculator-value" id="respValue">$0</div>
+                  <div class="savings-preview" id="respSavings">Select to calculate government grant</div>
+                </div>
+
+                <div class="calculator-input">
+                  <div class="input-header">
+                    <label for="spouseRRSP">
+                      <input type="checkbox" id="spouseRRSPEnabled">
+                      Spouse RRSP Contribution
+                      <span class="tooltip-icon" title="Reduce household taxes through income splitting">ℹ️</span>
+                    </label>
+                  </div>
+                  <input type="range" id="spouseRRSP" min="0" max="15000" step="500" value="0" disabled>
+                  <div class="calculator-value" id="spouseRRSPValue">$0</div>
+                  <div class="savings-preview" id="spouseRRSPSavings">Select to calculate tax refund</div>
+                </div>
+              </div>
+
+              <!-- Summary Section (shown only when salary > 0 and at least one contribution) -->
+              <div class="summary-section" id="summarySection" style="display: none;">
+                <h3>Your Tax Savings Summary</h3>
+
+                <div class="summary-grid">
+                  <div class="summary-row">
+                    <span class="summary-label">Annual Salary:</span>
+                    <span class="summary-value" id="summarySalary">$0</span>
+                  </div>
+
+                  <div class="summary-row">
+                    <span class="summary-label">Tax Bracket:</span>
+                    <span class="summary-value" id="summaryTaxBracket">-</span>
+                  </div>
+
+                  <div class="summary-divider"></div>
+
+                  <div class="summary-row" id="summaryTFSARow" style="display: none;">
+                    <span class="summary-label">TFSA Contribution:</span>
+                    <div class="summary-detail">
+                      <span class="summary-value" id="summaryTFSA">$0</span>
+                      <span class="summary-note">No immediate tax benefit (tax-free growth)</span>
+                    </div>
+                  </div>
+
+                  <div class="summary-row" id="summaryRRSPRow" style="display: none;">
+                    <span class="summary-label">RRSP Contribution:</span>
+                    <div class="summary-detail">
+                      <span class="summary-value" id="summaryRRSP">$0</span>
+                      <span class="summary-benefit">Tax Refund: <strong id="summaryRRSPRefund">$0</strong></span>
+                    </div>
+                  </div>
+
+                  <div class="summary-row" id="summaryFHSARow" style="display: none;">
+                    <span class="summary-label">FHSA Contribution:</span>
+                    <div class="summary-detail">
+                      <span class="summary-value" id="summaryFHSA">$0</span>
+                      <span class="summary-benefit">Tax Refund: <strong id="summaryFHSARefund">$0</strong></span>
+                    </div>
+                  </div>
+
+                  <div class="summary-row" id="summaryRESPRow" style="display: none;">
+                    <span class="summary-label">RESP Contribution:</span>
+                    <div class="summary-detail">
+                      <span class="summary-value" id="summaryRESP">$0</span>
+                      <span class="summary-benefit">Government Grant: <strong id="summaryRESPGrant">$0</strong></span>
+                    </div>
+                  </div>
+
+                  <div class="summary-row" id="summarySpouseRRSPRow" style="display: none;">
+                    <span class="summary-label">Spouse RRSP Contribution:</span>
+                    <div class="summary-detail">
+                      <span class="summary-value" id="summarySpouseRRSP">$0</span>
+                      <span class="summary-benefit">Tax Refund: <strong id="summarySpouseRRSPRefund">$0</strong></span>
+                    </div>
+                  </div>
+
+                  <div class="summary-divider"></div>
+
+                  <div class="summary-row total-row">
+                    <span class="summary-label">Total Contributions:</span>
+                    <span class="summary-value total" id="summaryTotalContributions">$0</span>
+                  </div>
+
+                  <div class="summary-row total-row highlight">
+                    <span class="summary-label">Total Tax Refunds & Grants:</span>
+                    <span class="summary-value total gold" id="summaryTotalRefunds">$0</span>
+                  </div>
+
+                  <div class="summary-row total-row">
+                    <span class="summary-label">Net Out-of-Pocket Cost:</span>
+                    <span class="summary-value total" id="summaryNetCost">$0</span>
+                  </div>
+                </div>
+
+                <div class="result-note">
+                  <p><strong>Note:</strong> This calculator provides estimates for Ontario residents based on 2024 tax rates. Actual savings depend on your specific tax situation, available contribution room, and other deductions.</p>
+                </div>
+              </div>
+
+              <a href="index.html#book" class="btn btn-gold btn-block">Let's Maximize Your Tax Savings →</a>
+            </div>
+          </div>
+
+          <!-- CAGR Calculator Tool -->
+          <div id="cagr-calculator" class="tool-panel">
+            <h2>Investment Growth Calculator</h2>
+            <p class="tool-description">Calculate your investment returns with optional annual step-up contributions</p>
+
+            <div class="calculator-card">
+              <form id="cagrForm" class="cagr-form">
+                <div class="calculator-row">
+                  <div class="calculator-input-main">
+                    <label for="initialValue">Initial Investment (CAD)</label>
+                    <input type="number" id="initialValue" min="0" step="1000" value="10000" class="input-field">
+                  </div>
+
+                  <div class="calculator-input-main">
+                    <label for="cagrRate">Expected Annual Return (%)</label>
+                    <input type="number" id="cagrRate" min="0" max="30" step="0.5" value="8" class="input-field">
+                  </div>
+
+                  <div class="calculator-input-main">
+                    <label for="investmentPeriod" id="periodLabel">Investment Period (Years)</label>
+                    <input type="number" id="investmentPeriod" min="1" max="600" value="10" class="input-field">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="periodType">Time Period</label>
+                  <select id="periodType" class="input-field">
+                    <option value="years">Years</option>
+                    <option value="months">Months</option>
+                  </select>
+                </div>
+
+                <div class="form-group checkbox-group">
+                  <label>
+                    <input type="checkbox" id="stepUpEnabled">
+                    Add Regular Step-Up Contributions
+                  </label>
+                </div>
+
+                <div class="form-group" id="stepUpGroup" style="display: none;">
+                  <div class="form-group">
+                    <label for="stepUpFrequency">Contribution Frequency</label>
+                    <select id="stepUpFrequency" class="input-field">
+                      <option value="annual">Annual</option>
+                      <option value="monthly">Monthly</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="stepUpAmount" id="stepUpAmountLabel">Contribution Amount (CAD)</label>
+                    <input type="number" id="stepUpAmount" min="0" step="100" value="500" class="input-field">
+                    <small class="field-note" id="stepUpNote">This amount will be added to your investment each month</small>
+                  </div>
+                </div>
+
+                <button type="button" onclick="calculateCAGR()" class="btn btn-gold btn-block">Calculate Returns</button>
+              </form>
+
+              <div id="cagrResults" class="cagr-results" style="display: none;">
+                <h3>Investment Projection</h3>
+
+                <div class="cagr-summary">
+                  <div class="cagr-summary-item highlight-box">
+                    <div class="summary-icon">💰</div>
+                    <div class="summary-content">
+                      <div class="summary-label">Total Amount Invested</div>
+                      <div class="summary-value" id="totalInvested">$0</div>
+                    </div>
+                  </div>
+
+                  <div class="cagr-summary-item success-box">
+                    <div class="summary-icon">📈</div>
+                    <div class="summary-content">
+                      <div class="summary-label">Total Returns</div>
+                      <div class="summary-value" id="totalReturns">$0</div>
+                    </div>
+                  </div>
+
+                  <div class="cagr-summary-item gold-box">
+                    <div class="summary-icon">🎯</div>
+                    <div class="summary-content">
+                      <div class="summary-label">Final Value</div>
+                      <div class="summary-value large" id="finalValue">$0</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="cagr-details">
+                  <h4>Investment Details</h4>
+                  <div class="detail-row">
+                    <span class="detail-label">Initial Investment:</span>
+                    <span class="detail-value" id="detailInitial">$0</span>
+                  </div>
+                  <div class="detail-row" id="stepUpDetail" style="display: none;">
+                    <span class="detail-label">Annual Step-Up:</span>
+                    <span class="detail-value" id="detailStepUp">$0</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">Annual Return Rate:</span>
+                    <span class="detail-value" id="detailRate">0%</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">Investment Period:</span>
+                    <span class="detail-value" id="detailYears">0 years</span>
+                  </div>
+                  <div class="detail-row highlight">
+                    <span class="detail-label">Effective CAGR:</span>
+                    <span class="detail-value" id="detailCAGR">0%</span>
+                  </div>
+                </div>
+
+                <div class="cagr-note">
+                  <p><strong>Note:</strong> This calculator assumes annual compounding and that step-up contributions are made at the beginning of each year. Actual returns may vary based on market conditions, fees, and timing of contributions. Past performance does not guarantee future results.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- GIC Rates Tool -->
+          <div id="gic-rates" class="tool-panel">
+            <h2>GIC Rates Comparison</h2>
+            <p class="tool-description">Compare current GIC rates from major Canadian banks (Updated: December 2024)</p>
+
+            <div class="rates-container">
+              <h3>1-Year GIC Rates</h3>
+              <div class="rates-table-wrapper">
+                <table class="rates-table">
+                  <thead>
+                    <tr>
+                      <th>Bank</th>
+                      <th>Rate</th>
+                      <th>Type</th>
+                      <th>Minimum</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="best-rate">
+                      <td><strong>EQ Bank</strong></td>
+                      <td><strong>4.65%</strong></td>
+                      <td>Non-Registered</td>
+                      <td>$100</td>
+                    </tr>
+                    <tr>
+                      <td>Oaken Financial</td>
+                      <td>4.50%</td>
+                      <td>Non-Registered</td>
+                      <td>$1,000</td>
+                    </tr>
+                    <tr>
+                      <td>Tangerine</td>
+                      <td>4.40%</td>
+                      <td>Non-Registered</td>
+                      <td>$1,000</td>
+                    </tr>
+                    <tr>
+                      <td>Simplii Financial</td>
+                      <td>4.25%</td>
+                      <td>Non-Registered</td>
+                      <td>$1,000</td>
+                    </tr>
+                    <tr>
+                      <td>RBC</td>
+                      <td>3.95%</td>
+                      <td>Non-Registered</td>
+                      <td>$1,000</td>
+                    </tr>
+                    <tr>
+                      <td>TD</td>
+                      <td>3.90%</td>
+                      <td>Non-Registered</td>
+                      <td>$1,000</td>
+                    </tr>
+                    <tr>
+                      <td>Scotiabank</td>
+                      <td>3.85%</td>
+                      <td>Non-Registered</td>
+                      <td>$1,000</td>
+                    </tr>
+                    <tr>
+                      <td>BMO</td>
+                      <td>3.80%</td>
+                      <td>Non-Registered</td>
+                      <td>$1,000</td>
+                    </tr>
+                    <tr>
+                      <td>CIBC</td>
+                      <td>3.75%</td>
+                      <td>Non-Registered</td>
+                      <td>$1,000</td>
+                    </tr>
+                    <tr>
+                      <td>National Bank</td>
+                      <td>3.70%</td>
+                      <td>Non-Registered</td>
+                      <td>$500</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h3>5-Year GIC Rates</h3>
+              <div class="rates-table-wrapper">
+                <table class="rates-table">
+                  <thead>
+                    <tr>
+                      <th>Bank</th>
+                      <th>Rate</th>
+                      <th>Type</th>
+                      <th>Minimum</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="best-rate">
+                      <td><strong>Oaken Financial</strong></td>
+                      <td><strong>4.75%</strong></td>
+                      <td>Non-Registered</td>
+                      <td>$1,000</td>
+                    </tr>
+                    <tr>
+                      <td>EQ Bank</td>
+                      <td>4.65%</td>
+                      <td>Non-Registered</td>
+                      <td>$100</td>
+                    </tr>
+                    <tr>
+                      <td>Tangerine</td>
+                      <td>4.50%</td>
+                      <td>Non-Registered</td>
+                      <td>$1,000</td>
+                    </tr>
+                    <tr>
+                      <td>Simplii Financial</td>
+                      <td>4.35%</td>
+                      <td>Non-Registered</td>
+                      <td>$1,000</td>
+                    </tr>
+                    <tr>
+                      <td>RBC</td>
+                      <td>4.05%</td>
+                      <td>Non-Registered</td>
+                      <td>$1,000</td>
+                    </tr>
+                    <tr>
+                      <td>TD</td>
+                      <td>4.00%</td>
+                      <td>Non-Registered</td>
+                      <td>$1,000</td>
+                    </tr>
+                    <tr>
+                      <td>Scotiabank</td>
+                      <td>3.95%</td>
+                      <td>Non-Registered</td>
+                      <td>$1,000</td>
+                    </tr>
+                    <tr>
+                      <td>BMO</td>
+                      <td>3.90%</td>
+                      <td>Non-Registered</td>
+                      <td>$1,000</td>
+                    </tr>
+                    <tr>
+                      <td>CIBC</td>
+                      <td>3.85%</td>
+                      <td>Non-Registered</td>
+                      <td>$1,000</td>
+                    </tr>
+                    <tr>
+                      <td>National Bank</td>
+                      <td>3.80%</td>
+                      <td>Non-Registered</td>
+                      <td>$500</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="rates-note">
+                <p><strong>Note:</strong> Rates are subject to change. Best rates highlighted. Contact us for personalized GIC recommendations and to ensure you get the best rate for your needs.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Savings Rates Tool -->
+          <div id="savings-rates" class="tool-panel">
+            <h2>High-Interest Savings Account Rates</h2>
+            <p class="tool-description">Compare current savings account rates from Canadian banks (Updated: December 2024)</p>
+
+            <div class="rates-container">
+              <h3>Best High-Interest Savings Accounts</h3>
+              <div class="rates-table-wrapper">
+                <table class="rates-table">
+                  <thead>
+                    <tr>
+                      <th>Bank</th>
+                      <th>Interest Rate</th>
+                      <th>Monthly Fee</th>
+                      <th>Minimum Balance</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="best-rate">
+                      <td><strong>EQ Bank Savings Plus</strong></td>
+                      <td><strong>3.00%</strong></td>
+                      <td>$0</td>
+                      <td>$0</td>
+                    </tr>
+                    <tr>
+                      <td>Wealthsimple Save</td>
+                      <td>2.50%</td>
+                      <td>$0</td>
+                      <td>$0</td>
+                    </tr>
+                    <tr>
+                      <td>Tangerine Savings</td>
+                      <td>2.25%*</td>
+                      <td>$0</td>
+                      <td>$0</td>
+                    </tr>
+                    <tr>
+                      <td>Simplii High Interest</td>
+                      <td>1.80%</td>
+                      <td>$0</td>
+                      <td>$0</td>
+                    </tr>
+                    <tr>
+                      <td>PC Money Savings</td>
+                      <td>1.75%</td>
+                      <td>$0</td>
+                      <td>$0</td>
+                    </tr>
+                    <tr>
+                      <td>RBC High Interest eSavings</td>
+                      <td>1.20%</td>
+                      <td>$0</td>
+                      <td>$0</td>
+                    </tr>
+                    <tr>
+                      <td>TD High Interest Savings</td>
+                      <td>1.10%</td>
+                      <td>$0</td>
+                      <td>$5,000</td>
+                    </tr>
+                    <tr>
+                      <td>Scotiabank Momentum PLUS</td>
+                      <td>1.05%</td>
+                      <td>$0</td>
+                      <td>$5,000</td>
+                    </tr>
+                    <tr>
+                      <td>BMO Premium Rate Savings</td>
+                      <td>1.00%</td>
+                      <td>$0</td>
+                      <td>$0</td>
+                    </tr>
+                    <tr>
+                      <td>CIBC eAdvantage Savings</td>
+                      <td>0.95%</td>
+                      <td>$0</td>
+                      <td>$0</td>
+                    </tr>
+                    <tr>
+                      <td>National Bank High Interest</td>
+                      <td>0.90%</td>
+                      <td>$0</td>
+                      <td>$0</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="rates-note">
+                <p><strong>*Promotional rates may apply.</strong> Rates shown are for regular savings. Some banks offer higher promotional rates for new customers. Best rates highlighted. Contact us for current rates and recommendations.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chequing Rates Tool -->
+          <div id="chequing-rates" class="tool-panel">
+            <h2>Chequing Account Comparison</h2>
+            <p class="tool-description">Compare chequing account fees and features from Canadian banks (Updated: December 2024)</p>
+
+            <div class="rates-container">
+              <h3>No-Fee Chequing Accounts</h3>
+              <div class="rates-table-wrapper">
+                <table class="rates-table">
+                  <thead>
+                    <tr>
+                      <th>Bank</th>
+                      <th>Monthly Fee</th>
+                      <th>Transactions</th>
+                      <th>e-Transfers</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="best-rate">
+                      <td><strong>Simplii Financial</strong></td>
+                      <td><strong>$0</strong></td>
+                      <td>Unlimited</td>
+                      <td>Unlimited Free</td>
+                    </tr>
+                    <tr class="best-rate">
+                      <td><strong>Tangerine</strong></td>
+                      <td><strong>$0</strong></td>
+                      <td>Unlimited</td>
+                      <td>Unlimited Free</td>
+                    </tr>
+                    <tr>
+                      <td>PC Money</td>
+                      <td>$0</td>
+                      <td>Unlimited</td>
+                      <td>Unlimited Free</td>
+                    </tr>
+                    <tr>
+                      <td>Wealthsimple Cash</td>
+                      <td>$0</td>
+                      <td>Unlimited</td>
+                      <td>Unlimited Free</td>
+                    </tr>
+                    <tr>
+                      <td>EQ Bank</td>
+                      <td>$0</td>
+                      <td>Unlimited</td>
+                      <td>Unlimited Free</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h3>Full-Service Chequing Accounts (Big 6)</h3>
+              <div class="rates-table-wrapper">
+                <table class="rates-table">
+                  <thead>
+                    <tr>
+                      <th>Bank</th>
+                      <th>Account</th>
+                      <th>Monthly Fee</th>
+                      <th>Transactions</th>
+                      <th>Fee Waiver</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>RBC</td>
+                      <td>Day to Day Banking</td>
+                      <td>$4.00</td>
+                      <td>12</td>
+                      <td>$3,000 min balance</td>
+                    </tr>
+                    <tr>
+                      <td>TD</td>
+                      <td>Everyday Chequing</td>
+                      <td>$3.95</td>
+                      <td>12</td>
+                      <td>$3,000 min balance</td>
+                    </tr>
+                    <tr>
+                      <td>Scotiabank</td>
+                      <td>Basic Banking</td>
+                      <td>$3.95</td>
+                      <td>12</td>
+                      <td>$3,000 min balance</td>
+                    </tr>
+                    <tr>
+                      <td>BMO</td>
+                      <td>Practical Plan</td>
+                      <td>$4.00</td>
+                      <td>12</td>
+                      <td>$3,000 min balance</td>
+                    </tr>
+                    <tr>
+                      <td>CIBC</td>
+                      <td>Everyday Chequing</td>
+                      <td>$3.90</td>
+                      <td>12</td>
+                      <td>$3,000 min balance</td>
+                    </tr>
+                    <tr>
+                      <td>National Bank</td>
+                      <td>Essentiel</td>
+                      <td>$3.95</td>
+                      <td>12</td>
+                      <td>$3,000 min balance</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="rates-note">
+                <p><strong>Note:</strong> Big 6 banks offer unlimited transaction accounts for $10-$30/month. Online banks provide better value for most customers. Contact us to find the best account for your needs.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Life Insurance Calculator Tool -->
+          <div id="life-insurance-calculator" class="tool-panel">
+            <h2>Life Insurance Needs Calculator</h2>
+            <p class="tool-description">Calculate how much life insurance coverage you need using a needs-based analysis approach (Canada, CAD)</p>
+
+            <div class="calculator-card">
+              <form id="lifeInsuranceForm" class="life-insurance-form">
+
+                <h3>Immediate Financial Needs</h3>
+
+                <div class="form-group">
+                  <label for="mortgage">Outstanding Mortgage Balance</label>
+                  <input type="number" id="mortgage" min="0" step="1000" value="0" class="input-field">
+                  <span class="error-message" id="mortgageError"></span>
+                </div>
+
+                <div class="form-group">
+                  <label for="debts">Other Debts (car loans, credit cards, student loans)</label>
+                  <input type="number" id="debts" min="0" step="1000" value="0" class="input-field">
+                  <span class="error-message" id="debtsError"></span>
+                </div>
+
+                <div class="form-group">
+                  <label for="funeral">Funeral & Final Expenses</label>
+                  <input type="number" id="funeral" min="0" step="1000" value="15000" class="input-field">
+                  <span class="error-message" id="funeralError"></span>
+                </div>
+
+                <h3>Income Replacement</h3>
+
+                <div class="form-group">
+                  <label for="annualIncome">Annual Gross Income</label>
+                  <input type="number" id="annualIncome" min="0" step="5000" value="0" class="input-field">
+                  <span class="error-message" id="annualIncomeError"></span>
+                </div>
+
+                <div class="form-group">
+                  <label for="replacementYears">Years of Income Replacement Needed</label>
+                  <input type="number" id="replacementYears" min="0" max="50" value="15" class="input-field">
+                  <span class="error-message" id="replacementYearsError"></span>
+                </div>
+
+                <div class="form-group checkbox-group">
+                  <label>
+                    <input type="checkbox" id="survivorPension">
+                    Include Canada Pension Plan (CPP) Survivor Benefits
+                  </label>
+                </div>
+
+                <div class="form-group" id="survivorPensionGroup" style="display: none;">
+                  <label for="survivorPensionAmount">Estimated Annual CPP Survivor Benefit</label>
+                  <input type="number" id="survivorPensionAmount" min="0" step="1000" value="7500" class="input-field">
+                  <span class="error-message" id="survivorPensionAmountError"></span>
+                  <small class="field-note">Average CPP survivor benefit is approximately $7,500/year (2024)</small>
+                </div>
+
+                <div class="form-group checkbox-group">
+                  <label>
+                    <input type="checkbox" id="inflationAdjust">
+                    Adjust for Inflation
+                  </label>
+                </div>
+
+                <div class="form-group" id="inflationGroup" style="display: none;">
+                  <label for="inflationRate">Expected Annual Inflation Rate (%)</label>
+                  <input type="number" id="inflationRate" min="0" max="10" step="0.1" value="2.0" class="input-field">
+                  <span class="error-message" id="inflationRateError"></span>
+                </div>
+
+                <h3>Future Goals & Existing Resources</h3>
+
+                <div class="form-group">
+                  <label for="futureGoals">Future Goals (education, wedding, etc.)</label>
+                  <input type="number" id="futureGoals" min="0" step="5000" value="0" class="input-field">
+                  <span class="error-message" id="futureGoalsError"></span>
+                </div>
+
+                <div class="form-group">
+                  <label for="existingSavings">Existing Savings & Investments</label>
+                  <input type="number" id="existingSavings" min="0" step="5000" value="0" class="input-field">
+                  <span class="error-message" id="existingSavingsError"></span>
+                </div>
+
+                <div class="form-group">
+                  <label for="existingInsurance">Existing Life Insurance & Group Coverage</label>
+                  <input type="number" id="existingInsurance" min="0" step="10000" value="0" class="input-field">
+                  <span class="error-message" id="existingInsuranceError"></span>
+                </div>
+
+                <div class="button-group">
+                  <button type="button" onclick="calculateLifeInsurance()" class="btn btn-gold">Calculate Coverage Needed</button>
+                  <button type="button" onclick="resetLifeInsuranceForm()" class="btn btn-secondary">Reset</button>
+                </div>
+              </form>
+
+              <!-- Results Section -->
+              <div id="lifeInsuranceResults" class="life-insurance-results" style="display: none;">
+                <h3>Your Life Insurance Needs Analysis</h3>
+
+                <div class="results-breakdown">
+                  <div class="breakdown-item">
+                    <span class="breakdown-label">1. Total Immediate Needs</span>
+                    <span class="breakdown-value" id="resultImmediateNeeds">$0</span>
+                  </div>
+                  <div class="breakdown-detail" id="immediateNeedsDetail"></div>
+
+                  <div class="breakdown-item">
+                    <span class="breakdown-label">2. Income Replacement</span>
+                    <span class="breakdown-value" id="resultIncomeReplacement">$0</span>
+                  </div>
+                  <div class="breakdown-detail" id="incomeReplacementDetail"></div>
+
+                  <div class="breakdown-item">
+                    <span class="breakdown-label">3. Future Goals</span>
+                    <span class="breakdown-value" id="resultFutureGoals">$0</span>
+                  </div>
+
+                  <div class="breakdown-divider"></div>
+
+                  <div class="breakdown-item total">
+                    <span class="breakdown-label">Subtotal (Total Needs)</span>
+                    <span class="breakdown-value" id="resultSubtotal">$0</span>
+                  </div>
+
+                  <div class="breakdown-item">
+                    <span class="breakdown-label">4. Less: Existing Savings</span>
+                    <span class="breakdown-value deduction" id="resultExistingSavings">-$0</span>
+                  </div>
+
+                  <div class="breakdown-item">
+                    <span class="breakdown-label">5. Less: Existing Insurance</span>
+                    <span class="breakdown-value deduction" id="resultExistingInsurance">-$0</span>
+                  </div>
+
+                  <div class="breakdown-divider"></div>
+
+                  <div class="breakdown-item recommended">
+                    <span class="breakdown-label">Recommended Life Insurance Coverage</span>
+                    <span class="breakdown-value gold" id="resultRecommended">$0</span>
+                  </div>
+
+                  <div class="policy-suggestions" id="policySuggestions"></div>
+                </div>
+
+                <div class="methodology-explanation">
+                  <h4>How This Calculation Works</h4>
+                  <p><strong>Needs-Based Analysis Approach:</strong> This calculator uses the needs-based method to determine your life insurance requirements. It considers:</p>
+                  <ul>
+                    <li><strong>Immediate Needs:</strong> Debts that would need to be paid off immediately (mortgage, loans, funeral costs)</li>
+                    <li><strong>Income Replacement:</strong> Years of income your family would need, minus any survivor benefits</li>
+                    <li><strong>Future Goals:</strong> Major expenses like education or wedding costs</li>
+                    <li><strong>Existing Resources:</strong> Savings and current insurance that reduce the coverage gap</li>
+                  </ul>
+                  <p><strong>Assumptions:</strong></p>
+                  <ul>
+                    <li>Income replacement is calculated as a lump sum, not accounting for investment returns</li>
+                    <li>If inflation adjustment is selected, we use compound inflation over the replacement period</li>
+                    <li>CPP survivor benefits average $7,500/year (varies based on contributions)</li>
+                    <li>This is a guideline estimate - actual needs may vary based on your specific situation</li>
+                  </ul>
+                  <p class="disclaimer-text"><strong>Important:</strong> This calculator provides an estimate only. For a comprehensive life insurance needs analysis tailored to your family's unique situation, book a free consultation with us.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </main>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section alt">
+    <div class="container">
+      <div class="cta-card">
+        <h2>Need Personal Guidance?</h2>
+        <p>These tools are great for planning, but personalized advice can help you maximize your savings. Book a free consultation to discuss your specific situation.</p>
+        <a href="index.html#book" class="btn btn-gold">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          Book Free 30-min Call
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <svg width="32" height="32" viewBox="0 0 24 24">
+          <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z" fill="currentColor"/>
+        </svg>
+        <span class="footer-brand-name">Ten Percent Club</span>
+      </div>
+
+      <div class="footer-info">
+        <p>Licensed Financial Professional | License ID: 241194</p>
+        <p>Kitchener, Ontario | Serving all of Canada virtually</p>
+        <p><a href="mailto:tenpercentclub10@gmail.com">tenpercentclub10@gmail.com</a></p>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="copyright">© <span id="year"></span> Ten Percent Club. All rights reserved.</p>
+        <p class="disclaimer">Insurance products and services are provided through World Financial Group Insurance Agency. Investment products and services are provided through World Financial Group, Inc. (WFG), member FINRA/SIPC.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
