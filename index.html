@@ -4,6 +4,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ten Percent Club | Licensed Financial Planner | Kitchener, Ontario</title>
+
+  <!-- Google Fonts - Inter & Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="styles.css" />
   <meta name="description" content="Licensed financial professional helping Canadian families with tax planning, insurance, investments, and retirement strategies. Free consultation available." />
   
@@ -44,154 +50,135 @@
       </button>
 
       <nav class="menu" id="menu">
+        <a href="index.html">Home</a>
         <a href="#services">Services</a>
         <a href="tools.html">Tools</a>
-        <a href="#process">Process</a>
         <a href="#resources">Resources</a>
-        <a href="#book" class="btn btn-gold">Book Free Call</a>
+        <a href="#book" class="btn btn-primary">Book Free Call</a>
       </nav>
     </div>
   </header>
 
   <!-- Hero Section -->
   <section id="home" class="section hero">
-    <div class="container hero-grid">
-      <div class="hero-content">
-        <div class="mission-banner">
-          <div class="mission-tag">THE 10% RULE</div>
-          <h2 class="mission-title">Save Just <span class="highlight-gold">10% Monthly</span> to Transform Your Future</h2>
-          <div class="mission-pillars">
-            <div class="pillar">
-              <span class="pillar-icon">🛡️</span>
-              <span class="pillar-text">Protection</span>
-            </div>
-            <div class="pillar-separator">+</div>
-            <div class="pillar">
-              <span class="pillar-icon">💰</span>
-              <span class="pillar-text">Tax Savings</span>
-            </div>
-            <div class="pillar-separator">+</div>
-            <div class="pillar">
-              <span class="pillar-icon">📈</span>
-              <span class="pillar-text">Wealth Building</span>
-            </div>
-          </div>
-        </div>
-        <h1>Build Your Financial Future with <span class="highlight">Confidence</span></h1>
-        <p class="lead">Comprehensive financial planning for Canadian families: insurance protection, tax-advantaged investing, and retirement strategies—all with just 10% of your monthly income.</p>
+    <div class="container">
+      <div class="hero-content-center">
+        <div class="hero-badge">Licensed Financial Professional</div>
+        <h1>Save Just 10% Monthly to Secure Your Family's Future</h1>
+        <p class="lead">Protection + Tax Savings + Wealth Building—all through one simple strategy tailored for Canadian families.</p>
 
-        <div class="hero-actions">
-          <a href="#book" class="btn btn-gold btn-lg">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-              <line x1="16" y1="2" x2="16" y2="6"></line>
-              <line x1="8" y1="2" x2="8" y2="6"></line>
-              <line x1="3" y1="10" x2="21" y2="10"></line>
-            </svg>
-            Free 30-min Consultation
-          </a>
-          <a href="tools.html" class="btn btn-outline">Financial Tools</a>
-        </div>
+        <a href="#book" class="btn btn-primary btn-lg hero-cta">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          Book a Free 15-Minute Call
+        </a>
 
-        <ul class="hero-checks">
-          <li>✓ No-fee financial planning</li>
-          <li>✓ Multiple providers, unbiased advice</li>
-          <li>✓ Virtual or in-person (GTA)</li>
-        </ul>
-      </div>
-
-      <div class="hero-card">
-        <div class="service-item">
-          <div class="service-icon">🛡️</div>
-          <div>
-            <h4>Protection First</h4>
-            <p>Life, Critical Illness, Disability Insurance</p>
-          </div>
-        </div>
-        <div class="service-item">
-          <div class="service-icon">📈</div>
-          <div>
-            <h4>Tax-Advantaged Growth</h4>
-            <p>RRSP, TFSA, FHSA, RESP</p>
-          </div>
-        </div>
-        <div class="service-item">
-          <div class="service-icon">📋</div>
-          <div>
-            <h4>Comprehensive Planning</h4>
-            <p>Retirement, Estate, Tax Strategy</p>
-          </div>
-        </div>
-        <div class="service-item">
-          <div class="service-icon">🏠</div>
-          <div>
-            <h4>Trusted Partners</h4>
-            <p>Mortgage & Insurance Referrals</p>
-          </div>
+        <div class="hero-trust">
+          <span>✓ No fees for planning</span>
+          <span>✓ Unbiased advice</span>
+          <span>✓ Licensed & insured</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Services Section with Tabs -->
-  <section id="services" class="section">
+  <!-- Services Section -->
+  <section id="services" class="section light-bg">
     <div class="container">
-      <h2 class="section-title">How I Help You Build Wealth</h2>
+      <h2 class="section-title">How I Help Canadian Families</h2>
+      <p class="subtitle">Comprehensive financial planning through three core strategies</p>
 
-      <div class="tabs">
-        <button class="tab-btn active" data-tab="tax-savings">Tax Savings</button>
-        <button class="tab-btn" data-tab="protection">Protection</button>
-        <button class="tab-btn" data-tab="retirement">Retirement</button>
-        <button class="tab-btn" data-tab="estate">Estate</button>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-card-icon">🛡️</div>
+          <h3>Insurance Planning</h3>
+          <p>Protect your family with the right coverage—life, critical illness, and disability insurance tailored to your needs.</p>
+          <a href="tools.html#life-insurance-calculator" class="service-link">Calculate your needs →</a>
+        </div>
+
+        <div class="service-card featured">
+          <div class="service-card-icon">💰</div>
+          <h3>Tax-Saving Strategies</h3>
+          <p>Maximize RRSP, TFSA, FHSA, and RESP benefits to reduce taxes and grow your wealth faster.</p>
+          <a href="tools.html" class="service-link">Tax calculator →</a>
+        </div>
+
+        <div class="service-card">
+          <div class="service-card-icon">📈</div>
+          <h3>Wealth & Retirement</h3>
+          <p>Build long-term wealth with smart investment strategies and comprehensive retirement planning.</p>
+          <a href="tools.html#cagr-calculator" class="service-link">Growth calculator →</a>
+        </div>
+
+        <div class="service-card">
+          <div class="service-card-icon">🎓</div>
+          <h3>Education & Workshops</h3>
+          <p>Free seminars and one-on-one coaching to help you understand your finances and make confident decisions.</p>
+          <a href="#book" class="service-link">Book a session →</a>
+        </div>
       </div>
+    </div>
+  </section>
 
-      <div class="tab-content-wrapper">
-        <!-- Tab 1: Tax Savings -->
-        <div class="tab-content active" id="tax-savings">
-          <h3>Tax-Advantaged Investing</h3>
-          <p>Maximize your RRSP contributions to reduce taxable income, leverage TFSA for tax-free growth, use FHSA for first-time home buyers, and optimize RESP grants for children's education.</p>
-          <ul class="benefit-list">
-            <li><span class="check">✓</span> RRSP: Reduce income tax by 30-50% on contributions</li>
-            <li><span class="check">✓</span> TFSA: Tax-free growth on investments</li>
-            <li><span class="check">✓</span> FHSA: Save $8,000/year for your first home</li>
-            <li><span class="check">✓</span> RESP: Free government grants up to $7,200 per child</li>
-          </ul>
+  <!-- Why Choose Us Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Why Clients Trust Ten Percent Club</h2>
+
+      <div class="trust-grid">
+        <div class="trust-item">
+          <div class="trust-icon">✓</div>
+          <h4>Simple, Clear Advice</h4>
+          <p>Financial planning explained in plain language—no jargon, no confusion.</p>
         </div>
 
-        <!-- Tab 2: Protection -->
-        <div class="tab-content" id="protection">
-          <h3>Insurance & Risk Management</h3>
-          <p>Protect your family's income and future with the right coverage. I'll compare multiple providers to find optimal protection at the best value.</p>
-          <ul class="benefit-list">
-            <li><span class="check">✓</span> Term Life: Affordable income replacement</li>
-            <li><span class="check">✓</span> Whole Life: Permanent coverage with cash value</li>
-            <li><span class="check">✓</span> Critical Illness: Lump sum if diagnosed with serious illness</li>
-            <li><span class="check">✓</span> Disability: Income replacement if unable to work</li>
-          </ul>
+        <div class="trust-item">
+          <div class="trust-icon">✓</div>
+          <h4>Tax-Efficient Strategies</h4>
+          <p>Proven methods to save thousands in taxes while building wealth for your future.</p>
         </div>
 
-        <!-- Tab 3: Retirement -->
-        <div class="tab-content" id="retirement">
-          <h3>Retirement Planning</h3>
-          <p>Build a retirement strategy that ensures financial independence. We'll project your needs and create a roadmap to get there.</p>
-          <ul class="benefit-list">
-            <li><span class="check">✓</span> Calculate retirement income needs</li>
-            <li><span class="check">✓</span> Optimize CPP/OAS timing</li>
-            <li><span class="check">✓</span> Tax-efficient withdrawal strategies</li>
-            <li><span class="check">✓</span> Estate planning for legacy goals</li>
-          </ul>
+        <div class="trust-item">
+          <div class="trust-icon">✓</div>
+          <h4>Licensed & Experienced</h4>
+          <p>Fully licensed professional with deep expertise in Canadian financial planning.</p>
         </div>
 
-        <!-- Tab 4: Estate -->
-        <div class="tab-content" id="estate">
-          <h3>Estate & Legacy Planning</h3>
-          <p>Ensure your wealth transfers efficiently to your loved ones while minimizing taxes and probate fees.</p>
-          <ul class="benefit-list">
-            <li><span class="check">✓</span> Beneficiary designation optimization</li>
-            <li><span class="check">✓</span> Tax-efficient wealth transfer strategies</li>
-            <li><span class="check">✓</span> Charitable giving planning</li>
-            <li><span class="check">✓</span> Coordination with will and power of attorney</li>
-          </ul>
+        <div class="trust-item">
+          <div class="trust-icon">✓</div>
+          <h4>No Planning Fees</h4>
+          <p>Free financial planning consultations—get expert guidance without upfront costs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="section light-bg">
+    <div class="container">
+      <h2 class="section-title">What Families Are Saying</h2>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Helped us save over $8,000 in taxes through smart RRSP planning. Clear explanations and great follow-up!"</p>
+          <div class="testimonial-author">— Sarah & Mike T., Kitchener</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Finally understand our life insurance needs. The calculator tools made it so easy to see what we actually need."</p>
+          <div class="testimonial-author">— Priya K., Toronto</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Best decision we made was booking that free call. Now we have a clear retirement plan and peace of mind."</p>
+          <div class="testimonial-author">— James L., Waterloo</div>
         </div>
       </div>
     </div>
