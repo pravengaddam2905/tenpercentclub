@@ -1733,72 +1733,96 @@ p {
 /* Tools Layout with Sidebar */
 .tools-layout {
   padding: 0;
-  background: var(--bg);
+  background: linear-gradient(135deg, #f8fafc 0%, #f0f4f8 100%);
   min-height: 80vh;
 }
 
 .container-full {
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0;
 }
 
 .tools-wrapper {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 320px 1fr;
   min-height: 80vh;
   gap: 0;
 }
 
 /* Sidebar */
 .tools-sidebar {
-  background: white;
-  border-right: 1px solid var(--line);
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border-right: 1px solid #e1e8ed;
   position: sticky;
   top: 0;
   height: 100vh;
   overflow-y: auto;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.04);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.06);
 }
 
 .tools-nav {
   display: flex;
   flex-direction: column;
-  padding: 24px 0;
+  padding: 32px 16px;
+  gap: 8px;
 }
 
 .tool-nav-btn {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 18px 24px;
-  background: none;
-  border: none;
-  border-left: 3px solid transparent;
+  gap: 16px;
+  padding: 16px 20px;
+  background: white;
+  border: 2px solid transparent;
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-align: left;
   font-size: 15px;
   color: var(--ink-weak);
-  font-weight: 500;
+  font-weight: 600;
+  position: relative;
+  overflow: hidden;
+}
+
+.tool-nav-btn::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--gold);
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
 }
 
 .tool-nav-btn:hover {
-  background: var(--alt);
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border-color: #93c5fd;
   color: var(--ink);
-  border-left-color: var(--line);
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
 }
 
 .tool-nav-btn.active {
-  background: var(--blue-light);
-  border-left-color: var(--gold);
+  background: linear-gradient(135deg, #fef3c7 0%, #fef9e7 100%);
+  border-color: var(--gold);
   color: var(--ink);
   font-weight: 700;
+  box-shadow: 0 8px 24px rgba(212, 160, 23, 0.2);
+  transform: translateX(4px);
+}
+
+.tool-nav-btn.active::before {
+  transform: scaleY(1);
 }
 
 .tool-nav-icon {
-  font-size: 24px;
+  font-size: 28px;
   flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .tool-nav-text {
@@ -1808,9 +1832,9 @@ p {
 
 /* Main Content */
 .tools-content {
-  padding: 48px 60px;
-  max-width: 1100px;
-  background: var(--bg);
+  padding: 48px 64px;
+  max-width: 1200px;
+  background: transparent;
 }
 
 .tool-panel {
@@ -1834,28 +1858,38 @@ p {
 }
 
 .tool-panel h2 {
-  font-size: 36px;
+  font-size: 40px;
   font-weight: 800;
   margin-bottom: 12px;
   color: var(--ink);
   line-height: 1.2;
+  background: linear-gradient(135deg, var(--ink) 0%, var(--ink-weak) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .tool-description {
   font-size: 18px;
   color: var(--muted);
-  margin-bottom: 40px;
+  margin-bottom: 48px;
   line-height: 1.6;
 }
 
-/* Calculator Card - Match home page style */
+/* Calculator Card - Modern glassmorphism style */
 .calculator-card {
-  background: white;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
   border-radius: 24px;
-  padding: 40px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  border: 1px solid var(--line);
-  margin-bottom: 32px;
+  padding: 48px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  margin-bottom: 40px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.calculator-card:hover {
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.7);
 }
 
 /* CAGR Calculator Specific */
@@ -2041,6 +2075,214 @@ p {
   color: var(--ink-weak);
   margin: 0;
   line-height: 1.7;
+}
+
+/* ===== Modern Dashboard & Table Styles ===== */
+
+/* Dashboard Cards */
+.dashboard-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin: 32px 0;
+}
+
+.dashboard-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--blue) 100%);
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  border-color: rgba(212, 160, 23, 0.3);
+}
+
+.dashboard-card.primary {
+  background: linear-gradient(135deg, #fef3c7 0%, #fef9e7 100%);
+}
+
+.dashboard-card.primary::before {
+  background: var(--gold);
+}
+
+.dashboard-card.success {
+  background: linear-gradient(135deg, #f0fdf4 0%, #d1fae5 100%);
+}
+
+.dashboard-card.success::before {
+  background: var(--green);
+}
+
+.dashboard-card.info {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+}
+
+.dashboard-card.info::before {
+  background: var(--blue);
+}
+
+.dashboard-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.dashboard-card-icon {
+  font-size: 32px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.dashboard-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--ink-weak);
+  margin-bottom: 8px;
+}
+
+.dashboard-card-value {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.dashboard-card-subtitle {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* Modern Data Table */
+.data-table-wrapper {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  margin: 32px 0;
+  border: 1px solid var(--line);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.data-table thead {
+  background: linear-gradient(135deg, var(--ink) 0%, var(--ink-weak) 100%);
+  color: white;
+}
+
+.data-table th {
+  padding: 18px 24px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.data-table tbody tr {
+  border-bottom: 1px solid var(--line);
+  transition: background-color 0.2s ease;
+}
+
+.data-table tbody tr:hover {
+  background: linear-gradient(90deg, rgba(212, 160, 23, 0.05) 0%, transparent 100%);
+}
+
+.data-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.data-table td {
+  padding: 18px 24px;
+  color: var(--ink);
+}
+
+.data-table td:first-child {
+  font-weight: 600;
+}
+
+.data-table .highlight-row {
+  background: linear-gradient(90deg, #fef3c7 0%, #fef9e7 100%);
+  font-weight: 700;
+}
+
+.data-table .total-row {
+  background: linear-gradient(90deg, #eff6ff 0%, #dbeafe 100%);
+  font-weight: 700;
+  border-top: 3px solid var(--blue);
+}
+
+.data-table .positive-value {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.data-table .negative-value {
+  color: #ef4444;
+  font-weight: 700;
+}
+
+/* View Toggle Buttons */
+.view-toggle {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  background: white;
+  padding: 8px;
+  border-radius: 12px;
+  width: fit-content;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.view-toggle-btn {
+  padding: 12px 24px;
+  border: 2px solid transparent;
+  background: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-weak);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.view-toggle-btn:hover {
+  background: var(--alt);
+  color: var(--ink);
+}
+
+.view-toggle-btn.active {
+  background: linear-gradient(135deg, #fef3c7 0%, #fef9e7 100%);
+  border-color: var(--gold);
+  color: var(--ink);
+  box-shadow: 0 2px 8px rgba(212, 160, 23, 0.2);
 }
 
 /* Rates Tables */
@@ -2518,6 +2760,16 @@ p {
   /* CAGR Calculator - Tablet */
   .cagr-summary {
     grid-template-columns: 1fr;
+  }
+
+  /* Dashboard - Tablet */
+  .dashboard-container {
+    grid-template-columns: 1fr;
+  }
+
+  .view-toggle {
+    width: 100%;
+    justify-content: center;
   }
 }
 
