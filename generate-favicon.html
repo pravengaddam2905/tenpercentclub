@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generate Favicon PNG</title>
+</head>
+<body>
+  <h1>Ten Percent Club Favicon Generator</h1>
+  <canvas id="canvas" width="32" height="32"></canvas>
+  <br><br>
+  <a id="download" download="favicon.png">
+    <button>Download favicon.png</button>
+  </a>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Background circle
+    ctx.fillStyle = '#0891b2';
+    ctx.beginPath();
+    ctx.arc(16, 16, 15, 0, Math.PI * 2);
+    ctx.fill();
+
+    // White shield
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+    ctx.beginPath();
+    ctx.moveTo(16, 5);
+    ctx.lineTo(23, 9);
+    ctx.lineTo(23, 15);
+    ctx.bezierCurveTo(23, 20, 20, 23, 16, 25);
+    ctx.bezierCurveTo(12, 23, 9, 20, 9, 15);
+    ctx.lineTo(9, 9);
+    ctx.closePath();
+    ctx.fill();
+
+    // 10% text
+    ctx.fillStyle = '#0891b2';
+    ctx.font = 'bold 9px system-ui, -apple-system, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('10%', 16, 16);
+
+    // Create download link
+    canvas.toBlob(function(blob) {
+      const url = URL.createObjectURL(blob);
+      document.getElementById('download').href = url;
+    });
+  </script>
+</body>
+</html>
