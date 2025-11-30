@@ -886,6 +886,45 @@ function resetLifeInsuranceForm() {
 
 // ===== FIRE Calculator =====
 
+// Password protection for FIRE calculator
+function unlockFIRECalculator() {
+  const password = document.getElementById('firePassword').value;
+  const correctPassword = 'FIRE2025'; // Change this to your desired password
+
+  if (password === correctPassword) {
+    document.getElementById('firePasswordPrompt').style.display = 'none';
+    document.getElementById('fireCalculatorContent').style.display = 'block';
+    document.getElementById('firePasswordError').style.display = 'none';
+    // Store unlock status in session storage so it persists during the session
+    sessionStorage.setItem('fireUnlocked', 'true');
+  } else {
+    document.getElementById('firePasswordError').style.display = 'block';
+    document.getElementById('firePassword').value = '';
+  }
+}
+
+// Check if already unlocked in this session
+window.addEventListener('DOMContentLoaded', () => {
+  if (sessionStorage.getItem('fireUnlocked') === 'true') {
+    const passwordPrompt = document.getElementById('firePasswordPrompt');
+    const calculatorContent = document.getElementById('fireCalculatorContent');
+    if (passwordPrompt && calculatorContent) {
+      passwordPrompt.style.display = 'none';
+      calculatorContent.style.display = 'block';
+    }
+  }
+});
+
+// Allow Enter key to submit password
+const firePasswordInput = document.getElementById('firePassword');
+if (firePasswordInput) {
+  firePasswordInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      unlockFIRECalculator();
+    }
+  });
+}
+
 // Show/hide conditional fields for FIRE calculator
 const fireIncludeCPP = document.getElementById('fireIncludeCPP');
 const fireIncludeOAS = document.getElementById('fireIncludeOAS');

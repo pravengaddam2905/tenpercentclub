@@ -961,7 +961,40 @@
             <h2>FIRE Calculator (Financial Independence, Retire Early)</h2>
             <p class="tool-description">Plan your path to financial independence with this comprehensive calculator for Canadian families (CAD)</p>
 
-            <div class="calculator-card">
+            <!-- FIRE Calculator Info for Public -->
+            <div id="firePasswordPrompt" class="password-prompt">
+              <div class="password-card">
+                <div class="fire-info-icon">🔥</div>
+                <h3>FIRE Calculator</h3>
+                <p class="fire-info-text">The <strong>Financial Independence, Retire Early (FIRE)</strong> calculator is a comprehensive planning tool that helps you:</p>
+                <ul class="fire-features">
+                  <li>Calculate your exact FIRE number based on your lifestyle</li>
+                  <li>Project your portfolio growth with inflation adjustments</li>
+                  <li>Plan for major goals like education, weddings, and travel</li>
+                  <li>Optimize savings strategies with CPP/OAS integration</li>
+                  <li>Get personalized recommendations to reach financial independence</li>
+                </ul>
+                <p class="fire-cta-text">This advanced calculator requires a personalized consultation to ensure accuracy for your unique situation.</p>
+                <a href="/#book" class="btn btn-gold btn-large">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                  Book Free Consultation
+                </a>
+                <p class="fire-note">Get your personalized FIRE plan during our free 30-minute call</p>
+
+                <!-- Hidden password input for owner access -->
+                <div class="owner-access" onclick="this.querySelector('input').focus()">
+                  <input type="password" id="firePassword" placeholder="Owner access" class="owner-password-field" onkeypress="if(event.key==='Enter')unlockFIRECalculator()">
+                </div>
+                <p id="firePasswordError" class="password-error" style="display: none;">Incorrect password.</p>
+              </div>
+            </div>
+
+            <div id="fireCalculatorContent" class="calculator-card" style="display: none;">
               <form id="fireForm" class="fire-form">
 
                 <h3>Personal Information</h3>
@@ -1247,6 +1280,7 @@
                 </div>
               </div>
             </div>
+            <!-- End of protected content -->
           </div>
 
         </main>
