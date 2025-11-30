@@ -1171,7 +1171,10 @@ function calculateFIRE() {
     totalGovernmentBenefits,
     withdrawalRate,
     inflationRate,
-    preReturnRate
+    preReturnRate,
+    yearByYearProjection,
+    annualExpenses,
+    currentAssets
   );
 }
 
@@ -1192,7 +1195,10 @@ function displayFIREResults(
   totalGovernmentBenefits,
   withdrawalRate,
   inflationRate,
-  preReturnRate
+  preReturnRate,
+  yearByYearProjection,
+  annualExpenses,
+  currentAssets
 ) {
   // Update FIRE number
   document.getElementById('fireNumber').textContent = formatCurrency(fireNumber);
@@ -1285,6 +1291,20 @@ function displayFIREResults(
     document.getElementById('fireAssumptionBenefits').textContent = 'Not included';
   }
 
+  // Render visual charts
+  renderFIRECharts(
+    yearByYearProjection,
+    fireNumber,
+    currentAssets,
+    annualIncome,
+    annualExpenses,
+    annualSavings,
+    monthlySavingsBreakdown,
+    projectedPortfolio,
+    currentAge,
+    retirementAge
+  );
+
   // Show results
   document.getElementById('fireResults').style.display = 'block';
 
@@ -1324,4 +1344,299 @@ function resetFIREForm() {
   document.getElementById('fireInflationRate').value = 2;
   document.getElementById('fireIncomeGrowth').value = 2;
   document.getElementById('fireWithdrawalRate').value = 3.5;
+
+  // Destroy existing charts if they exist
+  destroyFIRECharts();
+}
+
+// Store chart instances globally to manage them
+let fireCharts = {
+  portfolioGrowth: null,
+  incomeExpense: null,
+  fireProgress: null,
+  savingsBreakdown: null
+};
+
+function destroyFIRECharts() {
+  Object.keys(fireCharts).forEach(key => {
+    if (fireCharts[key]) {
+      fireCharts[key].destroy();
+      fireCharts[key] = null;
+    }
+  });
+}
+
+function renderFIRECharts(
+  yearByYearProjection,
+  fireNumber,
+  currentAssets,
+  annualIncome,
+  annualExpenses,
+  annualSavings,
+  monthlySavingsBreakdown,
+  projectedPortfolio,
+  currentAge,
+  retirementAge
+) {
+  // Destroy existing charts before creating new ones
+  destroyFIRECharts();
+
+  // 1. Portfolio Growth Projection Chart
+  const portfolioCtx = document.getElementById('portfolioGrowthChart').getContext('2d');
+
+  const years = [currentAge, ...yearByYearProjection.map(p => p.year)];
+  const portfolioValues = [currentAssets, ...yearByYearProjection.map(p => p.value)];
+  const fireLineValues = years.map(() => fireNumber);
+
+  fireCharts.portfolioGrowth = new Chart(portfolioCtx, {
+    type: 'line',
+    data: {
+      labels: years,
+      datasets: [
+        {
+          label: 'Projected Portfolio Value',
+          data: portfolioValues,
+          borderColor: '#0891b2',
+          backgroundColor: 'rgba(8, 145, 178, 0.1)',
+          fill: true,
+          tension: 0.4,
+          borderWidth: 3,
+          pointRadius: 0,
+          pointHoverRadius: 6
+        },
+        {
+          label: 'FIRE Number Target',
+          data: fireLineValues,
+          borderColor: '#d97706',
+          backgroundColor: 'transparent',
+          borderDash: [10, 5],
+          borderWidth: 2,
+          pointRadius: 0,
+          pointHoverRadius: 0
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      interaction: {
+        intersect: false,
+        mode: 'index'
+      },
+      plugins: {
+        legend: {
+          display: true,
+          position: 'bottom',
+          labels: {
+            padding: 15,
+            usePointStyle: true,
+            font: { size: 12 }
+          }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: function(value) {
+              return '$' + (value / 1000) + 'k';
+            }
+          },
+          grid: {
+            color: 'rgba(0, 0, 0, 0.05)'
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Age',
+            font: { size: 12, weight: 'bold' }
+          },
+          grid: {
+            display: false
+          }
+        }
+      }
+    }
+  });
+
+  // 2. Income vs Expenses Pie Chart
+  const incomeExpenseCtx = document.getElementById('incomeExpenseChart').getContext('2d');
+
+  fireCharts.incomeExpense = new Chart(incomeExpenseCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Savings', 'Expenses'],
+      datasets: [{
+        data: [annualSavings, annualExpenses],
+        backgroundColor: [
+          '#0891b2',
+          '#f59e0b'
+        ],
+        borderWidth: 0,
+        hoverOffset: 10
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            padding: 15,
+            usePointStyle: true,
+            font: { size: 12 }
+          }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              const label = context.label || '';
+              const value = context.parsed || 0;
+              const percentage = ((value / annualIncome) * 100).toFixed(1);
+              return label + ': ' + formatCurrency(value) + ' (' + percentage + '%)';
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // 3. FIRE Progress Gauge (Doughnut)
+  const fireProgressCtx = document.getElementById('fireProgressChart').getContext('2d');
+
+  const progressPercentage = Math.min(100, (projectedPortfolio / fireNumber) * 100);
+  const remainingPercentage = Math.max(0, 100 - progressPercentage);
+
+  fireCharts.fireProgress = new Chart(fireProgressCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Progress to FIRE', 'Remaining'],
+      datasets: [{
+        data: [progressPercentage, remainingPercentage],
+        backgroundColor: [
+          progressPercentage >= 100 ? '#10b981' : '#0891b2',
+          '#e2e8f0'
+        ],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      circumference: 180,
+      rotation: 270,
+      cutout: '70%',
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              if (context.dataIndex === 0) {
+                return 'Progress: ' + progressPercentage.toFixed(1) + '%';
+              }
+              return null;
+            }
+          }
+        }
+      }
+    },
+    plugins: [{
+      id: 'gaugeText',
+      afterDatasetDraw(chart) {
+        const { ctx, chartArea: { width, height } } = chart;
+        ctx.save();
+
+        const centerX = width / 2;
+        const centerY = height * 0.85;
+
+        ctx.font = 'bold 32px Arial';
+        ctx.fillStyle = progressPercentage >= 100 ? '#10b981' : '#0891b2';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(progressPercentage.toFixed(0) + '%', centerX, centerY);
+
+        ctx.font = '14px Arial';
+        ctx.fillStyle = '#64748b';
+        ctx.fillText('to FIRE Goal', centerX, centerY + 25);
+
+        ctx.restore();
+      }
+    }]
+  });
+
+  // 4. Savings Breakdown Bar Chart
+  const savingsBreakdownCtx = document.getElementById('savingsBreakdownChart').getContext('2d');
+
+  if (monthlySavingsBreakdown.length > 0) {
+    const labels = monthlySavingsBreakdown.map(item => item.goal);
+    const monthlyAmounts = monthlySavingsBreakdown.map(item => item.monthly);
+
+    fireCharts.savingsBreakdown = new Chart(savingsBreakdownCtx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Monthly Savings',
+          data: monthlyAmounts,
+          backgroundColor: '#0891b2',
+          borderRadius: 8,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        indexAxis: 'y',
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return 'Monthly: ' + formatCurrency(context.parsed.x);
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            beginAtZero: true,
+            ticks: {
+              callback: function(value) {
+                return '$' + value.toLocaleString();
+              }
+            },
+            grid: {
+              color: 'rgba(0, 0, 0, 0.05)'
+            }
+          },
+          y: {
+            grid: {
+              display: false
+            }
+          }
+        }
+      }
+    });
+  } else {
+    // Display message if no goals
+    const canvas = document.getElementById('savingsBreakdownChart');
+    const ctx = canvas.getContext('2d');
+    ctx.font = '16px Arial';
+    ctx.fillStyle = '#64748b';
+    ctx.textAlign = 'center';
+    ctx.fillText('No specific savings goals set', canvas.width / 2, canvas.height / 2);
+  }
 }

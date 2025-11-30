@@ -1219,6 +1219,45 @@
                 <div id="fireStatus" class="fire-status"></div>
                 <p id="fireStatusMessage" class="fire-status-message"></p>
 
+                <!-- Visual Dashboard -->
+                <div class="fire-dashboard">
+                  <h3>Visual Financial Dashboard</h3>
+
+                  <div class="dashboard-grid">
+                    <!-- Portfolio Growth Chart -->
+                    <div class="dashboard-card full-width">
+                      <h4>Portfolio Growth Projection</h4>
+                      <div class="chart-container">
+                        <canvas id="portfolioGrowthChart"></canvas>
+                      </div>
+                    </div>
+
+                    <!-- Income vs Expenses -->
+                    <div class="dashboard-card">
+                      <h4>Current Financial Snapshot</h4>
+                      <div class="chart-container">
+                        <canvas id="incomeExpenseChart"></canvas>
+                      </div>
+                    </div>
+
+                    <!-- FIRE Progress Gauge -->
+                    <div class="dashboard-card">
+                      <h4>FIRE Progress</h4>
+                      <div class="chart-container">
+                        <canvas id="fireProgressChart"></canvas>
+                      </div>
+                    </div>
+
+                    <!-- Savings Breakdown -->
+                    <div class="dashboard-card full-width">
+                      <h4>Monthly Savings Allocation</h4>
+                      <div class="chart-container">
+                        <canvas id="savingsBreakdownChart"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="fire-section">
                   <h3>Gap Analysis</h3>
                   <div class="fire-gap-grid">
@@ -1330,6 +1369,8 @@
     </div>
   </footer>
 
+  <!-- Chart.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
