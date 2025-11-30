@@ -883,3 +883,406 @@ function resetLifeInsuranceForm() {
   document.getElementById('survivorPensionAmount').value = 7500;
   document.getElementById('inflationRate').value = 2.0;
 }
+
+// ===== FIRE Calculator =====
+
+// Show/hide conditional fields for FIRE calculator
+const fireIncludeCPP = document.getElementById('fireIncludeCPP');
+const fireIncludeOAS = document.getElementById('fireIncludeOAS');
+const fireIncludePension = document.getElementById('fireIncludePension');
+const fireHasEducation = document.getElementById('fireHasEducation');
+const fireHasWedding = document.getElementById('fireHasWedding');
+const fireHasVacation = document.getElementById('fireHasVacation');
+
+if (fireIncludeCPP) {
+  fireIncludeCPP.addEventListener('change', () => {
+    const group = document.getElementById('fireCPPGroup');
+    group.style.display = fireIncludeCPP.checked ? 'block' : 'none';
+  });
+}
+
+if (fireIncludeOAS) {
+  fireIncludeOAS.addEventListener('change', () => {
+    const group = document.getElementById('fireOASGroup');
+    group.style.display = fireIncludeOAS.checked ? 'block' : 'none';
+  });
+}
+
+if (fireIncludePension) {
+  fireIncludePension.addEventListener('change', () => {
+    const group = document.getElementById('firePensionGroup');
+    group.style.display = fireIncludePension.checked ? 'block' : 'none';
+  });
+}
+
+if (fireHasEducation) {
+  fireHasEducation.addEventListener('change', () => {
+    const group = document.getElementById('fireEducationGroup');
+    group.style.display = fireHasEducation.checked ? 'block' : 'none';
+  });
+}
+
+if (fireHasWedding) {
+  fireHasWedding.addEventListener('change', () => {
+    const group = document.getElementById('fireWeddingGroup');
+    group.style.display = fireHasWedding.checked ? 'block' : 'none';
+  });
+}
+
+if (fireHasVacation) {
+  fireHasVacation.addEventListener('change', () => {
+    const group = document.getElementById('fireVacationGroup');
+    group.style.display = fireHasVacation.checked ? 'block' : 'none';
+  });
+}
+
+// Calculate FIRE number and projections
+function calculateFIRE() {
+  // Get all input values
+  const currentAge = parseFloat(document.getElementById('fireCurrentAge').value);
+  const retirementAge = parseFloat(document.getElementById('fireRetirementAge').value);
+  const annualIncome = parseFloat(document.getElementById('fireAnnualIncome').value) || 0;
+  const annualExpenses = parseFloat(document.getElementById('fireAnnualExpenses').value) || 0;
+  const annualSavings = parseFloat(document.getElementById('fireAnnualSavings').value) || 0;
+  const currentAssets = parseFloat(document.getElementById('fireCurrentAssets').value) || 0;
+  const retirementIncome = parseFloat(document.getElementById('fireRetirementIncome').value) || 0;
+
+  const includeCPP = document.getElementById('fireIncludeCPP').checked;
+  const cppAmount = includeCPP ? parseFloat(document.getElementById('fireCPPAmount').value) || 0 : 0;
+
+  const includeOAS = document.getElementById('fireIncludeOAS').checked;
+  const oasAmount = includeOAS ? parseFloat(document.getElementById('fireOASAmount').value) || 0 : 0;
+
+  const includePension = document.getElementById('fireIncludePension').checked;
+  const pensionAmount = includePension ? parseFloat(document.getElementById('firePensionAmount').value) || 0 : 0;
+
+  const hasEducation = document.getElementById('fireHasEducation').checked;
+  const educationAmount = hasEducation ? parseFloat(document.getElementById('fireEducationAmount').value) || 0 : 0;
+  const educationYear = hasEducation ? parseFloat(document.getElementById('fireEducationYear').value) || 0 : 0;
+
+  const hasWedding = document.getElementById('fireHasWedding').checked;
+  const weddingAmount = hasWedding ? parseFloat(document.getElementById('fireWeddingAmount').value) || 0 : 0;
+  const weddingYear = hasWedding ? parseFloat(document.getElementById('fireWeddingYear').value) || 0 : 0;
+
+  const hasVacation = document.getElementById('fireHasVacation').checked;
+  const vacationAmount = hasVacation ? parseFloat(document.getElementById('fireVacationAmount').value) || 0 : 0;
+  const vacationFrequency = hasVacation ? parseFloat(document.getElementById('fireVacationFrequency').value) || 1 : 1;
+
+  const emergencyMonths = parseFloat(document.getElementById('fireEmergencyMonths').value) || 0;
+
+  // Assumptions
+  const preReturnRate = parseFloat(document.getElementById('firePreReturnRate').value) / 100 || 0.06;
+  const postReturnRate = parseFloat(document.getElementById('firePostReturnRate').value) / 100 || 0.04;
+  const inflationRate = parseFloat(document.getElementById('fireInflationRate').value) / 100 || 0.02;
+  const incomeGrowthRate = parseFloat(document.getElementById('fireIncomeGrowth').value) / 100 || 0.02;
+  const withdrawalRate = parseFloat(document.getElementById('fireWithdrawalRate').value) / 100 || 0.035;
+
+  // Validation
+  if (currentAge >= retirementAge) {
+    alert('Target FIRE age must be greater than current age');
+    return;
+  }
+
+  if (retirementIncome <= 0 && annualExpenses <= 0) {
+    alert('Please enter either desired retirement income or current annual expenses');
+    return;
+  }
+
+  // Calculate years until retirement
+  const yearsToRetirement = retirementAge - currentAge;
+
+  // Use retirement income if provided, otherwise use current expenses
+  let desiredRetirementIncome = retirementIncome > 0 ? retirementIncome : annualExpenses;
+
+  // Adjust for inflation to get future value
+  const futureRetirementIncome = desiredRetirementIncome * Math.pow(1 + inflationRate, yearsToRetirement);
+
+  // Calculate net retirement income needed (after government benefits)
+  const totalGovernmentBenefits = cppAmount + oasAmount + pensionAmount;
+  const netRetirementIncome = Math.max(0, futureRetirementIncome - totalGovernmentBenefits);
+
+  // Calculate FIRE number using safe withdrawal rate
+  const fireNumber = netRetirementIncome / withdrawalRate;
+
+  // Calculate emergency fund target
+  const emergencyFund = (annualExpenses / 12) * emergencyMonths;
+
+  // Project portfolio growth
+  let portfolioValue = currentAssets;
+  let totalContributions = currentAssets;
+  let yearByYearProjection = [];
+
+  for (let year = 1; year <= yearsToRetirement; year++) {
+    // Apply investment return
+    portfolioValue *= (1 + preReturnRate);
+
+    // Add annual savings (adjusted for income growth)
+    const yearSavings = annualSavings * Math.pow(1 + incomeGrowthRate, year - 1);
+    portfolioValue += yearSavings;
+    totalContributions += yearSavings;
+
+    yearByYearProjection.push({
+      year: currentAge + year,
+      value: portfolioValue
+    });
+  }
+
+  const projectedPortfolio = portfolioValue;
+
+  // Calculate gap
+  const gap = fireNumber - projectedPortfolio;
+  const willReachFIRE = gap <= 0;
+
+  // Calculate monthly savings needed if there's a gap
+  let extraMonthlySavings = 0;
+  if (!willReachFIRE) {
+    // Future value of annuity formula: FV = PMT * (((1 + r)^n - 1) / r)
+    // Solving for PMT: PMT = FV / (((1 + r)^n - 1) / r)
+    const monthlyRate = preReturnRate / 12;
+    const months = yearsToRetirement * 12;
+    const fvFactor = (Math.pow(1 + monthlyRate, months) - 1) / monthlyRate;
+    extraMonthlySavings = gap / fvFactor;
+  }
+
+  // Calculate actual FIRE age if continuing with current savings
+  let actualFIREAge = retirementAge;
+  if (!willReachFIRE) {
+    let testPortfolio = currentAssets;
+    let testAge = currentAge;
+
+    while (testPortfolio < fireNumber && testAge < 100) {
+      testAge++;
+      testPortfolio *= (1 + preReturnRate);
+      const yearSavings = annualSavings * Math.pow(1 + incomeGrowthRate, testAge - currentAge - 1);
+      testPortfolio += yearSavings;
+    }
+
+    actualFIREAge = testAge;
+  }
+
+  // Calculate monthly savings for individual goals
+  const monthlySavingsBreakdown = [];
+
+  // Emergency fund
+  if (emergencyFund > 0) {
+    const emergencyMonthly = emergencyFund / (yearsToRetirement * 12);
+    monthlySavingsBreakdown.push({
+      goal: 'Emergency Fund',
+      target: emergencyFund,
+      monthly: emergencyMonthly
+    });
+  }
+
+  // Education goal
+  if (hasEducation && educationAmount > 0) {
+    const yearsToEducation = Math.max(1, educationYear - currentAge);
+    const monthlyRate = preReturnRate / 12;
+    const months = yearsToEducation * 12;
+    const fvFactor = (Math.pow(1 + monthlyRate, months) - 1) / monthlyRate;
+    const educationMonthly = educationAmount / fvFactor;
+    monthlySavingsBreakdown.push({
+      goal: `Education (in ${yearsToEducation} years)`,
+      target: educationAmount,
+      monthly: educationMonthly
+    });
+  }
+
+  // Wedding goal
+  if (hasWedding && weddingAmount > 0) {
+    const yearsToWedding = Math.max(1, weddingYear - currentAge);
+    const monthlyRate = preReturnRate / 12;
+    const months = yearsToWedding * 12;
+    const fvFactor = (Math.pow(1 + monthlyRate, months) - 1) / monthlyRate;
+    const weddingMonthly = weddingAmount / fvFactor;
+    monthlySavingsBreakdown.push({
+      goal: `Wedding (in ${yearsToWedding} years)`,
+      target: weddingAmount,
+      monthly: weddingMonthly
+    });
+  }
+
+  // Vacation goal
+  if (hasVacation && vacationAmount > 0) {
+    const vacationsPerYear = 1 / vacationFrequency;
+    const totalVacations = yearsToRetirement * vacationsPerYear;
+    const totalVacationCost = vacationAmount * totalVacations;
+    const vacationMonthly = totalVacationCost / (yearsToRetirement * 12);
+    monthlySavingsBreakdown.push({
+      goal: `Vacations (every ${vacationFrequency} year${vacationFrequency > 1 ? 's' : ''})`,
+      target: totalVacationCost,
+      monthly: vacationMonthly
+    });
+  }
+
+  // Display results
+  displayFIREResults(
+    fireNumber,
+    projectedPortfolio,
+    willReachFIRE,
+    gap,
+    extraMonthlySavings,
+    actualFIREAge,
+    annualSavings,
+    annualIncome,
+    monthlySavingsBreakdown,
+    currentAge,
+    retirementAge,
+    desiredRetirementIncome,
+    futureRetirementIncome,
+    totalGovernmentBenefits,
+    withdrawalRate,
+    inflationRate,
+    preReturnRate
+  );
+}
+
+function displayFIREResults(
+  fireNumber,
+  projectedPortfolio,
+  willReachFIRE,
+  gap,
+  extraMonthlySavings,
+  actualFIREAge,
+  annualSavings,
+  annualIncome,
+  monthlySavingsBreakdown,
+  currentAge,
+  retirementAge,
+  desiredRetirementIncome,
+  futureRetirementIncome,
+  totalGovernmentBenefits,
+  withdrawalRate,
+  inflationRate,
+  preReturnRate
+) {
+  // Update FIRE number
+  document.getElementById('fireNumber').textContent = formatCurrency(fireNumber);
+
+  // Update projected portfolio
+  document.getElementById('fireProjectedPortfolio').textContent = formatCurrency(projectedPortfolio);
+
+  // Update savings rate
+  const savingsRate = annualIncome > 0 ? (annualSavings / annualIncome * 100).toFixed(1) : 0;
+  document.getElementById('fireSavingsRate').textContent = savingsRate + '%';
+
+  // Update status
+  const statusElement = document.getElementById('fireStatus');
+  const statusMessageElement = document.getElementById('fireStatusMessage');
+
+  if (willReachFIRE) {
+    statusElement.className = 'fire-status success';
+    statusElement.textContent = '✓ On Track to FIRE!';
+    statusMessageElement.textContent = `You're projected to reach financial independence by age ${retirementAge}. Keep up the great work!`;
+  } else {
+    statusElement.className = 'fire-status warning';
+    statusElement.textContent = '⚠ Adjustment Needed';
+    statusMessageElement.textContent = `You're ${formatCurrency(Math.abs(gap))} short of your FIRE goal. See recommendations below.`;
+  }
+
+  // Update gap analysis
+  if (willReachFIRE) {
+    document.getElementById('fireGapAmount').textContent = formatCurrency(0);
+    document.getElementById('fireExtraSavings').textContent = formatCurrency(0);
+    document.getElementById('fireActualAge').textContent = retirementAge + ' years';
+  } else {
+    document.getElementById('fireGapAmount').textContent = formatCurrency(Math.abs(gap));
+    document.getElementById('fireExtraSavings').textContent = formatCurrency(extraMonthlySavings);
+    document.getElementById('fireActualAge').textContent = actualFIREAge >= 100 ? 'Not achievable' : actualFIREAge + ' years';
+  }
+
+  // Update breakdown
+  const breakdownGrid = document.getElementById('fireBreakdownGrid');
+  breakdownGrid.innerHTML = '';
+
+  if (monthlySavingsBreakdown.length > 0) {
+    monthlySavingsBreakdown.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'fire-breakdown-item';
+      div.innerHTML = `
+        <div class="fire-breakdown-label">${item.goal}</div>
+        <div class="fire-breakdown-value">${formatCurrency(item.monthly)}/month</div>
+        <div class="fire-breakdown-target">Target: ${formatCurrency(item.target)}</div>
+      `;
+      breakdownGrid.appendChild(div);
+    });
+  } else {
+    breakdownGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #64748b;">No specific goals set</p>';
+  }
+
+  // Update recommendations
+  const recommendationsDiv = document.getElementById('fireRecommendations');
+  let recommendations = '<ul>';
+
+  if (willReachFIRE) {
+    recommendations += '<li>You\'re on track! Consider increasing your emergency fund or adding new financial goals.</li>';
+    recommendations += '<li>Review your investment allocation to ensure it matches your risk tolerance and timeline.</li>';
+    recommendations += '<li>Consider tax-efficient withdrawal strategies for retirement (TFSA first, then non-registered, then RRSP).</li>';
+  } else {
+    recommendations += `<li><strong>Increase monthly savings by ${formatCurrency(extraMonthlySavings)}</strong> to reach FIRE by age ${retirementAge}.</li>`;
+    recommendations += '<li>Look for ways to reduce current expenses to free up more savings.</li>';
+    recommendations += '<li>Consider side income opportunities or career advancement to increase earning potential.</li>';
+    recommendations += '<li>Review and optimize your investment returns - even a 1% increase can make a big difference over time.</li>';
+
+    if (actualFIREAge < 100) {
+      recommendations += `<li>Alternative: Continue with current savings plan and reach FIRE at age ${actualFIREAge} (${actualFIREAge - retirementAge} years later).</li>`;
+    }
+  }
+
+  recommendations += '<li>Maximize tax-advantaged accounts (RRSP, TFSA, FHSA if first-time homebuyer).</li>';
+  recommendations += '<li>Book a free consultation to create a personalized FIRE strategy tailored to your situation.</li>';
+  recommendations += '</ul>';
+
+  recommendationsDiv.innerHTML = recommendations;
+
+  // Update assumptions summary
+  document.getElementById('fireAssumptionIncome').textContent = formatCurrency(desiredRetirementIncome) + '/year (today\'s dollars)';
+  document.getElementById('fireAssumptionInflation').textContent = (inflationRate * 100).toFixed(1) + '%';
+  document.getElementById('fireAssumptionReturn').textContent = (preReturnRate * 100).toFixed(1) + '%';
+  document.getElementById('fireAssumptionWithdrawal').textContent = (withdrawalRate * 100).toFixed(2) + '%';
+
+  if (totalGovernmentBenefits > 0) {
+    document.getElementById('fireAssumptionBenefits').textContent = formatCurrency(totalGovernmentBenefits) + '/year';
+  } else {
+    document.getElementById('fireAssumptionBenefits').textContent = 'Not included';
+  }
+
+  // Show results
+  document.getElementById('fireResults').style.display = 'block';
+
+  // Scroll to results
+  document.getElementById('fireResults').scrollIntoView({
+    behavior: 'smooth',
+    block: 'nearest'
+  });
+}
+
+function resetFIREForm() {
+  document.getElementById('fireForm').reset();
+  document.getElementById('fireResults').style.display = 'none';
+
+  // Hide conditional groups
+  document.getElementById('fireCPPGroup').style.display = 'none';
+  document.getElementById('fireOASGroup').style.display = 'none';
+  document.getElementById('firePensionGroup').style.display = 'none';
+  document.getElementById('fireEducationGroup').style.display = 'none';
+  document.getElementById('fireWeddingGroup').style.display = 'none';
+  document.getElementById('fireVacationGroup').style.display = 'none';
+
+  // Reset to default values
+  document.getElementById('fireCurrentAge').value = 30;
+  document.getElementById('fireRetirementAge').value = 50;
+  document.getElementById('fireAnnualIncome').value = 80000;
+  document.getElementById('fireAnnualExpenses').value = 50000;
+  document.getElementById('fireAnnualSavings').value = 15000;
+  document.getElementById('fireCurrentAssets').value = 50000;
+  document.getElementById('fireRetirementIncome').value = 40000;
+  document.getElementById('fireCPPAmount').value = 15000;
+  document.getElementById('fireOASAmount').value = 8000;
+  document.getElementById('firePensionAmount').value = 20000;
+  document.getElementById('fireEmergencyMonths').value = 6;
+  document.getElementById('firePreReturnRate').value = 6;
+  document.getElementById('firePostReturnRate').value = 4;
+  document.getElementById('fireInflationRate').value = 2;
+  document.getElementById('fireIncomeGrowth').value = 2;
+  document.getElementById('fireWithdrawalRate').value = 3.5;
+}

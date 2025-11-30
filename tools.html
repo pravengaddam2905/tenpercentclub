@@ -87,6 +87,10 @@
               <span class="tool-nav-icon">🛡️</span>
               <span class="tool-nav-text">Life Insurance Calculator</span>
             </button>
+            <button class="tool-nav-btn" data-tool="fire-calculator">
+              <span class="tool-nav-icon">🔥</span>
+              <span class="tool-nav-text">FIRE Calculator</span>
+            </button>
           </nav>
         </aside>
 
@@ -947,6 +951,299 @@
                     <li>This is a guideline estimate - actual needs may vary based on your specific situation</li>
                   </ul>
                   <p class="disclaimer-text"><strong>Important:</strong> This calculator provides an estimate only. For a comprehensive life insurance needs analysis tailored to your family's unique situation, book a free consultation with us.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FIRE Calculator Tool -->
+          <div id="fire-calculator" class="tool-panel">
+            <h2>FIRE Calculator (Financial Independence, Retire Early)</h2>
+            <p class="tool-description">Plan your path to financial independence with this comprehensive calculator for Canadian families (CAD)</p>
+
+            <div class="calculator-card">
+              <form id="fireForm" class="fire-form">
+
+                <h3>Personal Information</h3>
+
+                <div class="calculator-row">
+                  <div class="form-group">
+                    <label for="fireCurrentAge">Current Age</label>
+                    <input type="number" id="fireCurrentAge" min="18" max="100" value="30" class="input-field">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="fireRetirementAge">Target FIRE Age</label>
+                    <input type="number" id="fireRetirementAge" min="25" max="100" value="50" class="input-field">
+                  </div>
+                </div>
+
+                <h3>Current Financial Situation</h3>
+
+                <div class="form-group">
+                  <label for="fireAnnualIncome">Annual Household Income (Before Tax)</label>
+                  <input type="number" id="fireAnnualIncome" min="0" step="1000" value="80000" class="input-field">
+                </div>
+
+                <div class="form-group">
+                  <label for="fireAnnualExpenses">Annual Living Expenses</label>
+                  <input type="number" id="fireAnnualExpenses" min="0" step="1000" value="50000" class="input-field">
+                  <small class="field-note">Housing, food, transport, insurance, etc.</small>
+                </div>
+
+                <div class="form-group">
+                  <label for="fireAnnualSavings">Current Annual Savings/Investments</label>
+                  <input type="number" id="fireAnnualSavings" min="0" step="1000" value="15000" class="input-field">
+                  <small class="field-note">Amount you actually save/invest annually</small>
+                </div>
+
+                <div class="form-group">
+                  <label for="fireCurrentAssets">Current Invested Assets</label>
+                  <input type="number" id="fireCurrentAssets" min="0" step="5000" value="50000" class="input-field">
+                  <small class="field-note">RRSP, TFSA, non-registered investments, cash for retirement</small>
+                </div>
+
+                <h3>Retirement Goals</h3>
+
+                <div class="form-group">
+                  <label for="fireRetirementIncome">Desired Annual Retirement Income (Today's Dollars)</label>
+                  <input type="number" id="fireRetirementIncome" min="0" step="1000" value="40000" class="input-field">
+                  <small class="field-note">How much you want to spend annually in retirement</small>
+                </div>
+
+                <div class="form-group checkbox-group">
+                  <label>
+                    <input type="checkbox" id="fireIncludeCPP">
+                    Include CPP Income
+                  </label>
+                </div>
+
+                <div class="form-group" id="fireCPPGroup" style="display: none;">
+                  <label for="fireCPPAmount">Expected Annual CPP</label>
+                  <input type="number" id="fireCPPAmount" min="0" step="1000" value="15000" class="input-field">
+                  <small class="field-note">Estimated annual CPP benefits (average is ~$15,000/year)</small>
+                </div>
+
+                <div class="form-group checkbox-group">
+                  <label>
+                    <input type="checkbox" id="fireIncludeOAS">
+                    Include OAS Income
+                  </label>
+                </div>
+
+                <div class="form-group" id="fireOASGroup" style="display: none;">
+                  <label for="fireOASAmount">Expected Annual OAS</label>
+                  <input type="number" id="fireOASAmount" min="0" step="1000" value="8000" class="input-field">
+                  <small class="field-note">Estimated annual OAS benefits (max is ~$8,000/year)</small>
+                </div>
+
+                <div class="form-group checkbox-group">
+                  <label>
+                    <input type="checkbox" id="fireIncludePension">
+                    Include Employer Pension
+                  </label>
+                </div>
+
+                <div class="form-group" id="firePensionGroup" style="display: none;">
+                  <label for="firePensionAmount">Expected Annual Pension</label>
+                  <input type="number" id="firePensionAmount" min="0" step="1000" value="20000" class="input-field">
+                  <small class="field-note">Estimated annual employer pension benefits</small>
+                </div>
+
+                <h3>Major Future Goals (Optional)</h3>
+
+                <div class="form-group checkbox-group">
+                  <label>
+                    <input type="checkbox" id="fireHasEducation">
+                    Children's Education
+                  </label>
+                </div>
+
+                <div id="fireEducationGroup" style="display: none;">
+                  <div class="calculator-row">
+                    <div class="form-group">
+                      <label for="fireEducationAmount">Total Amount Needed</label>
+                      <input type="number" id="fireEducationAmount" min="0" step="5000" value="50000" class="input-field">
+                    </div>
+                    <div class="form-group">
+                      <label for="fireEducationYear">Target Year (Your Age)</label>
+                      <input type="number" id="fireEducationYear" min="18" max="100" value="40" class="input-field">
+                      <small class="field-note">What age will you be when this is needed?</small>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group checkbox-group">
+                  <label>
+                    <input type="checkbox" id="fireHasWedding">
+                    Children's Wedding(s)
+                  </label>
+                </div>
+
+                <div id="fireWeddingGroup" style="display: none;">
+                  <div class="calculator-row">
+                    <div class="form-group">
+                      <label for="fireWeddingAmount">Total Amount Needed</label>
+                      <input type="number" id="fireWeddingAmount" min="0" step="5000" value="30000" class="input-field">
+                    </div>
+                    <div class="form-group">
+                      <label for="fireWeddingYear">Target Year (Your Age)</label>
+                      <input type="number" id="fireWeddingYear" min="18" max="100" value="45" class="input-field">
+                      <small class="field-note">What age will you be when this is needed?</small>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group checkbox-group">
+                  <label>
+                    <input type="checkbox" id="fireHasVacation">
+                    Big Vacations/Travel
+                  </label>
+                </div>
+
+                <div id="fireVacationGroup" style="display: none;">
+                  <div class="calculator-row">
+                    <div class="form-group">
+                      <label for="fireVacationAmount">Amount Per Vacation</label>
+                      <input type="number" id="fireVacationAmount" min="0" step="1000" value="10000" class="input-field">
+                    </div>
+                    <div class="form-group">
+                      <label for="fireVacationFrequency">Frequency (Every X Years)</label>
+                      <input type="number" id="fireVacationFrequency" min="1" max="10" value="2" class="input-field">
+                      <small class="field-note">How often do you want to take big trips?</small>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="fireEmergencyMonths">Emergency Fund (Months of Expenses)</label>
+                  <input type="number" id="fireEmergencyMonths" min="0" max="24" value="6" class="input-field" step="1">
+                  <small class="field-note">Recommended: 3-12 months</small>
+                </div>
+
+                <h3>Assumptions</h3>
+
+                <div class="calculator-row">
+                  <div class="form-group">
+                    <label for="firePreReturnRate">Pre-Retirement Investment Return (%)</label>
+                    <input type="number" id="firePreReturnRate" min="0" max="15" step="0.5" value="6" class="input-field">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="firePostReturnRate">Post-Retirement Investment Return (%)</label>
+                    <input type="number" id="firePostReturnRate" min="0" max="15" step="0.5" value="4" class="input-field">
+                  </div>
+                </div>
+
+                <div class="calculator-row">
+                  <div class="form-group">
+                    <label for="fireInflationRate">Expected Inflation Rate (%)</label>
+                    <input type="number" id="fireInflationRate" min="0" max="10" step="0.1" value="2" class="input-field">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="fireIncomeGrowth">Annual Income Growth (%)</label>
+                    <input type="number" id="fireIncomeGrowth" min="0" max="10" step="0.5" value="2" class="input-field">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="fireWithdrawalRate">Safe Withdrawal Rate (%)</label>
+                  <input type="number" id="fireWithdrawalRate" min="2" max="6" step="0.1" value="3.5" class="input-field">
+                  <small class="field-note">3-4% recommended for early retirement (lower is safer for longer retirements)</small>
+                </div>
+
+                <div class="button-group">
+                  <button type="button" onclick="calculateFIRE()" class="btn btn-gold">Calculate My FIRE Plan</button>
+                  <button type="button" onclick="resetFIREForm()" class="btn btn-secondary">Reset</button>
+                </div>
+              </form>
+
+              <!-- Results Section -->
+              <div id="fireResults" class="fire-results" style="display: none;">
+                <h3>Your FIRE Plan Analysis</h3>
+
+                <div class="fire-summary-cards">
+                  <div class="fire-card primary">
+                    <div class="fire-card-label">Your FIRE Number</div>
+                    <div class="fire-card-value" id="fireNumber">$0</div>
+                    <div class="fire-card-subtitle">Portfolio needed for financial independence</div>
+                  </div>
+
+                  <div class="fire-card">
+                    <div class="fire-card-label">Projected Portfolio</div>
+                    <div class="fire-card-value" id="fireProjectedPortfolio">$0</div>
+                    <div class="fire-card-subtitle">At your target FIRE age</div>
+                  </div>
+
+                  <div class="fire-card">
+                    <div class="fire-card-label">Current Savings Rate</div>
+                    <div class="fire-card-value" id="fireSavingsRate">0%</div>
+                    <div class="fire-card-subtitle">Of your gross income</div>
+                  </div>
+                </div>
+
+                <div id="fireStatus" class="fire-status"></div>
+                <p id="fireStatusMessage" class="fire-status-message"></p>
+
+                <div class="fire-section">
+                  <h3>Gap Analysis</h3>
+                  <div class="fire-gap-grid">
+                    <div class="fire-gap-item">
+                      <div class="fire-gap-label">Shortfall Amount</div>
+                      <div class="fire-gap-value" id="fireGapAmount">$0</div>
+                    </div>
+                    <div class="fire-gap-item">
+                      <div class="fire-gap-label">Extra Monthly Savings Needed</div>
+                      <div class="fire-gap-value" id="fireExtraSavings">$0</div>
+                    </div>
+                    <div class="fire-gap-item">
+                      <div class="fire-gap-label">Actual FIRE Age (Current Plan)</div>
+                      <div class="fire-gap-value" id="fireActualAge">--</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="fire-section">
+                  <h3>Monthly Savings Breakdown</h3>
+                  <div class="fire-breakdown-grid" id="fireBreakdownGrid">
+                    <!-- Dynamically populated by JavaScript -->
+                  </div>
+                </div>
+
+                <div class="fire-recommendations">
+                  <h3>Recommendations</h3>
+                  <div id="fireRecommendations"></div>
+                </div>
+
+                <div class="fire-assumptions">
+                  <h4>Key Assumptions Used</h4>
+                  <div class="fire-assumptions-grid">
+                    <div class="fire-assumption-item">
+                      <span class="fire-assumption-label">Retirement Income:</span>
+                      <span class="fire-assumption-value" id="fireAssumptionIncome">--</span>
+                    </div>
+                    <div class="fire-assumption-item">
+                      <span class="fire-assumption-label">Inflation Rate:</span>
+                      <span class="fire-assumption-value" id="fireAssumptionInflation">--</span>
+                    </div>
+                    <div class="fire-assumption-item">
+                      <span class="fire-assumption-label">Pre-Retirement Return:</span>
+                      <span class="fire-assumption-value" id="fireAssumptionReturn">--</span>
+                    </div>
+                    <div class="fire-assumption-item">
+                      <span class="fire-assumption-label">Safe Withdrawal Rate:</span>
+                      <span class="fire-assumption-value" id="fireAssumptionWithdrawal">--</span>
+                    </div>
+                    <div class="fire-assumption-item">
+                      <span class="fire-assumption-label">Gov't Benefits:</span>
+                      <span class="fire-assumption-value" id="fireAssumptionBenefits">--</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="fire-disclaimer">
+                  <p><strong>Important Disclaimer:</strong> This calculator provides educational estimates only and does not constitute personalized financial, tax, or legal advice. Actual results will vary based on market conditions, tax laws, personal circumstances, and other factors. CPP/OAS amounts shown are estimates and actual benefits depend on your earnings history and when you start collecting. For a comprehensive retirement plan tailored to your situation, book a free consultation with us.</p>
                 </div>
               </div>
             </div>

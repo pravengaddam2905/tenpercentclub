@@ -3327,3 +3327,330 @@ p {
     padding: 20px 16px;
   }
 }
+
+/* ===== FIRE Calculator Styles ===== */
+
+.fire-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.fire-form h3 {
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+  border-bottom: 2px solid #0891b2;
+  padding-bottom: 8px;
+}
+
+.fire-results {
+  margin-top: 32px;
+}
+
+.fire-summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.fire-card {
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.fire-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.fire-card.primary {
+  background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+  color: white;
+  border: none;
+}
+
+.fire-card.primary .fire-card-label {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.fire-card-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.fire-card-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.fire-card.primary .fire-card-value {
+  color: white;
+  font-size: 32px;
+}
+
+.fire-card-subtitle {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.fire-card.primary .fire-card-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.fire-status {
+  padding: 16px 24px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  margin: 24px 0 16px 0;
+}
+
+.fire-status.success {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  color: #166534;
+  border: 2px solid #86efac;
+}
+
+.fire-status.warning {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #92400e;
+  border: 2px solid #fcd34d;
+}
+
+.fire-status.error {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  color: #991b1b;
+  border: 2px solid #fca5a5;
+}
+
+.fire-status-message {
+  text-align: center;
+  font-size: 15px;
+  color: #475569;
+  margin-bottom: 24px;
+}
+
+.fire-section {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.fire-section h3 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fire-section h3::before {
+  content: '';
+  width: 4px;
+  height: 20px;
+  background: #0891b2;
+  border-radius: 2px;
+}
+
+.fire-gap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.fire-gap-item {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.fire-gap-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.fire-gap-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0891b2;
+}
+
+.fire-breakdown-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.fire-breakdown-item {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+  transition: all 0.2s;
+}
+
+.fire-breakdown-item:hover {
+  border-color: #0891b2;
+  box-shadow: 0 2px 8px rgba(8, 145, 178, 0.1);
+}
+
+.fire-breakdown-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.fire-breakdown-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0891b2;
+  margin-bottom: 4px;
+}
+
+.fire-breakdown-target {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.fire-recommendations {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border: 1px solid #93c5fd;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.fire-recommendations h3 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e40af;
+}
+
+.fire-recommendations ul {
+  margin: 0;
+  padding-left: 24px;
+  color: #1e3a8a;
+}
+
+.fire-recommendations li {
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.fire-recommendations li:last-child {
+  margin-bottom: 0;
+}
+
+.fire-assumptions {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.fire-assumptions h4 {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.fire-assumptions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.fire-assumption-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.fire-assumption-item:last-child {
+  border-bottom: none;
+}
+
+.fire-assumption-label {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.fire-assumption-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.fire-disclaimer {
+  background: #fef3c7;
+  border: 1px solid #fbbf24;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-top: 24px;
+}
+
+.fire-disclaimer p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #78350f;
+}
+
+.fire-disclaimer strong {
+  color: #92400e;
+  font-weight: 600;
+}
+
+/* Responsive adjustments for FIRE calculator */
+@media (max-width: 768px) {
+  .fire-summary-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .fire-gap-grid,
+  .fire-breakdown-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fire-card-value {
+    font-size: 24px;
+  }
+
+  .fire-card.primary .fire-card-value {
+    font-size: 28px;
+  }
+
+  .fire-section {
+    padding: 16px;
+  }
+
+  .fire-status {
+    padding: 12px 16px;
+    font-size: 16px;
+  }
+}
