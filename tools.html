@@ -1036,6 +1036,26 @@
                   <small class="field-note">RRSP, TFSA, non-registered investments, cash for retirement</small>
                 </div>
 
+                <h3>Debts & Obligations</h3>
+
+                <div class="form-group">
+                  <label for="fireMortgages">Outstanding Mortgages</label>
+                  <input type="number" id="fireMortgages" min="0" step="5000" value="0" class="input-field">
+                  <small class="field-note">House mortgage, car loans, etc.</small>
+                </div>
+
+                <div class="form-group">
+                  <label for="fireDebts">Other Debts</label>
+                  <input type="number" id="fireDebts" min="0" step="1000" value="0" class="input-field">
+                  <small class="field-note">Credit cards, personal loans, money borrowed from friends/family</small>
+                </div>
+
+                <div class="form-group">
+                  <label for="fireMonthlyEMI">Total Monthly EMI Payments</label>
+                  <input type="number" id="fireMonthlyEMI" min="0" step="100" value="0" class="input-field">
+                  <small class="field-note">Combined monthly payment for all debts and mortgages</small>
+                </div>
+
                 <h3>Retirement Goals</h3>
 
                 <div class="form-group">
@@ -1311,11 +1331,15 @@
                       <span class="fire-assumption-label">Gov't Benefits:</span>
                       <span class="fire-assumption-value" id="fireAssumptionBenefits">--</span>
                     </div>
+                    <div class="fire-assumption-item">
+                      <span class="fire-assumption-label">Total Debts:</span>
+                      <span class="fire-assumption-value" id="fireAssumptionDebts">--</span>
+                    </div>
                   </div>
                 </div>
 
                 <div class="fire-disclaimer">
-                  <p><strong>Important Disclaimer:</strong> This calculator provides educational estimates only and does not constitute personalized financial, tax, or legal advice. Actual results will vary based on market conditions, tax laws, personal circumstances, and other factors. CPP/OAS amounts shown are estimates and actual benefits depend on your earnings history and when you start collecting. For a comprehensive retirement plan tailored to your situation, book a free consultation with us.</p>
+                  <p><strong>Important Disclaimer:</strong> This calculator provides educational estimates only and does not constitute personalized financial, tax, or legal advice. Actual results will vary based on market conditions, tax laws, personal circumstances, and other factors. CPP/OAS amounts shown are estimates and actual benefits depend on your earnings history and when you start collecting. The FIRE number includes paying off all debts (mortgages and other debts) before retirement. For a comprehensive retirement plan tailored to your situation, book a free consultation with us.</p>
                 </div>
               </div>
             </div>

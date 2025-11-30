@@ -986,6 +986,11 @@ function calculateFIRE() {
   const currentAssets = parseFloat(document.getElementById('fireCurrentAssets').value) || 0;
   const retirementIncome = parseFloat(document.getElementById('fireRetirementIncome').value) || 0;
 
+  // Debts and obligations
+  const mortgages = parseFloat(document.getElementById('fireMortgages').value) || 0;
+  const debts = parseFloat(document.getElementById('fireDebts').value) || 0;
+  const monthlyEMI = parseFloat(document.getElementById('fireMonthlyEMI').value) || 0;
+
   const includeCPP = document.getElementById('fireIncludeCPP').checked;
   const cppAmount = includeCPP ? parseFloat(document.getElementById('fireCPPAmount').value) || 0 : 0;
 
@@ -1041,7 +1046,11 @@ function calculateFIRE() {
   const netRetirementIncome = Math.max(0, futureRetirementIncome - totalGovernmentBenefits);
 
   // Calculate FIRE number using safe withdrawal rate
-  const fireNumber = netRetirementIncome / withdrawalRate;
+  const fireNumberBase = netRetirementIncome / withdrawalRate;
+
+  // Add total debts that need to be paid off before FIRE
+  const totalDebts = mortgages + debts;
+  const fireNumber = fireNumberBase + totalDebts;
 
   // Calculate emergency fund target
   const emergencyFund = (annualExpenses / 12) * emergencyMonths;
@@ -1101,6 +1110,15 @@ function calculateFIRE() {
 
   // Calculate monthly savings for individual goals
   const monthlySavingsBreakdown = [];
+
+  // Debt payoff (current EMI payments)
+  if (monthlyEMI > 0) {
+    monthlySavingsBreakdown.push({
+      goal: 'Debt Payments (EMI)',
+      target: totalDebts,
+      monthly: monthlyEMI
+    });
+  }
 
   // Emergency fund
   if (emergencyFund > 0) {
@@ -1174,7 +1192,8 @@ function calculateFIRE() {
     preReturnRate,
     yearByYearProjection,
     annualExpenses,
-    currentAssets
+    currentAssets,
+    totalDebts
   );
 }
 
@@ -1198,7 +1217,8 @@ function displayFIREResults(
   preReturnRate,
   yearByYearProjection,
   annualExpenses,
-  currentAssets
+  currentAssets,
+  totalDebts
 ) {
   // Update FIRE number
   document.getElementById('fireNumber').textContent = formatCurrency(fireNumber);
@@ -1291,6 +1311,13 @@ function displayFIREResults(
     document.getElementById('fireAssumptionBenefits').textContent = 'Not included';
   }
 
+  // Update total debts
+  if (totalDebts > 0) {
+    document.getElementById('fireAssumptionDebts').textContent = formatCurrency(totalDebts);
+  } else {
+    document.getElementById('fireAssumptionDebts').textContent = 'None';
+  }
+
   // Render visual charts
   renderFIRECharts(
     yearByYearProjection,
@@ -1334,6 +1361,9 @@ function resetFIREForm() {
   document.getElementById('fireAnnualExpenses').value = 50000;
   document.getElementById('fireAnnualSavings').value = 15000;
   document.getElementById('fireCurrentAssets').value = 50000;
+  document.getElementById('fireMortgages').value = 0;
+  document.getElementById('fireDebts').value = 0;
+  document.getElementById('fireMonthlyEMI').value = 0;
   document.getElementById('fireRetirementIncome').value = 40000;
   document.getElementById('fireCPPAmount').value = 15000;
   document.getElementById('fireOASAmount').value = 8000;
