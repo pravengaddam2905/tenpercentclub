@@ -1670,3 +1670,526 @@ function renderFIRECharts(
     ctx.fillText('No specific savings goals set', canvas.width / 2, canvas.height / 2);
   }
 }
+
+// ===== Financial Needs Analysis (FNA) Tool =====
+
+let fnaCurrentStep = 1;
+let fnaData = {};
+
+// Show/hide spouse info
+const fnaMarriedCheckbox = document.getElementById('fnaMarried');
+if (fnaMarriedCheckbox) {
+  fnaMarriedCheckbox.addEventListener('change', () => {
+    document.getElementById('fnaSpouseInfo').style.display = fnaMarriedCheckbox.checked ? 'block' : 'none';
+  });
+}
+
+// Show/hide insurance details
+const fnaHasLifeInsurance = document.getElementById('fnaHasLifeInsurance');
+if (fnaHasLifeInsurance) {
+  fnaHasLifeInsurance.addEventListener('change', () => {
+    document.getElementById('fnaLifeInsuranceDetails').style.display = fnaHasLifeInsurance.checked ? 'block' : 'none';
+  });
+}
+
+const fnaHasCriticalIllness = document.getElementById('fnaHasCriticalIllness');
+if (fnaHasCriticalIllness) {
+  fnaHasCriticalIllness.addEventListener('change', () => {
+    document.getElementById('fnaCriticalIllnessDetails').style.display = fnaHasCriticalIllness.checked ? 'block' : 'none';
+  });
+}
+
+const fnaHasDisability = document.getElementById('fnaHasDisability');
+if (fnaHasDisability) {
+  fnaHasDisability.addEventListener('change', () => {
+    document.getElementById('fnaDisabilityDetails').style.display = fnaHasDisability.checked ? 'block' : 'none';
+  });
+}
+
+// Real-time calculations for Step 2 (Income & Expenses)
+function updateFNAIncomeExpenses() {
+  const income1 = parseFloat(document.getElementById('fnaIncome1')?.value) || 0;
+  const income2 = parseFloat(document.getElementById('fnaIncome2')?.value) || 0;
+  const otherIncome = parseFloat(document.getElementById('fnaOtherIncome')?.value) || 0;
+
+  const totalIncome = income1 + income2 + otherIncome;
+  document.getElementById('fnaTotalIncome').textContent = formatCurrency(totalIncome);
+
+  const housing = parseFloat(document.getElementById('fnaExpensesHousing')?.value) || 0;
+  const food = parseFloat(document.getElementById('fnaExpensesFood')?.value) || 0;
+  const transport = parseFloat(document.getElementById('fnaExpensesTransport')?.value) || 0;
+  const insurance = parseFloat(document.getElementById('fnaExpensesInsurance')?.value) || 0;
+  const debt = parseFloat(document.getElementById('fnaExpensesDebt')?.value) || 0;
+  const other = parseFloat(document.getElementById('fnaExpensesOther')?.value) || 0;
+
+  const totalExpenses = housing + food + transport + insurance + debt + other;
+  document.getElementById('fnaTotalExpenses').textContent = formatCurrency(totalExpenses);
+
+  const surplus = totalIncome - totalExpenses;
+  const surplusElement = document.getElementById('fnaMonthlySurplus');
+  surplusElement.textContent = formatCurrency(surplus);
+  surplusElement.style.color = surplus >= 0 ? '#10b981' : '#ef4444';
+}
+
+// Real-time calculations for Step 4 (Assets & Debts)
+function updateFNAAssetsDebts() {
+  const cash = parseFloat(document.getElementById('fnaAssetsCash')?.value) || 0;
+  const rrsp = parseFloat(document.getElementById('fnaAssetsRRSP')?.value) || 0;
+  const tfsa = parseFloat(document.getElementById('fnaAssetsTFSA')?.value) || 0;
+  const resp = parseFloat(document.getElementById('fnaAssetsRESP')?.value) || 0;
+  const investments = parseFloat(document.getElementById('fnaAssetsInvestments')?.value) || 0;
+  const home = parseFloat(document.getElementById('fnaAssetsHome')?.value) || 0;
+  const otherAssets = parseFloat(document.getElementById('fnaAssetsOther')?.value) || 0;
+
+  const totalAssets = cash + rrsp + tfsa + resp + investments + home + otherAssets;
+  document.getElementById('fnaTotalAssets').textContent = formatCurrency(totalAssets);
+
+  const mortgage = parseFloat(document.getElementById('fnaDebtMortgage')?.value) || 0;
+  const credit = parseFloat(document.getElementById('fnaDebtCredit')?.value) || 0;
+  const car = parseFloat(document.getElementById('fnaDebtCar')?.value) || 0;
+  const student = parseFloat(document.getElementById('fnaDebtStudent')?.value) || 0;
+  const otherDebts = parseFloat(document.getElementById('fnaDebtOther')?.value) || 0;
+
+  const totalDebts = mortgage + credit + car + student + otherDebts;
+  document.getElementById('fnaTotalDebts').textContent = formatCurrency(totalDebts);
+
+  const netWorth = totalAssets - totalDebts;
+  const netWorthElement = document.getElementById('fnaNetWorth');
+  netWorthElement.textContent = formatCurrency(netWorth);
+  netWorthElement.style.color = netWorth >= 0 ? '#10b981' : '#ef4444';
+}
+
+// Add event listeners for real-time updates
+document.addEventListener('DOMContentLoaded', () => {
+  // Income & Expenses
+  ['fnaIncome1', 'fnaIncome2', 'fnaOtherIncome', 'fnaExpensesHousing', 'fnaExpensesFood',
+   'fnaExpensesTransport', 'fnaExpensesInsurance', 'fnaExpensesDebt', 'fnaExpensesOther'].forEach(id => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.addEventListener('input', updateFNAIncomeExpenses);
+    }
+  });
+
+  // Assets & Debts
+  ['fnaAssetsCash', 'fnaAssetsRRSP', 'fnaAssetsTFSA', 'fnaAssetsRESP', 'fnaAssetsInvestments',
+   'fnaAssetsHome', 'fnaAssetsOther', 'fnaDebtMortgage', 'fnaDebtCredit', 'fnaDebtCar',
+   'fnaDebtStudent', 'fnaDebtOther'].forEach(id => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.addEventListener('input', updateFNAAssetsDebts);
+    }
+  });
+});
+
+// Navigation functions
+function nextFNAStep(step) {
+  // Hide current step
+  document.getElementById('fnaStep' + fnaCurrentStep).classList.remove('active');
+
+  // Show next step
+  document.getElementById('fnaStep' + step).classList.add('active');
+
+  // Update progress bar
+  const progress = ((step - 1) / 5) * 100;
+  document.getElementById('fnaProgressFill').style.width = progress + '%';
+
+  // Update step indicators
+  document.querySelectorAll('.fna-step').forEach((stepEl, index) => {
+    stepEl.classList.remove('active', 'completed');
+    if (index + 1 < step) {
+      stepEl.classList.add('completed');
+    } else if (index + 1 === step) {
+      stepEl.classList.add('active');
+    }
+  });
+
+  fnaCurrentStep = step;
+
+  // Scroll to top
+  document.querySelector('#fna-tool').scrollIntoView({ behavior: 'smooth' });
+}
+
+function prevFNAStep(step) {
+  nextFNAStep(step);
+}
+
+// Calculate FNA function
+function calculateFNA() {
+  // Collect all data
+  fnaData = {
+    // Personal Info
+    firstName: document.getElementById('fnaFirstName').value,
+    lastName: document.getElementById('fnaLastName').value,
+    dob: document.getElementById('fnaDOB').value,
+    phone: document.getElementById('fnaPhone').value,
+    married: document.getElementById('fnaMarried').checked,
+    spouseName: document.getElementById('fnaSpouseName').value,
+    spouseDOB: document.getElementById('fnaSpouseDOB').value,
+    dependents: parseInt(document.getElementById('fnaDependents').value) || 0,
+    description: document.getElementById('fnaDescription').value,
+
+    // Income & Expenses
+    income1: parseFloat(document.getElementById('fnaIncome1').value) || 0,
+    income2: parseFloat(document.getElementById('fnaIncome2').value) || 0,
+    otherIncome: parseFloat(document.getElementById('fnaOtherIncome').value) || 0,
+    expensesHousing: parseFloat(document.getElementById('fnaExpensesHousing').value) || 0,
+    expensesFood: parseFloat(document.getElementById('fnaExpensesFood').value) || 0,
+    expensesTransport: parseFloat(document.getElementById('fnaExpensesTransport').value) || 0,
+    expensesInsurance: parseFloat(document.getElementById('fnaExpensesInsurance').value) || 0,
+    expensesDebt: parseFloat(document.getElementById('fnaExpensesDebt').value) || 0,
+    expensesOther: parseFloat(document.getElementById('fnaExpensesOther').value) || 0,
+    taxRate: parseFloat(document.getElementById('fnaTaxRate').value) || 30,
+
+    // Goals
+    goals: {
+      retirement: document.getElementById('goalRetirement').checked,
+      protection: document.getElementById('goalProtection').checked,
+      emergency: document.getElementById('goalEmergency').checked,
+      home: document.getElementById('goalHome').checked,
+      education: document.getElementById('goalEducation').checked,
+      debt: document.getElementById('goalDebt').checked,
+      tax: document.getElementById('goalTax').checked,
+      business: document.getElementById('goalBusiness').checked
+    },
+
+    // Assets
+    assetsCash: parseFloat(document.getElementById('fnaAssetsCash').value) || 0,
+    assetsRRSP: parseFloat(document.getElementById('fnaAssetsRRSP').value) || 0,
+    assetsTFSA: parseFloat(document.getElementById('fnaAssetsTFSA').value) || 0,
+    assetsRESP: parseFloat(document.getElementById('fnaAssetsRESP').value) || 0,
+    assetsInvestments: parseFloat(document.getElementById('fnaAssetsInvestments').value) || 0,
+    assetsHome: parseFloat(document.getElementById('fnaAssetsHome').value) || 0,
+    assetsOther: parseFloat(document.getElementById('fnaAssetsOther').value) || 0,
+
+    // Debts
+    debtMortgage: parseFloat(document.getElementById('fnaDebtMortgage').value) || 0,
+    debtCredit: parseFloat(document.getElementById('fnaDebtCredit').value) || 0,
+    debtCar: parseFloat(document.getElementById('fnaDebtCar').value) || 0,
+    debtStudent: parseFloat(document.getElementById('fnaDebtStudent').value) || 0,
+    debtOther: parseFloat(document.getElementById('fnaDebtOther').value) || 0,
+
+    // Protection
+    hasLifeInsurance: document.getElementById('fnaHasLifeInsurance').checked,
+    lifeCoverageYou: parseFloat(document.getElementById('fnaLifeCoverageYou').value) || 0,
+    lifeCoverageSpouse: parseFloat(document.getElementById('fnaLifeCoverageSpouse').value) || 0,
+    lifeType: document.getElementById('fnaLifeType').value,
+    hasCriticalIllness: document.getElementById('fnaHasCriticalIllness').checked,
+    criticalCoverage: parseFloat(document.getElementById('fnaCriticalCoverage').value) || 0,
+    hasDisability: document.getElementById('fnaHasDisability').checked,
+    disabilityMonthly: parseFloat(document.getElementById('fnaDisabilityMonthly').value) || 0,
+    hasHealth: document.getElementById('fnaHasHealth').checked
+  };
+
+  // Calculate key metrics
+  const totalIncome = fnaData.income1 + fnaData.income2 + fnaData.otherIncome;
+  const totalExpenses = fnaData.expensesHousing + fnaData.expensesFood + fnaData.expensesTransport +
+                       fnaData.expensesInsurance + fnaData.expensesDebt + fnaData.expensesOther;
+  const monthlyCashFlow = totalIncome - totalExpenses;
+
+  const totalAssets = fnaData.assetsCash + fnaData.assetsRRSP + fnaData.assetsTFSA +
+                      fnaData.assetsRESP + fnaData.assetsInvestments + fnaData.assetsHome +
+                      fnaData.assetsOther;
+  const totalDebts = fnaData.debtMortgage + fnaData.debtCredit + fnaData.debtCar +
+                     fnaData.debtStudent + fnaData.debtOther;
+  const netWorth = totalAssets - totalDebts;
+
+  // Calculate protection gap (using 10x income rule as baseline)
+  const recommendedLifeInsurance = (totalIncome * 12 * 10) + totalDebts;
+  const currentLifeInsurance = fnaData.lifeCoverageYou + fnaData.lifeCoverageSpouse;
+  const protectionGap = Math.max(0, recommendedLifeInsurance - currentLifeInsurance);
+
+  // Count goals
+  const goalsCount = Object.values(fnaData.goals).filter(g => g).length;
+
+  // Calculate Financial Health Score (0-100)
+  let score = 0;
+
+  // Cash Flow Score (0-25 points)
+  if (monthlyCashFlow > totalIncome * 0.2) score += 25;
+  else if (monthlyCashFlow > totalIncome * 0.1) score += 18;
+  else if (monthlyCashFlow > 0) score += 10;
+  else score += 0;
+
+  // Net Worth Score (0-25 points)
+  const annualIncome = totalIncome * 12;
+  if (netWorth > annualIncome * 2) score += 25;
+  else if (netWorth > annualIncome) score += 18;
+  else if (netWorth > 0) score += 10;
+  else score += 0;
+
+  // Protection Score (0-25 points)
+  const protectionCoverage = currentLifeInsurance / recommendedLifeInsurance;
+  if (protectionCoverage >= 0.8) score += 25;
+  else if (protectionCoverage >= 0.5) score += 15;
+  else if (protectionCoverage >= 0.2) score += 8;
+  else score += 0;
+
+  // Debt Management Score (0-25 points)
+  const debtToIncome = totalDebts / annualIncome;
+  if (debtToIncome < 1) score += 25;
+  else if (debtToIncome < 2) score += 18;
+  else if (debtToIncome < 3) score += 10;
+  else score += 5;
+
+  score = Math.round(score);
+
+  // Display results
+  displayFNAResults(monthlyCashFlow, netWorth, protectionGap, goalsCount, score,
+                   totalIncome, totalExpenses, totalAssets, totalDebts, currentLifeInsurance);
+
+  // Navigate to results
+  nextFNAStep(6);
+}
+
+function displayFNAResults(cashFlow, netWorth, protectionGap, goalsCount, score,
+                          totalIncome, totalExpenses, totalAssets, totalDebts, currentInsurance) {
+  // Update summary cards
+  document.getElementById('fnaResultCashFlow').textContent = formatCurrency(cashFlow);
+  document.getElementById('fnaResultCashFlowStatus').textContent =
+    cashFlow > 0 ? 'Positive surplus' : 'Deficit - needs attention';
+  document.getElementById('fnaResultCashFlowStatus').style.color = cashFlow > 0 ? '#10b981' : '#ef4444';
+
+  document.getElementById('fnaResultNetWorth').textContent = formatCurrency(netWorth);
+  document.getElementById('fnaResultNetWorthStatus').textContent =
+    netWorth > 0 ? 'Building wealth' : 'Needs improvement';
+  document.getElementById('fnaResultNetWorthStatus').style.color = netWorth > 0 ? '#10b981' : '#ef4444';
+
+  document.getElementById('fnaResultProtectionGap').textContent = formatCurrency(protectionGap);
+  document.getElementById('fnaResultProtectionStatus').textContent =
+    protectionGap === 0 ? 'Fully protected' : 'Additional coverage needed';
+  document.getElementById('fnaResultProtectionStatus').style.color = protectionGap === 0 ? '#10b981' : '#f59e0b';
+
+  document.getElementById('fnaResultGoalsCount').textContent = goalsCount;
+  document.getElementById('fnaResultGoalsStatus').textContent =
+    goalsCount > 0 ? goalsCount + ' active goals' : 'No goals selected';
+
+  // Update health score
+  document.getElementById('fnaScoreText').textContent = score;
+  const circumference = 2 * Math.PI * 90;
+  const offset = circumference - (score / 100) * circumference;
+  document.getElementById('fnaScoreCircle').style.strokeDashoffset = offset;
+
+  // Score color
+  let scoreColor = '#ef4444';
+  if (score >= 75) scoreColor = '#10b981';
+  else if (score >= 50) scoreColor = '#f59e0b';
+  document.getElementById('fnaScoreCircle').setAttribute('stroke', scoreColor);
+  document.getElementById('fnaScoreText').setAttribute('fill', scoreColor);
+
+  // Score description
+  let scoreDescription = '';
+  if (score >= 75) {
+    scoreDescription = '<h5>Excellent Financial Health!</h5><p>You are doing great! Your finances are well-managed with strong cash flow, good savings, and adequate protection. Focus on optimizing your investments and tax strategies to maximize wealth growth.</p>';
+  } else if (score >= 50) {
+    scoreDescription = '<h5>Good Progress, Room for Improvement</h5><p>You are on the right track but there are opportunities to strengthen your financial position. Let us work on building emergency funds, optimizing debt management, and ensuring adequate protection.</p>';
+  } else {
+    scoreDescription = '<h5>Needs Attention</h5><p>Your financial foundation needs strengthening. We should focus on improving cash flow, reducing debt, building emergency savings, and establishing proper protection. A comprehensive plan will help you get on track.</p>';
+  }
+  document.getElementById('fnaScoreDescription').innerHTML = scoreDescription;
+
+  // Generate recommendations
+  generateFNARecommendations(cashFlow, netWorth, protectionGap, totalIncome, totalDebts);
+
+  // Generate action plan
+  generateFNAActionPlan(cashFlow, protectionGap, totalDebts);
+
+  // Generate goals timeline
+  generateFNAGoalsTimeline();
+
+  // Generate consultation topics
+  generateFNAConsultationTopics(cashFlow, protectionGap, totalDebts);
+}
+
+function generateFNARecommendations(cashFlow, netWorth, protectionGap, totalIncome, totalDebts) {
+  const recommendationsDiv = document.getElementById('fnaRecommendations');
+  let recommendations = '';
+
+  // Cash Flow Recommendation
+  if (cashFlow < 0) {
+    recommendations += '<div class="fna-recommendation priority"><div class="fna-recommendation-icon">⚠️</div><div class="fna-recommendation-content"><h5>URGENT: Address Negative Cash Flow</h5><p>You are spending ' + formatCurrency(Math.abs(cashFlow)) + ' more than you earn each month. This is unsustainable and needs immediate attention. We need to review your expenses and create a budget that balances your income and spending.</p></div></div>';
+  } else if (cashFlow < totalIncome * 0.1) {
+    recommendations += '<div class="fna-recommendation"><div class="fna-recommendation-icon">💰</div><div class="fna-recommendation-content"><h5>Increase Your Savings Rate</h5><p>You are only saving ' + ((cashFlow / totalIncome) * 100).toFixed(1) + '% of your income. Aim for at least 10-20% to build wealth faster. Let us identify opportunities to reduce expenses or increase income.</p></div></div>';
+  }
+
+  // Protection Gap Recommendation
+  if (protectionGap > 0) {
+    recommendations += '<div class="fna-recommendation priority"><div class="fna-recommendation-icon">🛡️</div><div class="fna-recommendation-content"><h5>Close Your Protection Gap</h5><p>You need an additional ' + formatCurrency(protectionGap) + ' in life insurance to fully protect your family. Without adequate coverage, your loved ones could face financial hardship. Let us discuss affordable term life insurance options.</p></div></div>';
+  }
+
+  // Debt Recommendation
+  if (totalDebts > totalIncome * 12 * 2) {
+    recommendations += '<div class="fna-recommendation"><div class="fna-recommendation-icon">📉</div><div class="fna-recommendation-content"><h5>Develop a Debt Reduction Strategy</h5><p>Your total debt (' + formatCurrency(totalDebts) + ') is over 2x your annual income. This is limiting your ability to build wealth. Let us create a strategic plan to pay down high-interest debt while maintaining your quality of life.</p></div></div>';
+  }
+
+  // Tax Optimization
+  if (fnaData.goals.tax || (fnaData.assetsRRSP < totalIncome * 0.1 && fnaData.assetsTFSA < 50000)) {
+    recommendations += '<div class="fna-recommendation"><div class="fna-recommendation-icon">💡</div><div class="fna-recommendation-content"><h5>Maximize Tax-Advantaged Accounts</h5><p>You could save thousands in taxes by maximizing your RRSP and TFSA contributions. Based on your income, you should be contributing significantly more to reduce your tax burden and grow wealth tax-free.</p></div></div>';
+  }
+
+  // Emergency Fund
+  if (fnaData.goals.emergency && fnaData.assetsCash < (totalIncome * 3)) {
+    recommendations += '<div class="fna-recommendation"><div class="fna-recommendation-icon">🆘</div><div class="fna-recommendation-content"><h5>Build Your Emergency Fund</h5><p>You should have 3-6 months of expenses (' + formatCurrency(totalIncome * 3) + ' to ' + formatCurrency(totalIncome * 6) + ') in a readily accessible savings account. This protects you from unexpected job loss, medical emergencies, or urgent repairs.</p></div></div>';
+  }
+
+  // Retirement Planning
+  if (fnaData.goals.retirement) {
+    const age = fnaData.dob ? calculateAge(fnaData.dob) : 35;
+    const retirementSavings = fnaData.assetsRRSP + fnaData.assetsTFSA + fnaData.assetsInvestments;
+    const recommendedRetirement = totalIncome * 12 * (65 - age) * 0.15;
+
+    if (retirementSavings < recommendedRetirement * 0.3) {
+      recommendations += '<div class="fna-recommendation"><div class="fna-recommendation-icon">🎯</div><div class="fna-recommendation-content"><h5>Accelerate Retirement Savings</h5><p>You are behind on retirement savings for your age. To retire comfortably at 65, you should aim to save 10-15% of your gross income annually. Let us create a catch-up strategy using RRSP, TFSA, and employer matching programs.</p></div></div>';
+    }
+  }
+
+  recommendationsDiv.innerHTML = recommendations || '<p style="color: #10b981;">Great job! Your finances are well-managed. Continue monitoring and optimizing your strategy.</p>';
+}
+
+function generateFNAActionPlan(cashFlow, protectionGap, totalDebts) {
+  const actionPlanDiv = document.getElementById('fnaActionPlan');
+  let actions = '';
+  let actionNumber = 1;
+
+  // Priority actions based on situation
+  if (cashFlow < 0) {
+    actions += '<div class="fna-action-item"><div class="fna-action-number">' + actionNumber++ + '</div><div class="fna-action-text">Create a detailed monthly budget and identify areas to cut expenses</div></div>';
+  }
+
+  if (protectionGap > 0) {
+    actions += '<div class="fna-action-item"><div class="fna-action-number">' + actionNumber++ + '</div><div class="fna-action-text">Get life insurance quotes to close your protection gap</div></div>';
+  }
+
+  if (fnaData.assetsCash < (fnaData.income1 + fnaData.income2 + fnaData.otherIncome) * 3) {
+    actions += '<div class="fna-action-item"><div class="fna-action-number">' + actionNumber++ + '</div><div class="fna-action-text">Start building an emergency fund with automatic monthly transfers</div></div>';
+  }
+
+  if (fnaData.debtCredit > 0) {
+    actions += '<div class="fna-action-item"><div class="fna-action-number">' + actionNumber++ + '</div><div class="fna-action-text">Pay down high-interest credit card debt as priority #1</div></div>';
+  }
+
+  if (fnaData.goals.tax) {
+    actions += '<div class="fna-action-item"><div class="fna-action-number">' + actionNumber++ + '</div><div class="fna-action-text">Maximize RRSP contributions before March 1st tax deadline</div></div>';
+  }
+
+  actions += '<div class="fna-action-item"><div class="fna-action-number">' + actionNumber++ + '</div><div class="fna-action-text">Book a free consultation to create your personalized financial plan</div></div>';
+
+  actionPlanDiv.innerHTML = actions;
+}
+
+function generateFNAGoalsTimeline() {
+  const timelineDiv = document.getElementById('fnaGoalsTimeline');
+  let shortTerm = [];
+  let midRange = [];
+  let longTerm = [];
+
+  // Group goals by timeframe
+  const goalsList = [
+    { id: 'goalRetirement', name: 'Build Retirement Wealth', radio: 'timeRetirement' },
+    { id: 'goalProtection', name: 'Family Protection', radio: 'timeProtection' },
+    { id: 'goalEmergency', name: 'Emergency Fund', radio: 'timeEmergency' },
+    { id: 'goalHome', name: 'Home/Mortgage', radio: 'timeHome' },
+    { id: 'goalEducation', name: 'Education Funding', radio: 'timeEducation' },
+    { id: 'goalDebt', name: 'Pay Off Debt', radio: 'timeDebt' },
+    { id: 'goalTax', name: 'Tax Optimization', radio: 'timeTax' },
+    { id: 'goalBusiness', name: 'Start Business', radio: 'timeBusiness' }
+  ];
+
+  goalsList.forEach(goal => {
+    if (document.getElementById(goal.id).checked) {
+      const timeframe = document.querySelector('input[name="' + goal.radio + '"]:checked')?.value;
+      if (timeframe === 'short') shortTerm.push(goal.name);
+      else if (timeframe === 'mid') midRange.push(goal.name);
+      else if (timeframe === 'long') longTerm.push(goal.name);
+    }
+  });
+
+  let timeline = '';
+
+  if (shortTerm.length > 0) {
+    timeline += '<div class="fna-timeline-section short-term"><h5>🔥 Short-Term Goals (1-3 Years)</h5><ul>' + shortTerm.map(g => '<li>' + g + '</li>').join('') + '</ul></div>';
+  }
+
+  if (midRange.length > 0) {
+    timeline += '<div class="fna-timeline-section mid-range"><h5>🎯 Mid-Range Goals (3-7 Years)</h5><ul>' + midRange.map(g => '<li>' + g + '</li>').join('') + '</ul></div>';
+  }
+
+  if (longTerm.length > 0) {
+    timeline += '<div class="fna-timeline-section long-term"><h5>🌟 Long-Term Goals (7+ Years)</h5><ul>' + longTerm.map(g => '<li>' + g + '</li>').join('') + '</ul></div>';
+  }
+
+  timelineDiv.innerHTML = timeline || '<p style="color: #64748b; text-align: center;">No goals selected</p>';
+}
+
+function generateFNAConsultationTopics(cashFlow, protectionGap, totalDebts) {
+  const topicsDiv = document.getElementById('fnaConsultationTopics');
+  let topics = '';
+
+  if (cashFlow < 0 || cashFlow < fnaData.income1 * 0.1) {
+    topics += '<li>Cash flow optimization and budgeting strategies</li>';
+  }
+
+  if (protectionGap > 0) {
+    topics += '<li>Life insurance options to protect your family</li>';
+  }
+
+  if (totalDebts > 0) {
+    topics += '<li>Debt consolidation and payoff strategies</li>';
+  }
+
+  if (fnaData.goals.tax) {
+    topics += '<li>Tax optimization with RRSP, TFSA, and RESP</li>';
+  }
+
+  if (fnaData.goals.retirement) {
+    topics += '<li>Retirement planning and wealth accumulation</li>';
+  }
+
+  if (fnaData.goals.education && fnaData.dependents > 0) {
+    topics += '<li>RESP strategies to maximize education grants</li>';
+  }
+
+  topics += '<li>Comprehensive financial plan tailored to your goals</li>';
+
+  topicsDiv.innerHTML = topics;
+}
+
+function calculateAge(dob) {
+  const birthDate = new Date(dob);
+  const today = new Date();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDiff = today.getMonth() - birthDate.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age;
+}
+
+function resetFNA() {
+  // Reset all form fields
+  document.querySelectorAll('#fna-tool input[type="text"], #fna-tool input[type="number"], #fna-tool input[type="date"], #fna-tool input[type="tel"], #fna-tool textarea').forEach(input => {
+    input.value = '';
+  });
+
+  document.querySelectorAll('#fna-tool input[type="checkbox"]').forEach(checkbox => {
+    checkbox.checked = false;
+  });
+
+  // Reset to step 1
+  fnaCurrentStep = 1;
+  document.querySelectorAll('.fna-section').forEach(section => {
+    section.classList.remove('active');
+  });
+  document.getElementById('fnaStep1').classList.add('active');
+
+  // Reset progress
+  document.getElementById('fnaProgressFill').style.width = '0%';
+  document.querySelectorAll('.fna-step').forEach((stepEl, index) => {
+    stepEl.classList.remove('active', 'completed');
+    if (index === 0) {
+      stepEl.classList.add('active');
+    }
+  });
+
+  // Scroll to top
+  document.querySelector('#fna-tool').scrollIntoView({ behavior: 'smooth' });
+}
