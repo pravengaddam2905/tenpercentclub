@@ -4003,6 +4003,16 @@ p {
   display: block;
 }
 
+.fna-section h4 {
+  font-size: 18px;
+  color: #1e293b;
+  margin-top: 28px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

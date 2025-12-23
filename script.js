@@ -1949,7 +1949,10 @@ function displayFNAResults(cashFlow, netWorth, protectionGap, goalsCount, score,
     cashFlow > 0 ? 'Positive surplus' : 'Deficit - needs attention';
   document.getElementById('fnaResultCashFlowStatus').style.color = cashFlow > 0 ? '#10b981' : '#ef4444';
 
-  document.getElementById('fnaResultNetWorth').textContent = formatCurrency(netWorth);
+  const netWorthElement = document.getElementById('fnaResultNetWorth');
+  netWorthElement.textContent = formatCurrency(netWorth);
+  netWorthElement.style.color = netWorth >= 0 ? '#10b981' : '#ef4444';
+
   document.getElementById('fnaResultNetWorthStatus').textContent =
     netWorth > 0 ? 'Building wealth' : 'Needs improvement';
   document.getElementById('fnaResultNetWorthStatus').style.color = netWorth > 0 ? '#10b981' : '#ef4444';
