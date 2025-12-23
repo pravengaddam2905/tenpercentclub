@@ -1553,7 +1553,7 @@
                     <div class="fna-goal-timeframe">
                       <label><input type="radio" name="timeRetirement" value="short"> 1-3 years</label>
                       <label><input type="radio" name="timeRetirement" value="mid"> 3-7 years</label>
-                      <label><input type="radio" name="timeRetirement" value="long" checked> 7+ years</label>
+                      <label><input type="radio" name="timeRetirement" value="long"> 7+ years</label>
                     </div>
                   </div>
 
@@ -1563,7 +1563,7 @@
                       <label for="goalProtection" class="fna-goal-title">Family Protection (Life Insurance)</label>
                     </div>
                     <div class="fna-goal-timeframe">
-                      <label><input type="radio" name="timeProtection" value="short" checked> 1-3 years</label>
+                      <label><input type="radio" name="timeProtection" value="short"> 1-3 years</label>
                       <label><input type="radio" name="timeProtection" value="mid"> 3-7 years</label>
                       <label><input type="radio" name="timeProtection" value="long"> 7+ years</label>
                     </div>
@@ -1575,7 +1575,7 @@
                       <label for="goalEmergency" class="fna-goal-title">Build Emergency Fund</label>
                     </div>
                     <div class="fna-goal-timeframe">
-                      <label><input type="radio" name="timeEmergency" value="short" checked> 1-3 years</label>
+                      <label><input type="radio" name="timeEmergency" value="short"> 1-3 years</label>
                       <label><input type="radio" name="timeEmergency" value="mid"> 3-7 years</label>
                       <label><input type="radio" name="timeEmergency" value="long"> 7+ years</label>
                     </div>
@@ -1588,7 +1588,7 @@
                     </div>
                     <div class="fna-goal-timeframe">
                       <label><input type="radio" name="timeHome" value="short"> 1-3 years</label>
-                      <label><input type="radio" name="timeHome" value="mid" checked> 3-7 years</label>
+                      <label><input type="radio" name="timeHome" value="mid"> 3-7 years</label>
                       <label><input type="radio" name="timeHome" value="long"> 7+ years</label>
                     </div>
                   </div>
@@ -1601,7 +1601,7 @@
                     <div class="fna-goal-timeframe">
                       <label><input type="radio" name="timeEducation" value="short"> 1-3 years</label>
                       <label><input type="radio" name="timeEducation" value="mid"> 3-7 years</label>
-                      <label><input type="radio" name="timeEducation" value="long" checked> 7+ years</label>
+                      <label><input type="radio" name="timeEducation" value="long"> 7+ years</label>
                     </div>
                   </div>
 
@@ -1611,7 +1611,7 @@
                       <label for="goalDebt" class="fna-goal-title">Pay Off Debt</label>
                     </div>
                     <div class="fna-goal-timeframe">
-                      <label><input type="radio" name="timeDebt" value="short" checked> 1-3 years</label>
+                      <label><input type="radio" name="timeDebt" value="short"> 1-3 years</label>
                       <label><input type="radio" name="timeDebt" value="mid"> 3-7 years</label>
                       <label><input type="radio" name="timeDebt" value="long"> 7+ years</label>
                     </div>
@@ -1623,7 +1623,7 @@
                       <label for="goalTax" class="fna-goal-title">Tax Optimization (RRSP/TFSA)</label>
                     </div>
                     <div class="fna-goal-timeframe">
-                      <label><input type="radio" name="timeTax" value="short" checked> 1-3 years</label>
+                      <label><input type="radio" name="timeTax" value="short"> 1-3 years</label>
                       <label><input type="radio" name="timeTax" value="mid"> 3-7 years</label>
                       <label><input type="radio" name="timeTax" value="long"> 7+ years</label>
                     </div>
@@ -1636,7 +1636,7 @@
                     </div>
                     <div class="fna-goal-timeframe">
                       <label><input type="radio" name="timeBusiness" value="short"> 1-3 years</label>
-                      <label><input type="radio" name="timeBusiness" value="mid" checked> 3-7 years</label>
+                      <label><input type="radio" name="timeBusiness" value="mid"> 3-7 years</label>
                       <label><input type="radio" name="timeBusiness" value="long"> 7+ years</label>
                     </div>
                   </div>
@@ -1881,6 +1881,44 @@
                       </svg>
                     </div>
                     <div class="fna-score-description" id="fnaScoreDescription"></div>
+                  </div>
+                </div>
+
+                <!-- Financial Overview Dashboard -->
+                <div class="fna-analysis-section">
+                  <h4>Your Financial Overview</h4>
+                  <div class="fna-dashboard-grid">
+                    <!-- Income Breakdown Chart -->
+                    <div class="fna-dashboard-card">
+                      <h5>Monthly Cash Flow</h5>
+                      <canvas id="fnaCashFlowChart" width="300" height="300"></canvas>
+                    </div>
+
+                    <!-- Asset Allocation Chart -->
+                    <div class="fna-dashboard-card">
+                      <h5>Asset Allocation</h5>
+                      <canvas id="fnaAssetChart" width="300" height="300"></canvas>
+                    </div>
+
+                    <!-- Debt Breakdown Chart -->
+                    <div class="fna-dashboard-card">
+                      <h5>Debt Breakdown</h5>
+                      <canvas id="fnaDebtChart" width="300" height="300"></canvas>
+                    </div>
+
+                    <!-- Savings Rate Gauge -->
+                    <div class="fna-dashboard-card">
+                      <h5>Savings Rate</h5>
+                      <canvas id="fnaSavingsRateChart" width="300" height="300"></canvas>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tax Savings Opportunities -->
+                <div class="fna-analysis-section fna-tax-savings-section">
+                  <h4>💰 Tax Savings Opportunities</h4>
+                  <div id="fnaTaxSavings" class="fna-tax-savings-grid">
+                    <!-- Dynamically populated -->
                   </div>
                 </div>
 

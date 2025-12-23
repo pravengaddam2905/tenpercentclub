@@ -4478,3 +4478,151 @@ p {
     padding: 24px;
   }
 }
+
+/* FNA Dashboard Grid */
+.fna-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin: 24px 0;
+}
+
+.fna-dashboard-card {
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.fna-dashboard-card:hover {
+  border-color: #0891b2;
+  box-shadow: 0 8px 20px rgba(8, 145, 178, 0.1);
+}
+
+.fna-dashboard-card h5 {
+  font-size: 16px;
+  color: #1e293b;
+  margin-bottom: 16px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.fna-dashboard-card canvas {
+  max-width: 100%;
+  height: auto !important;
+}
+
+/* Tax Savings Section */
+.fna-tax-savings-section {
+  background: linear-gradient(135deg, #fffbeb, #fef3c7);
+  border: 2px solid #fbbf24;
+}
+
+.fna-tax-savings-section h4 {
+  color: #92400e;
+  border-bottom-color: #fbbf24;
+}
+
+.fna-tax-savings-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.fna-tax-savings-card {
+  background: white;
+  border-left: 4px solid #f59e0b;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  transition: all 0.3s ease;
+}
+
+.fna-tax-savings-card:hover {
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.2);
+  transform: translateX(4px);
+}
+
+.fna-tax-savings-icon {
+  font-size: 40px;
+  min-width: 50px;
+  text-align: center;
+}
+
+.fna-tax-savings-content {
+  flex: 1;
+}
+
+.fna-tax-savings-content h5 {
+  font-size: 18px;
+  color: #1e293b;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.fna-tax-savings-amount {
+  font-size: 24px;
+  color: #f59e0b;
+  font-weight: 700;
+  margin: 8px 0;
+}
+
+.fna-tax-savings-content p {
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 8px 0;
+}
+
+.fna-tax-savings-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.fna-tax-savings-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fna-tax-savings-detail-label {
+  font-size: 12px;
+  color: #64748b;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.fna-tax-savings-detail-value {
+  font-size: 16px;
+  color: #1e293b;
+  font-weight: 600;
+}
+
+/* Responsive adjustments for dashboard */
+@media (max-width: 768px) {
+  .fna-dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fna-tax-savings-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .fna-tax-savings-icon {
+    width: 100%;
+  }
+
+  .fna-tax-savings-details {
+    justify-content: center;
+  }
+}
