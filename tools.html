@@ -791,8 +791,8 @@
             <h2>Financial Needs Analysis (FNA)</h2>
             <p class="tool-description">A comprehensive evaluation of your complete financial picture to create a personalized roadmap for your family's future</p>
 
-            <!-- FNA Information Prompt -->
-            <div class="password-prompt">
+            <!-- Public View - Consultation Prompt -->
+            <div id="fnaPublicView" class="password-prompt">
               <div class="password-card">
                 <div class="fire-info-icon">📊</div>
                 <h3>Personalized Financial Needs Analysis</h3>
@@ -837,8 +837,47 @@
                     <p>Walk away with clear next steps and recommendations</p>
                   </div>
                 </div>
+
+                <!-- Owner Access Link (Small, Bottom Right) -->
+                <div style="text-align: right; margin-top: 20px;">
+                  <button onclick="showFNAPasswordPrompt()" style="background: none; border: none; color: #94a3b8; font-size: 12px; cursor: pointer; text-decoration: underline;">Owner Access</button>
+                </div>
               </div>
             </div>
+
+            <!-- Password Prompt (Hidden by default) -->
+            <div id="fnaPasswordPrompt" style="display: none;">
+              <div class="password-card" style="max-width: 400px; margin: 0 auto;">
+                <div class="fire-info-icon">🔒</div>
+                <h3>Owner Access Required</h3>
+                <p class="fire-info-text">Enter your password to access the FNA analysis tool</p>
+
+                <form onsubmit="return unlockFNATool(event)">
+                  <div class="form-group">
+                    <label for="fnaOwnerPassword">Password</label>
+                    <input
+                      type="password"
+                      id="fnaOwnerPassword"
+                      class="input-field"
+                      placeholder="Enter password"
+                      autocomplete="off"
+                      required
+                    >
+                    <div id="fnaPasswordError" style="color: #ef4444; font-size: 14px; margin-top: 8px; display: none;">Incorrect password</div>
+                  </div>
+
+                  <button type="submit" class="btn btn-gold btn-large">Unlock FNA Tool</button>
+                  <button type="button" onclick="hideFNAPasswordPrompt()" class="btn btn-secondary" style="margin-top: 10px;">Cancel</button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Full FNA Tool (Hidden until password entered) -->
+            <div id="fnaToolContent" style="display: none;">
+              <!-- This will be populated with the full FNA tool from fna_admin.html -->
+              <p style="text-align: center; padding: 40px;">Loading FNA tool...</p>
+            </div>
+
           </div>
 
         </main>
