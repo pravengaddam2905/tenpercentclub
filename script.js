@@ -2578,55 +2578,28 @@ function unlockFNATool(event) {
 
 function loadFullFNATool() {
   const fnaToolContent = document.getElementById('fnaToolContent');
-  
-  // Full FNA Tool HTML (from fna_admin.html)
-  fnaToolContent.innerHTML = `
-    <!-- Progress Bar -->
-    <div class="fna-progress-container">
-      <div class="fna-progress-bar">
-        <div class="fna-progress-fill" id="fnaProgressFill"></div>
-      </div>
-      <div class="fna-progress-steps">
-        <div class="fna-step active" data-step="1">
-          <div class="fna-step-number">1</div>
-          <div class="fna-step-label">Personal Info</div>
-        </div>
-        <div class="fna-step" data-step="2">
-          <div class="fna-step-number">2</div>
-          <div class="fna-step-label">Income & Expenses</div>
-        </div>
-        <div class="fna-step" data-step="3">
-          <div class="fna-step-number">3</div>
-          <div class="fna-step-label">Goals</div>
-        </div>
-        <div class="fna-step" data-step="4">
-          <div class="fna-step-number">4</div>
-          <div class="fna-step-label">Assets & Debts</div>
-        </div>
-        <div class="fna-step" data-step="5">
-          <div class="fna-step-number">5</div>
-          <div class="fna-step-label">Protection</div>
-        </div>
-        <div class="fna-step" data-step="6">
-          <div class="fna-step-number">6</div>
-          <div class="fna-step-label">Results</div>
-        </div>
-      </div>
-    </div>
 
-    <div class="calculator-card">
-      <!-- All 6 FNA steps will be inserted here -->
-      <!-- This is a placeholder - the full HTML is too long to inline -->
-      <p style="text-align: center; padding: 40px; color: #64748b;">
-        <strong>FNA Tool Loaded Successfully!</strong><br><br>
-        The full 6-step Financial Needs Analysis tool is now available.<br>
-        <button onclick="location.reload()" class="btn btn-secondary" style="margin-top: 20px;">Refresh to use the tool</button>
-      </p>
-    </div>
-  `;
-  
-  // Scroll to the tool
-  document.getElementById('fnaToolContent').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Show loading message
+  fnaToolContent.innerHTML = '<p style="text-align: center; padding: 40px; color: #64748b;">Loading FNA tool...</p>';
+
+  // Fetch the FNA tool HTML
+  fetch('fna_tool_content.html')
+    .then(response => response.text())
+    .then(html => {
+      fnaToolContent.innerHTML = html;
+
+      // Re-initialize FNA event listeners if needed
+      updateFNAIncomeExpenses();
+
+      // Scroll to the tool
+      setTimeout(() => {
+        document.getElementById('fnaToolContent').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    })
+    .catch(error => {
+      console.error('Error loading FNA tool:', error);
+      fnaToolContent.innerHTML = '<p style="text-align: center; padding: 40px; color: #ef4444;">Error loading FNA tool. Please refresh the page.</p>';
+    });
 }
 
 // Check if owner already has access on page load
