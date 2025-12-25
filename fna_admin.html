@@ -785,6 +785,9 @@
         // Clear password field
         document.getElementById('adminPassword').value = '';
         document.getElementById('passwordError').classList.remove('show');
+
+        // Scroll to top to show the admin content
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         // Show error message
         document.getElementById('passwordError').classList.add('show');
