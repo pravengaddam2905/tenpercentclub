@@ -2688,10 +2688,10 @@ function renderFixedAssets() {
     <tr>
       <td><input type="text" class="nw-input" value="${asset.name}" onchange="updateFixedAsset(${asset.id}, 'name', this.value)" placeholder="e.g., Primary Home"></td>
       <td><input type="text" class="nw-input" value="${asset.location}" onchange="updateFixedAsset(${asset.id}, 'location', this.value)" placeholder="e.g., Toronto, ON"></td>
-      <td><input type="number" class="nw-input" value="${asset.marketValue}" onchange="updateFixedAsset(${asset.id}, 'marketValue', parseFloat(this.value) || 0)" placeholder="0"></td>
-      <td><input type="number" class="nw-input" value="${asset.debt}" onchange="updateFixedAsset(${asset.id}, 'debt', parseFloat(this.value) || 0)" placeholder="0"></td>
+      <td><input type="number" class="nw-input" value="${asset.marketValue}" onchange="updateFixedAsset(${asset.id}, 'marketValue', parseFloat(this.value) || 0)" placeholder="$0" min="0" step="0.01"></td>
+      <td><input type="number" class="nw-input" value="${asset.debt}" onchange="updateFixedAsset(${asset.id}, 'debt', parseFloat(this.value) || 0)" placeholder="$0" min="0" step="0.01"></td>
       <td><strong>${formatCurrency(asset.marketValue - asset.debt)}</strong></td>
-      <td><input type="number" class="nw-input" value="${asset.monthlyCost}" onchange="updateFixedAsset(${asset.id}, 'monthlyCost', parseFloat(this.value) || 0)" placeholder="0"></td>
+      <td><input type="number" class="nw-input" value="${asset.monthlyCost}" onchange="updateFixedAsset(${asset.id}, 'monthlyCost', parseFloat(this.value) || 0)" placeholder="$0" min="0" step="0.01"></td>
       <td><button class="nw-btn-delete" onclick="deleteFixedAsset(${asset.id})">Delete</button></td>
     </tr>
   `).join('');
@@ -2738,8 +2738,8 @@ function renderLiquidAssets() {
       <tr>
         <td><input type="text" class="nw-input" value="${asset.name}" onchange="updateLiquidAsset(${asset.id}, 'name', this.value)" placeholder="e.g., TFSA"></td>
         <td><input type="text" class="nw-input" value="${asset.location}" onchange="updateLiquidAsset(${asset.id}, 'location', this.value)" placeholder="e.g., TD Bank"></td>
-        <td><input type="number" class="nw-input" value="${asset.marketValue}" onchange="updateLiquidAsset(${asset.id}, 'marketValue', parseFloat(this.value) || 0)" placeholder="0"></td>
-        <td><input type="number" class="nw-input" value="${asset.monthlyContribution}" onchange="updateLiquidAsset(${asset.id}, 'monthlyContribution', parseFloat(this.value) || 0)" placeholder="0"></td>
+        <td><input type="number" class="nw-input" value="${asset.marketValue}" onchange="updateLiquidAsset(${asset.id}, 'marketValue', parseFloat(this.value) || 0)" placeholder="$0" min="0" step="0.01"></td>
+        <td><input type="number" class="nw-input" value="${asset.monthlyContribution}" onchange="updateLiquidAsset(${asset.id}, 'monthlyContribution', parseFloat(this.value) || 0)" placeholder="$0" min="0" step="0.01"></td>
         <td><button class="nw-btn-delete" onclick="deleteLiquidAsset(${asset.id})">Delete</button></td>
       </tr>
     `).join('');
@@ -2794,8 +2794,8 @@ function renderCashflowItems() {
     tbody.innerHTML = nwData.cashflowItems.map(item => `
       <tr>
         <td><input type="text" class="nw-input" value="${item.name}" onchange="updateCashflowItem(${item.id}, 'name', this.value)" placeholder="e.g., Salary"></td>
-        <td><input type="number" class="nw-input" value="${item.income}" onchange="updateCashflowItem(${item.id}, 'income', parseFloat(this.value) || 0)" placeholder="0"></td>
-        <td><input type="number" class="nw-input" value="${item.expenses}" onchange="updateCashflowItem(${item.id}, 'expenses', parseFloat(this.value) || 0)" placeholder="0"></td>
+        <td><input type="number" class="nw-input" value="${item.income}" onchange="updateCashflowItem(${item.id}, 'income', parseFloat(this.value) || 0)" placeholder="$0" min="0" step="0.01"></td>
+        <td><input type="number" class="nw-input" value="${item.expenses}" onchange="updateCashflowItem(${item.id}, 'expenses', parseFloat(this.value) || 0)" placeholder="$0" min="0" step="0.01"></td>
         <td><button class="nw-btn-delete" onclick="deleteCashflowItem(${item.id})">Delete</button></td>
       </tr>
     `).join('');
