@@ -4932,6 +4932,18 @@ p {
   box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
 }
 
+/* Remove spinner arrows from number inputs */
+.nw-input[type="number"]::-webkit-inner-spin-button,
+.nw-input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.nw-input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
 /* Action Buttons */
 .nw-btn-delete {
   background: none;
