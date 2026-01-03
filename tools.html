@@ -92,8 +92,12 @@
               <span class="tool-nav-icon">🏧</span>
               <span class="tool-nav-text">Chequing Accounts</span>
             </button>
-            <button class="tool-nav-btn" data-tool="fna-tool">
+            <button class="tool-nav-btn" data-tool="net-worth-tracker">
               <span class="tool-nav-icon">📊</span>
+              <span class="tool-nav-text">Net Worth Tracker</span>
+            </button>
+            <button class="tool-nav-btn" data-tool="fna-tool">
+              <span class="tool-nav-icon">📋</span>
               <span class="tool-nav-text">Financial Needs Analysis</span>
             </button>
           </nav>
@@ -792,6 +796,203 @@
               <div class="rates-note">
                 <p><strong>Note:</strong> Big 6 banks offer unlimited transaction accounts for $10-$30/month. Online banks provide better value for most customers. Contact us to find the best account for your needs.</p>
               </div>
+            </div>
+          </div>
+
+          <!-- Net Worth Tracker Tool -->
+          <div id="net-worth-tracker" class="tool-panel">
+            <h2>Net Worth Tracker</h2>
+            <p class="tool-description">Track your complete financial picture - assets, liabilities, income, and expenses all in one place</p>
+
+            <div class="net-worth-container">
+
+              <!-- Financial Overview Cards -->
+              <div class="nw-overview-grid">
+                <div class="nw-card nw-card-primary">
+                  <div class="nw-card-header">
+                    <span class="nw-card-title">TOTAL NET WORTH</span>
+                    <span class="nw-card-icon">📈</span>
+                  </div>
+                  <div class="nw-card-value" id="nwTotalNetWorth">$0</div>
+                </div>
+
+                <div class="nw-card">
+                  <div class="nw-card-header">
+                    <span class="nw-card-title">LIQUID CASH</span>
+                    <span class="nw-card-icon">💵</span>
+                  </div>
+                  <div class="nw-card-value" id="nwLiquidCash">$0</div>
+                </div>
+
+                <div class="nw-card">
+                  <div class="nw-card-header">
+                    <span class="nw-card-title">FIXED ASSETS (EQUITY)</span>
+                    <span class="nw-card-icon">🏠</span>
+                  </div>
+                  <div class="nw-card-value" id="nwFixedAssets">$0</div>
+                </div>
+
+                <div class="nw-card nw-card-danger">
+                  <div class="nw-card-header">
+                    <span class="nw-card-title">TOTAL DEBT</span>
+                    <span class="nw-card-icon">💳</span>
+                  </div>
+                  <div class="nw-card-value nw-value-danger" id="nwTotalDebt">$0</div>
+                </div>
+
+                <div class="nw-card nw-card-warning">
+                  <div class="nw-card-header">
+                    <span class="nw-card-title">MONTHLY EXPENSES</span>
+                    <span class="nw-card-icon">💸</span>
+                  </div>
+                  <div class="nw-card-value nw-value-warning" id="nwMonthlyExpenses">$0</div>
+                </div>
+
+                <div class="nw-card nw-card-success">
+                  <div class="nw-card-header">
+                    <span class="nw-card-title">MONTHLY INCOME</span>
+                    <span class="nw-card-icon">💰</span>
+                  </div>
+                  <div class="nw-card-value nw-value-success" id="nwMonthlyIncome">$0</div>
+                </div>
+
+                <div class="nw-card">
+                  <div class="nw-card-header">
+                    <span class="nw-card-title">MONTHLY SURPLUS</span>
+                    <span class="nw-card-icon">🔄</span>
+                  </div>
+                  <div class="nw-card-value nw-value-success" id="nwMonthlySurplus">$0</div>
+                </div>
+
+                <div class="nw-card">
+                  <div class="nw-card-header">
+                    <span class="nw-card-title">ANNUAL INCOME</span>
+                    <span class="nw-card-icon">📅</span>
+                  </div>
+                  <div class="nw-card-value" id="nwAnnualIncome">$0</div>
+                </div>
+              </div>
+
+              <!-- Charts Section -->
+              <div class="nw-charts-section">
+                <div class="nw-chart-container">
+                  <h3>Net Worth History</h3>
+                  <div class="nw-chart-filters">
+                    <button class="nw-filter-btn" data-period="1M">1M</button>
+                    <button class="nw-filter-btn" data-period="3M">3M</button>
+                    <button class="nw-filter-btn" data-period="6M">6M</button>
+                    <button class="nw-filter-btn" data-period="YTD">YTD</button>
+                    <button class="nw-filter-btn active" data-period="1Y">1Y</button>
+                    <button class="nw-filter-btn" data-period="ALL">ALL</button>
+                  </div>
+                  <div class="nw-chart-placeholder">
+                    <canvas id="nwHistoryChart"></canvas>
+                  </div>
+                </div>
+
+                <div class="nw-chart-container">
+                  <h3>Monthly Cashflow</h3>
+                  <div class="nw-chart-placeholder">
+                    <canvas id="nwCashflowChart"></canvas>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Fixed Assets Section -->
+              <div class="nw-section">
+                <div class="nw-section-header">
+                  <h3>Fixed Assets <span class="nw-info-icon" title="Properties, vehicles, and other fixed assets">ⓘ</span></h3>
+                  <button class="btn btn-small btn-gold" onclick="addFixedAsset()">+ Add</button>
+                </div>
+                <div class="nw-table">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Asset</th>
+                        <th>Location</th>
+                        <th>Market Value</th>
+                        <th>Debt</th>
+                        <th>Equity</th>
+                        <th>Monthly Cost</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="fixedAssetsTableBody">
+                      <tr class="nw-empty-row">
+                        <td colspan="7" style="text-align: center; color: #94a3b8;">No fixed assets added yet</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Liquid Assets Section -->
+              <div class="nw-section">
+                <div class="nw-section-header">
+                  <h3>Liquid Assets <span class="nw-info-icon" title="Savings, investments, and other liquid assets">ⓘ</span></h3>
+                  <button class="btn btn-small btn-gold" onclick="addLiquidAsset()">+ Add</button>
+                </div>
+                <div class="nw-table">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Location</th>
+                        <th>Market Value</th>
+                        <th>Monthly Contribution</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="liquidAssetsTableBody">
+                      <tr class="nw-empty-row">
+                        <td colspan="5" style="text-align: center; color: #94a3b8;">No liquid assets added yet</td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr class="nw-total-row">
+                        <td colspan="2"><strong>Total</strong></td>
+                        <td><strong id="liquidAssetsTotal">$0</strong></td>
+                        <td><strong id="liquidContributionTotal">$0</strong></td>
+                        <td></td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Monthly Cashflow Section -->
+              <div class="nw-section">
+                <div class="nw-section-header">
+                  <h3>Monthly Cashflow <span class="nw-info-icon" title="Track your monthly income and expenses">ⓘ</span></h3>
+                  <button class="btn btn-small btn-gold" onclick="addCashflowItem()">+ Add</button>
+                </div>
+                <div class="nw-table">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Income</th>
+                        <th>Expenses</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="cashflowTableBody">
+                      <tr class="nw-empty-row">
+                        <td colspan="4" style="text-align: center; color: #94a3b8;">No cashflow items added yet</td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr class="nw-total-row">
+                        <td><strong>Total Surplus:</strong></td>
+                        <td><strong id="cashflowIncomeTotal" class="nw-value-success">$0</strong></td>
+                        <td><strong id="cashflowExpensesTotal" class="nw-value-danger">$0</strong></td>
+                        <td></td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+
             </div>
           </div>
 

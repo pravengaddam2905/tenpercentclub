@@ -2609,4 +2609,361 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('fnaToolContent').style.display = 'block';
     loadFullFNATool();
   }
+
+  // Initialize Net Worth Tracker on page load
+  initializeNetWorthTracker();
 });
+
+/* ============================================
+   NET WORTH TRACKER FUNCTIONS
+   ============================================ */
+
+// Data storage
+let nwData = {
+  fixedAssets: [],
+  liquidAssets: [],
+  cashflowItems: [],
+  history: []
+};
+
+// Load data from localStorage
+function loadNetWorthData() {
+  const saved = localStorage.getItem('netWorthTrackerData');
+  if (saved) {
+    nwData = JSON.parse(saved);
+  }
+}
+
+// Save data to localStorage
+function saveNetWorthData() {
+  localStorage.setItem('netWorthTrackerData', JSON.stringify(nwData));
+}
+
+// Initialize Net Worth Tracker
+function initializeNetWorthTracker() {
+  loadNetWorthData();
+  renderFixedAssets();
+  renderLiquidAssets();
+  renderCashflowItems();
+  updateAllCalculations();
+  initializeCharts();
+}
+
+// Format currency
+function formatCurrency(amount) {
+  return '$' + Math.abs(amount).toLocaleString('en-CA', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+}
+
+/* FIXED ASSETS */
+function addFixedAsset() {
+  const asset = {
+    id: Date.now(),
+    name: '',
+    location: '',
+    marketValue: 0,
+    debt: 0,
+    monthlyCost: 0
+  };
+  nwData.fixedAssets.push(asset);
+  renderFixedAssets();
+}
+
+function deleteFixedAsset(id) {
+  nwData.fixedAssets = nwData.fixedAssets.filter(a => a.id !== id);
+  saveNetWorthData();
+  renderFixedAssets();
+  updateAllCalculations();
+}
+
+function renderFixedAssets() {
+  const tbody = document.getElementById('fixedAssetsTableBody');
+  if (!tbody) return;
+
+  if (nwData.fixedAssets.length === 0) {
+    tbody.innerHTML = '<tr class="nw-empty-row"><td colspan="7" style="text-align: center; color: #94a3b8;">No fixed assets added yet</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = nwData.fixedAssets.map(asset => `
+    <tr>
+      <td><input type="text" class="nw-input" value="${asset.name}" onchange="updateFixedAsset(${asset.id}, 'name', this.value)" placeholder="e.g., Primary Home"></td>
+      <td><input type="text" class="nw-input" value="${asset.location}" onchange="updateFixedAsset(${asset.id}, 'location', this.value)" placeholder="e.g., Toronto, ON"></td>
+      <td><input type="number" class="nw-input" value="${asset.marketValue}" onchange="updateFixedAsset(${asset.id}, 'marketValue', parseFloat(this.value) || 0)" placeholder="0"></td>
+      <td><input type="number" class="nw-input" value="${asset.debt}" onchange="updateFixedAsset(${asset.id}, 'debt', parseFloat(this.value) || 0)" placeholder="0"></td>
+      <td><strong>${formatCurrency(asset.marketValue - asset.debt)}</strong></td>
+      <td><input type="number" class="nw-input" value="${asset.monthlyCost}" onchange="updateFixedAsset(${asset.id}, 'monthlyCost', parseFloat(this.value) || 0)" placeholder="0"></td>
+      <td><button class="nw-btn-delete" onclick="deleteFixedAsset(${asset.id})">Delete</button></td>
+    </tr>
+  `).join('');
+}
+
+function updateFixedAsset(id, field, value) {
+  const asset = nwData.fixedAssets.find(a => a.id === id);
+  if (asset) {
+    asset[field] = value;
+    saveNetWorthData();
+    renderFixedAssets();
+    updateAllCalculations();
+  }
+}
+
+/* LIQUID ASSETS */
+function addLiquidAsset() {
+  const asset = {
+    id: Date.now(),
+    name: '',
+    location: '',
+    marketValue: 0,
+    monthlyContribution: 0
+  };
+  nwData.liquidAssets.push(asset);
+  renderLiquidAssets();
+}
+
+function deleteLiquidAsset(id) {
+  nwData.liquidAssets = nwData.liquidAssets.filter(a => a.id !== id);
+  saveNetWorthData();
+  renderLiquidAssets();
+  updateAllCalculations();
+}
+
+function renderLiquidAssets() {
+  const tbody = document.getElementById('liquidAssetsTableBody');
+  if (!tbody) return;
+
+  if (nwData.liquidAssets.length === 0) {
+    tbody.innerHTML = '<tr class="nw-empty-row"><td colspan="5" style="text-align: center; color: #94a3b8;">No liquid assets added yet</td></tr>';
+  } else {
+    tbody.innerHTML = nwData.liquidAssets.map(asset => `
+      <tr>
+        <td><input type="text" class="nw-input" value="${asset.name}" onchange="updateLiquidAsset(${asset.id}, 'name', this.value)" placeholder="e.g., TFSA"></td>
+        <td><input type="text" class="nw-input" value="${asset.location}" onchange="updateLiquidAsset(${asset.id}, 'location', this.value)" placeholder="e.g., TD Bank"></td>
+        <td><input type="number" class="nw-input" value="${asset.marketValue}" onchange="updateLiquidAsset(${asset.id}, 'marketValue', parseFloat(this.value) || 0)" placeholder="0"></td>
+        <td><input type="number" class="nw-input" value="${asset.monthlyContribution}" onchange="updateLiquidAsset(${asset.id}, 'monthlyContribution', parseFloat(this.value) || 0)" placeholder="0"></td>
+        <td><button class="nw-btn-delete" onclick="deleteLiquidAsset(${asset.id})">Delete</button></td>
+      </tr>
+    `).join('');
+  }
+
+  // Update totals
+  const totalValue = nwData.liquidAssets.reduce((sum, a) => sum + a.marketValue, 0);
+  const totalContribution = nwData.liquidAssets.reduce((sum, a) => sum + a.monthlyContribution, 0);
+
+  const totalEl = document.getElementById('liquidAssetsTotal');
+  const contribEl = document.getElementById('liquidContributionTotal');
+  if (totalEl) totalEl.textContent = formatCurrency(totalValue);
+  if (contribEl) contribEl.textContent = formatCurrency(totalContribution);
+}
+
+function updateLiquidAsset(id, field, value) {
+  const asset = nwData.liquidAssets.find(a => a.id === id);
+  if (asset) {
+    asset[field] = value;
+    saveNetWorthData();
+    renderLiquidAssets();
+    updateAllCalculations();
+  }
+}
+
+/* CASHFLOW ITEMS */
+function addCashflowItem() {
+  const item = {
+    id: Date.now(),
+    name: '',
+    income: 0,
+    expenses: 0
+  };
+  nwData.cashflowItems.push(item);
+  renderCashflowItems();
+}
+
+function deleteCashflowItem(id) {
+  nwData.cashflowItems = nwData.cashflowItems.filter(i => i.id !== id);
+  saveNetWorthData();
+  renderCashflowItems();
+  updateAllCalculations();
+}
+
+function renderCashflowItems() {
+  const tbody = document.getElementById('cashflowTableBody');
+  if (!tbody) return;
+
+  if (nwData.cashflowItems.length === 0) {
+    tbody.innerHTML = '<tr class="nw-empty-row"><td colspan="4" style="text-align: center; color: #94a3b8;">No cashflow items added yet</td></tr>';
+  } else {
+    tbody.innerHTML = nwData.cashflowItems.map(item => `
+      <tr>
+        <td><input type="text" class="nw-input" value="${item.name}" onchange="updateCashflowItem(${item.id}, 'name', this.value)" placeholder="e.g., Salary"></td>
+        <td><input type="number" class="nw-input" value="${item.income}" onchange="updateCashflowItem(${item.id}, 'income', parseFloat(this.value) || 0)" placeholder="0"></td>
+        <td><input type="number" class="nw-input" value="${item.expenses}" onchange="updateCashflowItem(${item.id}, 'expenses', parseFloat(this.value) || 0)" placeholder="0"></td>
+        <td><button class="nw-btn-delete" onclick="deleteCashflowItem(${item.id})">Delete</button></td>
+      </tr>
+    `).join('');
+  }
+
+  // Update totals
+  const totalIncome = nwData.cashflowItems.reduce((sum, i) => sum + i.income, 0);
+  const totalExpenses = nwData.cashflowItems.reduce((sum, i) => sum + i.expenses, 0);
+
+  const incomeEl = document.getElementById('cashflowIncomeTotal');
+  const expensesEl = document.getElementById('cashflowExpensesTotal');
+  if (incomeEl) incomeEl.textContent = formatCurrency(totalIncome);
+  if (expensesEl) expensesEl.textContent = formatCurrency(totalExpenses);
+}
+
+function updateCashflowItem(id, field, value) {
+  const item = nwData.cashflowItems.find(i => i.id === id);
+  if (item) {
+    item[field] = value;
+    saveNetWorthData();
+    renderCashflowItems();
+    updateAllCalculations();
+  }
+}
+
+/* CALCULATIONS */
+function updateAllCalculations() {
+  // Calculate totals
+  const liquidCash = nwData.liquidAssets.reduce((sum, a) => sum + a.marketValue, 0);
+  const fixedAssetEquity = nwData.fixedAssets.reduce((sum, a) => sum + (a.marketValue - a.debt), 0);
+  const totalDebt = nwData.fixedAssets.reduce((sum, a) => sum + a.debt, 0);
+  const totalNetWorth = liquidCash + fixedAssetEquity;
+
+  const monthlyIncome = nwData.cashflowItems.reduce((sum, i) => sum + i.income, 0);
+  const monthlyExpenses = nwData.cashflowItems.reduce((sum, i) => sum + i.expenses, 0) +
+                          nwData.fixedAssets.reduce((sum, a) => sum + a.monthlyCost, 0);
+  const monthlySurplus = monthlyIncome - monthlyExpenses;
+  const annualIncome = monthlyIncome * 12;
+
+  // Update overview cards
+  updateCard('nwTotalNetWorth', totalNetWorth);
+  updateCard('nwLiquidCash', liquidCash);
+  updateCard('nwFixedAssets', fixedAssetEquity);
+  updateCard('nwTotalDebt', totalDebt);
+  updateCard('nwMonthlyExpenses', monthlyExpenses);
+  updateCard('nwMonthlyIncome', monthlyIncome);
+  updateCard('nwMonthlySurplus', monthlySurplus);
+  updateCard('nwAnnualIncome', annualIncome);
+
+  // Update charts
+  updateCharts();
+}
+
+function updateCard(id, value) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.textContent = formatCurrency(value);
+  }
+}
+
+/* CHARTS */
+let nwHistoryChart = null;
+let nwCashflowChart = null;
+
+function initializeCharts() {
+  const historyCanvas = document.getElementById('nwHistoryChart');
+  const cashflowCanvas = document.getElementById('nwCashflowChart');
+
+  if (!historyCanvas || !cashflowCanvas) return;
+
+  // Net Worth History Chart
+  if (nwHistoryChart) {
+    nwHistoryChart.destroy();
+  }
+
+  nwHistoryChart = new Chart(historyCanvas, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [{
+        label: 'Net Worth',
+        data: [],
+        borderColor: '#10b981',
+        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+        borderWidth: 2,
+        tension: 0.4,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (context) => formatCurrency(context.parsed.y)
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: (value) => formatCurrency(value)
+          }
+        }
+      }
+    }
+  });
+
+  // Cashflow Chart
+  if (nwCashflowChart) {
+    nwCashflowChart.destroy();
+  }
+
+  const monthlyIncome = nwData.cashflowItems.reduce((sum, i) => sum + i.income, 0);
+  const monthlyExpenses = nwData.cashflowItems.reduce((sum, i) => sum + i.expenses, 0) +
+                          nwData.fixedAssets.reduce((sum, a) => sum + a.monthlyCost, 0);
+  const variance = monthlyIncome - monthlyExpenses;
+
+  nwCashflowChart = new Chart(cashflowCanvas, {
+    type: 'bar',
+    data: {
+      labels: ['Income', 'Expenses', 'Variance'],
+      datasets: [{
+        label: 'Amount',
+        data: [monthlyIncome, monthlyExpenses, variance],
+        backgroundColor: ['#10b981', '#ef4444', variance >= 0 ? '#10b981' : '#ef4444'],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (context) => formatCurrency(context.parsed.y)
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: (value) => formatCurrency(value)
+          }
+        }
+      }
+    }
+  });
+}
+
+function updateCharts() {
+  if (!nwHistoryChart || !nwCashflowChart) {
+    initializeCharts();
+    return;
+  }
+
+  // Update Cashflow Chart
+  const monthlyIncome = nwData.cashflowItems.reduce((sum, i) => sum + i.income, 0);
+  const monthlyExpenses = nwData.cashflowItems.reduce((sum, i) => sum + i.expenses, 0) +
+                          nwData.fixedAssets.reduce((sum, a) => sum + a.monthlyCost, 0);
+  const variance = monthlyIncome - monthlyExpenses;
+
+  nwCashflowChart.data.datasets[0].data = [monthlyIncome, monthlyExpenses, variance];
+  nwCashflowChart.data.datasets[0].backgroundColor = ['#10b981', '#ef4444', variance >= 0 ? '#10b981' : '#ef4444'];
+  nwCashflowChart.update();
+}
