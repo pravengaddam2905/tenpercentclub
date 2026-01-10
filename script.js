@@ -3163,7 +3163,10 @@ function updateBudgetSummary() {
   const remaining = income - totalActual;
 
   // Update summary cards
-  document.getElementById('btMonthlyIncome').textContent = formatBudgetCurrency(income);
+  const incomeInput = document.getElementById('btMonthlyIncomeInput');
+  if (incomeInput) {
+    incomeInput.value = income || '';
+  }
   document.getElementById('btRemaining').textContent = formatBudgetCurrency(remaining);
   document.getElementById('btActualSpend').textContent = formatBudgetCurrency(totalActual);
 
@@ -3285,23 +3288,8 @@ function updateBudgetChart() {
   btSpendingChart.update();
 }
 
-// Add income input functionality
+// Initialize Budget Tracker on page load
 document.addEventListener('DOMContentLoaded', function() {
-  // Add click handler to Monthly Income card
-  const incomeCard = document.getElementById('btMonthlyIncome');
-  if (incomeCard) {
-    incomeCard.style.cursor = 'pointer';
-    incomeCard.addEventListener('click', function() {
-      const currentMonthData = btData.months[btData.currentMonth];
-      const newIncome = prompt('Enter your monthly income:', currentMonthData.income || '0');
-
-      if (newIncome !== null) {
-        updateMonthlyIncome(newIncome);
-      }
-    });
-  }
-
-  // Initialize Budget Tracker if on that panel
   const budgetPanel = document.getElementById('budget-tracker');
   if (budgetPanel) {
     initBudgetTracker();

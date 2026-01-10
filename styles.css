@@ -5092,6 +5092,46 @@ p {
   font-family: 'Poppins', sans-serif;
 }
 
+.bt-card-input {
+  width: 100%;
+  font-size: 36px;
+  font-weight: 700;
+  color: #0f172a;
+  font-family: 'Poppins', sans-serif;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: #f8fafc;
+  transition: all 0.2s;
+}
+
+.bt-card-input:hover {
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+}
+
+.bt-card-input:focus {
+  outline: none;
+  background: white;
+  border-color: #0891b2;
+  box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+}
+
+.bt-card-input::placeholder {
+  color: #94a3b8;
+}
+
+.bt-card-input::-webkit-inner-spin-button,
+.bt-card-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.bt-card-input {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
 .bt-card-income {
   border-top: 4px solid #10b981;
 }

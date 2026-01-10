@@ -323,7 +323,15 @@
                     <span class="bt-card-label">Monthly Income</span>
                     <span class="bt-card-icon">💰</span>
                   </div>
-                  <div class="bt-card-value" id="btMonthlyIncome">$0</div>
+                  <input
+                    type="number"
+                    id="btMonthlyIncomeInput"
+                    class="bt-card-input"
+                    placeholder="$0"
+                    min="0"
+                    step="1"
+                    onchange="updateMonthlyIncome(this.value)"
+                  >
                 </div>
 
                 <div class="bt-card bt-card-remaining">
