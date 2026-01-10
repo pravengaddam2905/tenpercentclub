@@ -76,6 +76,10 @@
               <span class="tool-nav-icon">💰</span>
               <span class="tool-nav-text">Tax Savings Calculator</span>
             </button>
+            <button class="tool-nav-btn" data-tool="budget-tracker">
+              <span class="tool-nav-icon">📅</span>
+              <span class="tool-nav-text">Budget Tracker</span>
+            </button>
             <button class="tool-nav-btn" data-tool="net-worth-tracker">
               <span class="tool-nav-icon">📊</span>
               <span class="tool-nav-text">Net Worth Tracker</span>
@@ -287,6 +291,124 @@
               </div>
 
               <a href="/#book" class="btn btn-gold btn-block">Let's Maximize Your Tax Savings →</a>
+            </div>
+          </div>
+
+          <!-- Budget Tracker Tool -->
+          <div id="budget-tracker" class="tool-panel">
+            <h2>Budget Tracker</h2>
+            <p class="tool-description">Track your monthly income and expenses to stay on top of your budget</p>
+
+            <div class="budget-tracker-container">
+
+              <!-- Month Navigation -->
+              <div class="bt-month-nav">
+                <button class="bt-nav-btn" onclick="changeMonth(-1)">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                  </svg>
+                </button>
+                <h3 id="btCurrentMonth">January Budget 2026</h3>
+                <button class="bt-nav-btn" onclick="changeMonth(1)">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Summary Cards -->
+              <div class="bt-summary-cards">
+                <div class="bt-card bt-card-income">
+                  <div class="bt-card-header">
+                    <span class="bt-card-label">Monthly Income</span>
+                    <span class="bt-card-icon">💰</span>
+                  </div>
+                  <div class="bt-card-value" id="btMonthlyIncome">$0</div>
+                </div>
+
+                <div class="bt-card bt-card-remaining">
+                  <div class="bt-card-header">
+                    <span class="bt-card-label">Remaining</span>
+                    <span class="bt-card-icon">💵</span>
+                  </div>
+                  <div class="bt-card-value bt-value-success" id="btRemaining">$0</div>
+                </div>
+
+                <div class="bt-card bt-card-spend">
+                  <div class="bt-card-header">
+                    <span class="bt-card-label">Actual Spend</span>
+                    <span class="bt-card-icon">💳</span>
+                  </div>
+                  <div class="bt-card-value bt-value-warning" id="btActualSpend">$0</div>
+                </div>
+              </div>
+
+              <!-- Budget Progress -->
+              <div class="bt-progress-section">
+                <h3>Budget Progress</h3>
+                <div class="bt-progress-row">
+                  <span class="bt-progress-label">Spent this month</span>
+                  <span class="bt-progress-value" id="btSpentDisplay">$0 of $0</span>
+                </div>
+                <div class="bt-progress-bar">
+                  <div class="bt-progress-fill" id="btProgressFill" style="width: 0%"></div>
+                </div>
+                <div class="bt-progress-info">
+                  <span id="btProgressPercent">0% used</span>
+                  <span id="btProgressRemaining">100% remaining</span>
+                </div>
+                <div class="bt-budget-status">
+                  <span class="bt-status-label">Planned vs Actual</span>
+                  <span class="bt-status-value" id="btBudgetStatus">$0 under budget</span>
+                </div>
+              </div>
+
+              <!-- Categories Table -->
+              <div class="bt-categories-section">
+                <div class="bt-section-header">
+                  <h3>Categories for this Month</h3>
+                  <button class="btn btn-small btn-gold" onclick="addBudgetCategory()">+ Add</button>
+                </div>
+
+                <div class="bt-table-wrapper">
+                  <table class="bt-table">
+                    <thead>
+                      <tr>
+                        <th style="width: 30px;"></th>
+                        <th>Category</th>
+                        <th>Planned</th>
+                        <th>Actual</th>
+                        <th>Remaining</th>
+                        <th>Status</th>
+                        <th style="width: 50px;">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="btCategoriesTableBody">
+                      <tr class="bt-empty-row">
+                        <td colspan="7" style="text-align: center; color: #94a3b8;">No categories added yet</td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr class="bt-total-row">
+                        <td colspan="2"><strong>Total</strong></td>
+                        <td><strong id="btTotalPlanned">$0</strong></td>
+                        <td><strong id="btTotalActual">$0</strong></td>
+                        <td><strong id="btTotalRemaining">$0</strong></td>
+                        <td colspan="2"></td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Spending Breakdown Chart -->
+              <div class="bt-chart-section">
+                <h3>Spending Breakdown</h3>
+                <div class="bt-chart-container">
+                  <canvas id="btSpendingChart"></canvas>
+                </div>
+              </div>
+
             </div>
           </div>
 

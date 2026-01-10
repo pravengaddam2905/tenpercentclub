@@ -2967,3 +2967,343 @@ function updateCharts() {
   nwCashflowChart.data.datasets[0].backgroundColor = ['#10b981', '#ef4444', variance >= 0 ? '#10b981' : '#ef4444'];
   nwCashflowChart.update();
 }
+
+// ===================================
+// Budget Tracker Functions
+// ===================================
+
+let btData = {
+  currentMonth: new Date().toISOString().slice(0, 7), // YYYY-MM format
+  months: {}
+};
+
+let btSpendingChart = null;
+
+// Initialize Budget Tracker
+function initBudgetTracker() {
+  loadBudgetData();
+  updateBudgetDisplay();
+  initBudgetChart();
+}
+
+// Load data from localStorage
+function loadBudgetData() {
+  const saved = localStorage.getItem('budgetTrackerData');
+  if (saved) {
+    btData = JSON.parse(saved);
+  }
+
+  // Ensure current month exists
+  if (!btData.months[btData.currentMonth]) {
+    btData.months[btData.currentMonth] = {
+      income: 0,
+      categories: []
+    };
+  }
+}
+
+// Save data to localStorage
+function saveBudgetData() {
+  localStorage.setItem('budgetTrackerData', JSON.stringify(btData));
+}
+
+// Format currency
+function formatBudgetCurrency(amount) {
+  return '$' + Math.abs(amount).toLocaleString('en-CA', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  });
+}
+
+// Get month name from YYYY-MM format
+function getMonthName(monthStr) {
+  const [year, month] = monthStr.split('-');
+  const date = new Date(year, month - 1);
+  return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+}
+
+// Change month
+function changeMonth(direction) {
+  const [year, month] = btData.currentMonth.split('-').map(Number);
+  const date = new Date(year, month - 1 + direction);
+  btData.currentMonth = date.toISOString().slice(0, 7);
+
+  // Ensure new month exists
+  if (!btData.months[btData.currentMonth]) {
+    btData.months[btData.currentMonth] = {
+      income: 0,
+      categories: []
+    };
+  }
+
+  saveBudgetData();
+  updateBudgetDisplay();
+}
+
+// Add category
+function addBudgetCategory() {
+  const currentMonthData = btData.months[btData.currentMonth];
+  const newCategory = {
+    id: Date.now(),
+    name: '',
+    planned: 0,
+    actual: 0
+  };
+
+  currentMonthData.categories.push(newCategory);
+  saveBudgetData();
+  renderBudgetCategories();
+  updateBudgetSummary();
+}
+
+// Delete category
+function deleteBudgetCategory(id) {
+  const currentMonthData = btData.months[btData.currentMonth];
+  currentMonthData.categories = currentMonthData.categories.filter(c => c.id !== id);
+  saveBudgetData();
+  renderBudgetCategories();
+  updateBudgetSummary();
+  updateBudgetChart();
+}
+
+// Update category
+function updateBudgetCategory(id, field, value) {
+  const currentMonthData = btData.months[btData.currentMonth];
+  const category = currentMonthData.categories.find(c => c.id === id);
+
+  if (category) {
+    if (field === 'name') {
+      category[field] = value;
+    } else {
+      category[field] = parseFloat(value) || 0;
+    }
+    saveBudgetData();
+    updateBudgetSummary();
+    updateBudgetChart();
+  }
+}
+
+// Update monthly income
+function updateMonthlyIncome(value) {
+  const currentMonthData = btData.months[btData.currentMonth];
+  currentMonthData.income = parseFloat(value) || 0;
+  saveBudgetData();
+  updateBudgetSummary();
+}
+
+// Render categories table
+function renderBudgetCategories() {
+  const tbody = document.getElementById('btCategoriesTableBody');
+  const currentMonthData = btData.months[btData.currentMonth];
+
+  if (currentMonthData.categories.length === 0) {
+    tbody.innerHTML = '<tr class="bt-empty-row"><td colspan="7" style="text-align: center; color: #94a3b8;">No categories added yet</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = currentMonthData.categories.map(cat => {
+    const remaining = cat.planned - cat.actual;
+    const status = remaining >= 0 ? 'under' : 'over';
+    const statusText = remaining >= 0 ? 'Under' : 'Over';
+
+    return `
+      <tr>
+        <td><span class="bt-drag-handle">⋮⋮</span></td>
+        <td>
+          <input
+            type="text"
+            value="${cat.name}"
+            onchange="updateBudgetCategory(${cat.id}, 'name', this.value)"
+            placeholder="e.g., Groceries"
+          >
+        </td>
+        <td>
+          <input
+            type="number"
+            value="${cat.planned}"
+            onchange="updateBudgetCategory(${cat.id}, 'planned', this.value)"
+            placeholder="$0"
+            min="0"
+            step="1"
+          >
+        </td>
+        <td>
+          <input
+            type="number"
+            value="${cat.actual}"
+            onchange="updateBudgetCategory(${cat.id}, 'actual', this.value)"
+            placeholder="$0"
+            min="0"
+            step="1"
+          >
+        </td>
+        <td style="color: ${remaining >= 0 ? '#059669' : '#ef4444'}; font-weight: 600;">
+          ${formatBudgetCurrency(remaining)}
+        </td>
+        <td>
+          ${remaining === 0 ? '—' : `<span class="bt-status-badge ${status}">${statusText}</span>`}
+        </td>
+        <td>
+          <button class="bt-delete-btn" onclick="deleteBudgetCategory(${cat.id})" title="Delete">🗑️</button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+// Update budget summary
+function updateBudgetSummary() {
+  const currentMonthData = btData.months[btData.currentMonth];
+
+  // Calculate totals
+  const totalPlanned = currentMonthData.categories.reduce((sum, c) => sum + c.planned, 0);
+  const totalActual = currentMonthData.categories.reduce((sum, c) => sum + c.actual, 0);
+  const totalRemaining = totalPlanned - totalActual;
+  const income = currentMonthData.income;
+  const remaining = income - totalActual;
+
+  // Update summary cards
+  document.getElementById('btMonthlyIncome').textContent = formatBudgetCurrency(income);
+  document.getElementById('btRemaining').textContent = formatBudgetCurrency(remaining);
+  document.getElementById('btActualSpend').textContent = formatBudgetCurrency(totalActual);
+
+  // Update table footer
+  document.getElementById('btTotalPlanned').textContent = formatBudgetCurrency(totalPlanned);
+  document.getElementById('btTotalActual').textContent = formatBudgetCurrency(totalActual);
+  document.getElementById('btTotalRemaining').textContent = formatBudgetCurrency(totalRemaining);
+
+  // Update progress bar
+  const progressPercent = income > 0 ? Math.min((totalActual / income) * 100, 100) : 0;
+  const progressFill = document.getElementById('btProgressFill');
+  progressFill.style.width = progressPercent + '%';
+
+  if (progressPercent > 100 || totalActual > income) {
+    progressFill.classList.add('over-budget');
+  } else {
+    progressFill.classList.remove('over-budget');
+  }
+
+  // Update progress text
+  document.getElementById('btSpentDisplay').textContent =
+    `${formatBudgetCurrency(totalActual)} of ${formatBudgetCurrency(income)}`;
+  document.getElementById('btProgressPercent').textContent =
+    `${Math.round(progressPercent)}% used`;
+  document.getElementById('btProgressRemaining').textContent =
+    `${Math.round(100 - progressPercent)}% remaining`;
+
+  // Update budget status
+  const budgetDiff = income - totalActual;
+  const statusEl = document.getElementById('btBudgetStatus');
+  statusEl.textContent = budgetDiff >= 0
+    ? `${formatBudgetCurrency(budgetDiff)} under budget`
+    : `${formatBudgetCurrency(Math.abs(budgetDiff))} over budget`;
+  statusEl.className = 'bt-status-value ' + (budgetDiff >= 0 ? '' : 'over');
+
+  // Update remaining card color
+  const remainingEl = document.getElementById('btRemaining');
+  remainingEl.className = 'bt-card-value ' + (remaining >= 0 ? 'bt-value-success' : 'bt-value-danger');
+}
+
+// Update display
+function updateBudgetDisplay() {
+  // Update month header
+  document.getElementById('btCurrentMonth').textContent =
+    getMonthName(btData.currentMonth) + ' Budget';
+
+  renderBudgetCategories();
+  updateBudgetSummary();
+  updateBudgetChart();
+}
+
+// Initialize chart
+function initBudgetChart() {
+  const ctx = document.getElementById('btSpendingChart');
+  if (!ctx) return;
+
+  btSpendingChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: [],
+      datasets: [{
+        data: [],
+        backgroundColor: [
+          '#10b981', '#3b82f6', '#f59e0b', '#8b5cf6', '#ef4444',
+          '#06b6d4', '#ec4899', '#14b8a6', '#f97316', '#a855f7',
+          '#84cc16', '#6366f1', '#f43f5e', '#0ea5e9', '#d946ef'
+        ],
+        borderWidth: 2,
+        borderColor: '#fff'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'right',
+          labels: {
+            padding: 15,
+            font: {
+              size: 13,
+              family: "'Inter', sans-serif"
+            },
+            color: '#475569'
+          }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              const label = context.label || '';
+              const value = formatBudgetCurrency(context.parsed);
+              const total = context.dataset.data.reduce((a, b) => a + b, 0);
+              const percentage = ((context.parsed / total) * 100).toFixed(1);
+              return `${label}: ${value} (${percentage}%)`;
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+// Update chart
+function updateBudgetChart() {
+  if (!btSpendingChart) return;
+
+  const currentMonthData = btData.months[btData.currentMonth];
+  const categoriesWithSpending = currentMonthData.categories.filter(c => c.actual > 0);
+
+  if (categoriesWithSpending.length === 0) {
+    btSpendingChart.data.labels = ['No spending data'];
+    btSpendingChart.data.datasets[0].data = [1];
+    btSpendingChart.data.datasets[0].backgroundColor = ['#e2e8f0'];
+  } else {
+    btSpendingChart.data.labels = categoriesWithSpending.map(c => c.name || 'Unnamed');
+    btSpendingChart.data.datasets[0].data = categoriesWithSpending.map(c => c.actual);
+  }
+
+  btSpendingChart.update();
+}
+
+// Add income input functionality
+document.addEventListener('DOMContentLoaded', function() {
+  // Add click handler to Monthly Income card
+  const incomeCard = document.getElementById('btMonthlyIncome');
+  if (incomeCard) {
+    incomeCard.style.cursor = 'pointer';
+    incomeCard.addEventListener('click', function() {
+      const currentMonthData = btData.months[btData.currentMonth];
+      const newIncome = prompt('Enter your monthly income:', currentMonthData.income || '0');
+
+      if (newIncome !== null) {
+        updateMonthlyIncome(newIncome);
+      }
+    });
+  }
+
+  // Initialize Budget Tracker if on that panel
+  const budgetPanel = document.getElementById('budget-tracker');
+  if (budgetPanel) {
+    initBudgetTracker();
+  }
+});
