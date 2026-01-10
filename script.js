@@ -3163,8 +3163,12 @@ function updateBudgetSummary() {
   const remaining = income - totalActual;
 
   // Update summary cards
+  const incomeDisplay = document.getElementById('btMonthlyIncomeDisplay');
   const incomeInput = document.getElementById('btMonthlyIncomeInput');
-  if (incomeInput) {
+  if (incomeDisplay) {
+    incomeDisplay.textContent = formatBudgetCurrency(income);
+  }
+  if (incomeInput && incomeInput.style.display === 'none') {
     incomeInput.value = income || '';
   }
   document.getElementById('btRemaining').textContent = formatBudgetCurrency(remaining);
@@ -3286,6 +3290,35 @@ function updateBudgetChart() {
   }
 
   btSpendingChart.update();
+}
+
+// Toggle income edit mode
+function toggleIncomeEdit() {
+  const display = document.getElementById('btMonthlyIncomeDisplay');
+  const input = document.getElementById('btMonthlyIncomeInput');
+  const currentMonthData = btData.months[btData.currentMonth];
+
+  if (display && input) {
+    display.style.display = 'none';
+    input.style.display = 'block';
+    input.value = currentMonthData.income || '';
+    input.focus();
+    input.select();
+  }
+}
+
+// Save income edit
+function saveIncomeEdit() {
+  const display = document.getElementById('btMonthlyIncomeDisplay');
+  const input = document.getElementById('btMonthlyIncomeInput');
+
+  if (display && input) {
+    const value = parseFloat(input.value) || 0;
+    updateMonthlyIncome(value);
+
+    display.style.display = 'block';
+    input.style.display = 'none';
+  }
 }
 
 // Initialize Budget Tracker on page load

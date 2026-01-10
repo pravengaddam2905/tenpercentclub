@@ -321,17 +321,29 @@
                 <div class="bt-card bt-card-income">
                   <div class="bt-card-header">
                     <span class="bt-card-label">Monthly Income</span>
-                    <span class="bt-card-icon">💰</span>
+                    <div class="bt-card-actions">
+                      <button class="bt-edit-btn" onclick="toggleIncomeEdit()" title="Edit">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                        </svg>
+                      </button>
+                    </div>
                   </div>
-                  <input
-                    type="number"
-                    id="btMonthlyIncomeInput"
-                    class="bt-card-input"
-                    placeholder="$0"
-                    min="0"
-                    step="1"
-                    onchange="updateMonthlyIncome(this.value)"
-                  >
+                  <div class="bt-card-value-container">
+                    <div class="bt-card-value" id="btMonthlyIncomeDisplay">$0</div>
+                    <input
+                      type="number"
+                      id="btMonthlyIncomeInput"
+                      class="bt-card-input"
+                      style="display: none;"
+                      placeholder="0"
+                      min="0"
+                      step="1"
+                      onblur="saveIncomeEdit()"
+                      onkeypress="if(event.key === 'Enter') saveIncomeEdit()"
+                    >
+                  </div>
                 </div>
 
                 <div class="bt-card bt-card-remaining">

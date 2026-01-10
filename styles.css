@@ -5081,8 +5081,36 @@ p {
   letter-spacing: 0.5px;
 }
 
+.bt-card-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.bt-edit-btn {
+  background: transparent;
+  border: none;
+  color: #10b981;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.bt-edit-btn:hover {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+}
+
 .bt-card-icon {
   font-size: 24px;
+}
+
+.bt-card-value-container {
+  position: relative;
 }
 
 .bt-card-value {
