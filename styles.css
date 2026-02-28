@@ -1366,6 +1366,58 @@ p {
   margin-bottom: 32px;
 }
 
+.booking-details {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+
+.booking-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #475569;
+}
+
+.booking-detail-icon {
+  font-size: 20px;
+}
+
+.calendly-popup-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 auto;
+  font-size: 18px;
+  padding: 16px 36px;
+}
+
+/* Footer social */
+.footer-social {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.social-link:hover {
+  color: #f59e0b;
+}
+
 /* FAQ */
 .faq-grid {
   display: grid;

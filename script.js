@@ -8,10 +8,20 @@ if (menuBtn) {
   });
 }
 
-// Close menu on link click (mobile)
-document.querySelectorAll('#menu a').forEach(a => {
-  a.addEventListener('click', () => {
-    menu.classList.remove('open');
+// Close menu on link click (mobile) + smooth scroll with header offset
+document.querySelectorAll('#menu a[href^="#"], a[href^="#"]').forEach(a => {
+  a.addEventListener('click', function(e) {
+    const href = this.getAttribute('href');
+    if (href && href.startsWith('#') && href.length > 1) {
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        const headerHeight = document.querySelector('.site-header')?.offsetHeight || 70;
+        const top = target.getBoundingClientRect().top + window.scrollY - headerHeight;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    }
+    if (menu) menu.classList.remove('open');
   });
 });
 
