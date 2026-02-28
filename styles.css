@@ -1249,6 +1249,101 @@ p {
   margin-bottom: 8px;
 }
 
+/* Commitment Section */
+.commitment-card {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 48px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  border-left: 5px solid #2563eb;
+}
+
+.commitment-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.commitment-text {
+  font-size: 18px;
+  color: #475569;
+  line-height: 1.8;
+  margin: 0;
+}
+
+/* 10% Philosophy Section */
+.philosophy-section {
+  background: white;
+}
+
+.philosophy-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 48px;
+}
+
+.pillar-card {
+  text-align: center;
+  padding: 36px 28px;
+  border-radius: 16px;
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.pillar-card:hover {
+  border-color: #2563eb;
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.1);
+  transform: translateY(-4px);
+}
+
+.pillar-icon {
+  font-size: 52px;
+  margin-bottom: 16px;
+}
+
+.pillar-card h3 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 12px;
+}
+
+.pillar-card p {
+  font-size: 15px;
+  color: #64748b;
+  line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+  .philosophy-pillars {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .commitment-card {
+    padding: 28px 20px;
+  }
+
+  .commitment-text {
+    font-size: 16px;
+  }
+}
+
+/* Footer careers link */
+.footer-careers-link {
+  color: #94a3b8;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.footer-careers-link:hover {
+  color: #f59e0b;
+}
+
 /* Booking */
 .booking-card {
   max-width: 900px;
