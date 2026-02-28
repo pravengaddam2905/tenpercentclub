@@ -5,19 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ten Percent Club</title>
 
-  <!-- Google Fonts - Inter & Poppins -->
+  <!-- Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="styles.css?v=2.0" />
-  <meta name="description" content="Licensed financial professional helping Canadian families with tax planning, insurance, investments, and retirement strategies. Free consultation available." />
-  
+  <link rel="stylesheet" href="styles.css?v=3.0" />
+  <meta name="description" content="Licensed financial professional helping Canadian families with tax planning, insurance, and retirement strategies. Free consultation available." />
+
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="alternate icon" type="image/png" href="favicon.png" sizes="32x32">
   <link rel="apple-touch-icon" href="favicon.png">
-  
+
   <!-- Calendly -->
   <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
   <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
@@ -31,90 +31,168 @@
     gtag('config', 'G-KBPQ9T1N8Q');
   </script>
 </head>
-<body>
+<body class="v2-body">
 
-  <!-- Urgent Tax Banner -->
-  <div class="tax-banner">
-    <div class="container">
-      <span class="tax-icon">⏰</span>
-      <span class="tax-text"><strong>Year-End Tax Savings:</strong> Maximize your RRSP/TFSA before March 1, 2026</span>
-      <a href="/tools" class="tax-link">Learn More →</a>
+  <!-- Announcement Bar -->
+  <div class="ann-bar" id="annBar">
+    <div class="ann-bar-inner">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span class="ann-bar-text"><strong>Year-End Tax Savings:</strong> Maximize your RRSP/TFSA before March&nbsp;1,&nbsp;2026</span>
+      <a href="/tools" class="ann-bar-link">Learn More →</a>
     </div>
+    <button class="ann-bar-dismiss" id="annBarDismiss" aria-label="Dismiss announcement">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
   </div>
 
   <!-- Header -->
-  <header class="site-header">
-    <div class="container nav">
-      <a href="#home" class="brand">
-        <svg class="brand-logo" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true">
+  <header class="v2-header" id="v2Header">
+    <div class="v2-container v2-nav">
+      <a href="#home" class="v2-brand">
+        <svg class="v2-brand-logo" width="30" height="30" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z" fill="currentColor"/>
         </svg>
-        <div class="brand-text">
-          <span class="brand-name">Ten Percent Club</span>
-          <span class="brand-license">Licensed ID: 25242870</span>
+        <div class="v2-brand-text">
+          <span class="v2-brand-name">Ten Percent Club</span>
+          <span class="v2-brand-license">License ID: 25242870</span>
         </div>
       </a>
 
-      <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">
+      <button class="v2-menu-btn" id="v2MenuBtn" aria-label="Toggle menu">
         <span></span><span></span><span></span>
       </button>
 
-      <nav class="menu" id="menu">
+      <nav class="v2-menu" id="v2Menu">
         <a href="/">Home</a>
         <a href="#services">Services</a>
         <a href="/tools">Tools</a>
         <a href="#resources">Resources</a>
-        <a href="#book" class="btn btn-primary">Book Free Call</a>
+        <a href="#book" class="v2-btn v2-btn-primary">Book Free Call</a>
       </nav>
     </div>
   </header>
 
   <!-- Hero Section -->
-  <section id="home" class="section hero">
-    <div class="container">
-      <div class="hero-content-center">
-        <div class="hero-badge">Licensed Financial Professional</div>
-        <h1>Save Just 10% Monthly to Secure Your Family's Future</h1>
-        <p class="lead">Protection + Smart Savings + Financial Confidence—all through one simple strategy tailored for families in Canada</p>
-
-        <a href="#book" class="btn btn-primary btn-lg hero-cta">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-            <line x1="16" y1="2" x2="16" y2="6"></line>
-            <line x1="8" y1="2" x2="8" y2="6"></line>
-            <line x1="3" y1="10" x2="21" y2="10"></line>
-          </svg>
-          Book a Free 15-Minute Call
-        </a>
-
-        <div class="hero-trust">
-          <span>✓ No fees for planning</span>
+  <section id="home" class="v2-hero">
+    <div class="v2-container v2-hero-inner">
+      <div class="v2-hero-text">
+        <div class="v2-hero-badge">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z"/></svg>
+          Licensed Financial Professional
+        </div>
+        <h1>Save Just <span class="v2-highlight">10%</span> Monthly to Secure Your Family's Future</h1>
+        <p class="v2-hero-lead">Protection + Smart Savings + Financial Confidence — all through one simple strategy tailored for Canadian families.</p>
+        <div class="v2-hero-actions">
+          <button class="v2-btn v2-btn-amber v2-btn-lg calendly-popup-btn"
+            onclick="Calendly.initPopupWidget({url:'https://calendly.com/praveengaddam/30min?primary_color=d4a017&text_color=0f172a&background_color=ffffff'});return false;">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Book a Free Call
+          </button>
+          <a href="#services" class="v2-btn v2-btn-ghost v2-btn-lg">See What I Do →</a>
+        </div>
+        <div class="v2-hero-trust">
+          <span>✓ No planning fees</span>
           <span>✓ Multiple providers compared</span>
-          <span>✓ Licensed & insured</span>
+          <span>✓ Licensed &amp; insured</span>
+        </div>
+      </div>
+
+      <div class="v2-hero-visual">
+        <div class="v2-dashboard-card">
+          <div class="v2-dashboard-header">
+            <span class="v2-dashboard-title">Monthly Financial Plan</span>
+            <span class="v2-dashboard-badge">Active</span>
+          </div>
+          <div class="v2-dashboard-metric">
+            <span class="v2-metric-label">Monthly Savings Goal</span>
+            <span class="v2-metric-value">$450<span class="v2-metric-sub">/mo</span></span>
+          </div>
+          <div class="v2-dashboard-bars">
+            <div class="v2-bar-row">
+              <span class="v2-bar-label">Protection</span>
+              <div class="v2-bar-track"><div class="v2-bar-fill" style="width:40%"></div></div>
+              <span class="v2-bar-pct">40%</span>
+            </div>
+            <div class="v2-bar-row">
+              <span class="v2-bar-label">Savings</span>
+              <div class="v2-bar-track"><div class="v2-bar-fill v2-bar-amber" style="width:35%"></div></div>
+              <span class="v2-bar-pct">35%</span>
+            </div>
+            <div class="v2-bar-row">
+              <span class="v2-bar-label">Growth</span>
+              <div class="v2-bar-track"><div class="v2-bar-fill v2-bar-navy" style="width:25%"></div></div>
+              <span class="v2-bar-pct">25%</span>
+            </div>
+          </div>
+          <div class="v2-dashboard-footer">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z"/></svg>
+            Ten Percent Club Plan
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 10% Philosophy Section -->
-  <section class="section philosophy-section">
-    <div class="container">
-      <h2 class="section-title">The 10% Philosophy — Simple, Powerful, Life-Changing</h2>
-      <p class="subtitle">My approach is simple: save just 10% of your paycheck and distribute it strategically across three pillars—Protection (insurance to safeguard your family), Savings (tax-efficient products for your future), and Growth (long-term wealth accumulation). Most families don't need complex financial strategies. They need a clear, consistent plan they can stick to. That's what the 10% Philosophy delivers.</p>
+  <!-- Stats Strip -->
+  <div class="v2-stats-strip">
+    <div class="v2-container v2-stats-inner">
+      <div class="v2-stat">
+        <span class="v2-stat-num">150+</span>
+        <span class="v2-stat-lbl">Families Helped</span>
+      </div>
+      <div class="v2-stat-divider"></div>
+      <div class="v2-stat">
+        <span class="v2-stat-num">6+</span>
+        <span class="v2-stat-lbl">Providers Compared</span>
+      </div>
+      <div class="v2-stat-divider"></div>
+      <div class="v2-stat">
+        <span class="v2-stat-num">$0</span>
+        <span class="v2-stat-lbl">Planning Fees</span>
+      </div>
+      <div class="v2-stat-divider"></div>
+      <div class="v2-stat">
+        <span class="v2-stat-num">LLQP</span>
+        <span class="v2-stat-lbl">Licensed &amp; Certified</span>
+      </div>
+    </div>
+  </div>
 
-      <div class="philosophy-pillars">
-        <div class="pillar-card">
-          <div class="pillar-icon">🛡️</div>
+  <!-- Philosophy Section -->
+  <section class="v2-section v2-philosophy">
+    <div class="v2-container">
+      <div class="v2-section-header fade-in">
+        <h2>The 10% Philosophy — Simple, Powerful, Life-Changing</h2>
+        <p>Save just 10% of your paycheck and distribute it strategically across three pillars. Most families don't need complex strategies — they need a clear, consistent plan they can stick to.</p>
+      </div>
+      <div class="v2-pillars fade-in">
+        <div class="v2-pillar-card">
+          <div class="v2-pillar-icon-wrap">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z"/>
+            </svg>
+          </div>
           <h3>Protection</h3>
           <p>Insurance to safeguard your family against life's uncertainties — life, disability, and critical illness coverage.</p>
         </div>
-        <div class="pillar-card">
-          <div class="pillar-icon">🐷</div>
+        <div class="v2-pillar-connector" aria-hidden="true"></div>
+        <div class="v2-pillar-card">
+          <div class="v2-pillar-icon-wrap">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+            </svg>
+          </div>
           <h3>Savings</h3>
           <p>Tax-efficient products designed to grow your money while minimizing what you owe — built for your future.</p>
         </div>
-        <div class="pillar-card">
-          <div class="pillar-icon">📈</div>
+        <div class="v2-pillar-connector" aria-hidden="true"></div>
+        <div class="v2-pillar-card">
+          <div class="v2-pillar-icon-wrap">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+              <polyline points="17 6 23 6 23 12"/>
+            </svg>
+          </div>
           <h3>Growth</h3>
           <p>Long-term wealth accumulation strategies that build a secure financial foundation for you and your family.</p>
         </div>
@@ -123,174 +201,100 @@
   </section>
 
   <!-- Services Section -->
-  <section id="services" class="section light-bg">
-    <div class="container">
-      <h2 class="section-title">How I Help Families in Canada</h2>
-      <p class="subtitle">Comprehensive financial planning to protect and grow your family's wealth</p>
+  <section id="services" class="v2-section v2-services v2-bg-subtle">
+    <div class="v2-container">
+      <div class="v2-section-header fade-in">
+        <h2>How I Help Families in Canada</h2>
+        <p>Comprehensive financial planning to protect and grow your family's wealth</p>
+      </div>
+      <div class="v2-services-grid fade-in">
 
-      <div class="services-grid">
-        <div class="service-card">
-          <div class="service-card-icon">🛡️</div>
+        <div class="v2-service-card">
+          <div class="v2-service-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z"/></svg>
+          </div>
           <h3>Insurance Planning</h3>
-          <p>Protect your family with the right coverage—life, critical illness, and disability insurance tailored to your needs.</p>
-          <a href="/tools#life-insurance-calculator" class="service-link">Calculate your needs →</a>
+          <p>Protect your family with the right coverage — life, critical illness, and disability insurance tailored to your needs.</p>
+          <a href="/tools#life-insurance-calculator" class="v2-service-link">Calculate your needs →</a>
         </div>
 
-        <div class="service-card featured">
-          <div class="service-card-icon">💰</div>
+        <div class="v2-service-card v2-service-featured">
+          <div class="v2-service-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
           <h3>Tax-Efficient Protection</h3>
-          <p>Learn how insurance-based products like segregated funds can offer tax-advantaged growth, creditor protection, and estate benefits for your family.</p>
-          <a href="/tools" class="service-link">Tax calculator →</a>
+          <p>Learn how insurance-based products like segregated funds can offer tax-advantaged growth, creditor protection, and estate benefits.</p>
+          <a href="/tools" class="v2-service-link">Tax calculator →</a>
         </div>
 
-        <div class="service-card">
-          <div class="service-card-icon">📈</div>
-          <h3>Long-Term Savings & Growth</h3>
+        <div class="v2-service-card">
+          <div class="v2-service-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          </div>
+          <h3>Long-Term Savings &amp; Growth</h3>
           <p>Build long-term savings through segregated funds and insurance-based strategies designed for wealth accumulation and retirement readiness.</p>
-          <a href="/tools" class="service-link">Growth calculator →</a>
+          <a href="/tools" class="v2-service-link">Growth calculator →</a>
         </div>
 
-        <div class="service-card">
-          <div class="service-card-icon">📜</div>
-          <h3>Will & Legal Referrals</h3>
+        <div class="v2-service-card">
+          <div class="v2-service-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <h3>Will &amp; Legal Referrals</h3>
           <p>I connect you with trusted legal professionals for will preparation and power of attorney, ensuring your insurance and financial plans work together seamlessly.</p>
-          <a href="#book" class="service-link">Get started →</a>
+          <a href="#book" class="v2-service-link">Get started →</a>
         </div>
 
-        <div class="service-card">
-          <div class="service-card-icon">🏛️</div>
-          <h3>Estate & Beneficiary Planning</h3>
-          <p>Understand how life insurance and segregated funds can help protect your estate, provide for beneficiaries, and potentially bypass probate. I coordinate with legal and tax professionals for comprehensive planning.</p>
-          <a href="#book" class="service-link">Plan your estate →</a>
+        <div class="v2-service-card">
+          <div class="v2-service-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3>Estate &amp; Beneficiary Planning</h3>
+          <p>Understand how life insurance and segregated funds can help protect your estate and potentially bypass probate. I coordinate with legal and tax professionals.</p>
+          <a href="#book" class="v2-service-link">Plan your estate →</a>
         </div>
 
-        <div class="service-card">
-          <div class="service-card-icon">👨‍👩‍👧‍👦</div>
+        <div class="v2-service-card">
+          <div class="v2-service-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          </div>
           <h3>Children's Education Planning</h3>
-          <p>I help you understand education savings options and can connect you with the right providers. For families I work with, I ensure your children's education goals are part of your overall financial protection plan.</p>
-          <a href="#book" class="service-link">Start saving →</a>
+          <p>I help you understand education savings options and ensure your children's education goals are part of your overall financial protection plan.</p>
+          <a href="#book" class="v2-service-link">Start saving →</a>
         </div>
 
-        <div class="service-card">
-          <div class="service-card-icon">🎓</div>
-          <h3>Education & Workshops</h3>
-          <p>Free seminars and one-on-one coaching to help you understand your finances and make confident decisions.</p>
-          <a href="#book" class="service-link">Book a session →</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Why Choose Us Section -->
-  <section class="section">
-    <div class="container">
-      <h2 class="section-title">Why Clients Trust Ten Percent Club</h2>
-
-      <div class="trust-grid">
-        <div class="trust-item">
-          <div class="trust-icon">✓</div>
-          <h4>Simple, Clear Advice</h4>
-          <p>Financial planning explained in plain language—no jargon, no confusion.</p>
-        </div>
-
-        <div class="trust-item">
-          <div class="trust-icon">✓</div>
-          <h4>Tax-Efficient Strategies</h4>
-          <p>Proven methods to save thousands in taxes while building wealth for your future.</p>
-        </div>
-
-        <div class="trust-item">
-          <div class="trust-icon">✓</div>
-          <h4>Licensed & Committed</h4>
-          <p>Fully licensed LLQP professional dedicated to helping Canadian families make informed financial decisions.</p>
-        </div>
-
-        <div class="trust-item">
-          <div class="trust-icon">✓</div>
-          <h4>No Planning Fees</h4>
-          <p>Free financial planning consultations—get expert guidance without upfront costs.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Commitment Section -->
-  <section class="section light-bg">
-    <div class="container">
-      <div class="commitment-card">
-        <div class="commitment-icon">🤝</div>
-        <h2 class="section-title">My Commitment to You</h2>
-        <p class="commitment-text">I'm building my practice one family at a time. Every client gets my full attention, honest guidance, and a plan that truly fits their needs. As I grow, this section will feature real stories from families I've had the privilege to help.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Resources Section -->
-  <section id="resources" class="section alt">
-    <div class="container">
-      <h2 class="section-title">Free Financial Tools</h2>
-      <p class="subtitle">Use these interactive calculators to better understand your financial picture</p>
-
-      <div class="resource-grid">
-        <div class="resource-card">
-          <div class="resource-icon">💰</div>
-          <h3>Tax Savings Calculator</h3>
-          <p>See how RRSP, TFSA, FHSA, and RESP contributions can reduce your taxes</p>
-          <a href="/tools" class="resource-link">Try Calculator →</a>
-        </div>
-        <div class="resource-card">
-          <div class="resource-icon">📊</div>
-          <h3>Net Worth Tracker</h3>
-          <p>Track your assets, liabilities, income, and expenses all in one place</p>
-          <a href="/tools" class="resource-link">Open Tracker →</a>
-        </div>
-        <div class="resource-card">
-          <div class="resource-icon">📅</div>
-          <h3>Budget Tracker</h3>
-          <p>Plan and track your monthly spending by category with visual breakdowns</p>
-          <a href="/tools" class="resource-link">Open Tracker →</a>
-        </div>
-      </div>
-
-      <div class="cta-card">
-        <h3>Want personalized guidance?</h3>
-        <p>Book a free 30-minute consultation to discuss your specific situation</p>
-        <a href="#book" class="btn btn-gold">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-            <line x1="16" y1="2" x2="16" y2="6"></line>
-            <line x1="8" y1="2" x2="8" y2="6"></line>
-            <line x1="3" y1="10" x2="21" y2="10"></line>
-          </svg>
-          Schedule Free Call
-        </a>
       </div>
     </div>
   </section>
 
   <!-- Process Section -->
-  <section id="process" class="section">
-    <div class="container">
-      <h2 class="section-title">Simple, Transparent Process</h2>
-      
-      <div class="process-grid">
-        <div class="process-step">
-          <div class="step-number">1</div>
+  <section class="v2-section v2-process">
+    <div class="v2-container">
+      <div class="v2-section-header fade-in">
+        <h2>Simple, Transparent Process</h2>
+        <p>From first call to your personalized plan — here's what to expect</p>
+      </div>
+      <div class="v2-process-timeline fade-in">
+        <div class="v2-process-step">
+          <div class="v2-process-num">1</div>
           <h4>Discovery Call</h4>
-          <p>30-minute free consultation to understand your goals and situation</p>
+          <p>Free 30-minute consultation to understand your goals and situation</p>
         </div>
-        <div class="process-step">
-          <div class="step-number">2</div>
+        <div class="v2-process-dash" aria-hidden="true"></div>
+        <div class="v2-process-step">
+          <div class="v2-process-num">2</div>
           <h4>Data Gathering</h4>
           <p>Collect information about income, assets, and current coverage</p>
         </div>
-        <div class="process-step">
-          <div class="step-number">3</div>
+        <div class="v2-process-dash" aria-hidden="true"></div>
+        <div class="v2-process-step">
+          <div class="v2-process-num">3</div>
           <h4>Custom Plan</h4>
           <p>Compare providers and create personalized recommendations</p>
         </div>
-        <div class="process-step">
-          <div class="step-number">4</div>
+        <div class="v2-process-dash" aria-hidden="true"></div>
+        <div class="v2-process-step">
+          <div class="v2-process-num">4</div>
           <h4>Implementation</h4>
           <p>Put your plan into action with ongoing annual reviews</p>
         </div>
@@ -298,137 +302,235 @@
     </div>
   </section>
 
-  <!-- About Section -->
-  <section class="section alt">
-    <div class="container about-container">
-      <h2 class="section-title">About Me</h2>
-      <p class="about-intro">I'm a licensed financial professional with World Financial Group (WFG) and multiple leading Canadian institutions. My mission is simple: help families protect their income, save on taxes, and build long-term wealth through unbiased, personalized planning.</p>
-      
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-number">Licensed</div>
-          <div class="stat-label">LLQP & Provincial Licensing</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">Multiple Providers</div>
-          <div class="stat-label">Unbiased Product Comparison</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">No Fees</div>
-          <div class="stat-label">Planning at No Cost to You</div>
+  <!-- CTA Banner -->
+  <section class="v2-cta-banner">
+    <div class="v2-container v2-cta-inner fade-in">
+      <div class="v2-cta-text">
+        <h2>Ready to Start Your 10% Journey?</h2>
+        <p>Book a free consultation — no pressure, no obligation, no fees.</p>
+      </div>
+      <div class="v2-cta-actions">
+        <button class="v2-btn v2-btn-amber v2-btn-lg calendly-popup-btn"
+          onclick="Calendly.initPopupWidget({url:'https://calendly.com/praveengaddam/30min?primary_color=d4a017&text_color=0f172a&background_color=ffffff'});return false;">
+          Book Free Call
+        </button>
+        <div class="v2-cta-perks">
+          <span>✓ 30 minutes</span>
+          <span>✓ Video or Phone</span>
+          <span>✓ Completely Free</span>
         </div>
       </div>
-
-      <p class="about-quote">"I'm building my practice by focusing on long-term relationships, not quick sales. I take the time to understand your unique situation and build a plan that actually works for you."</p>
     </div>
   </section>
 
-
-  <!-- Booking Section -->
-  <section id="book" class="section">
-    <div class="container">
-      <div class="booking-card">
-        <h2>Book Your Free Consultation</h2>
-        <p class="booking-subtitle">No pressure, no obligation. Let's discuss your goals and see how I can help.</p>
-
-        <div class="booking-details">
-          <div class="booking-detail-item">
-            <span class="booking-detail-icon">⏱️</span>
-            <span>30 minutes</span>
+  <!-- About Section -->
+  <section class="v2-section v2-about v2-bg-subtle" id="about">
+    <div class="v2-container">
+      <div class="v2-about-inner fade-in">
+        <div class="v2-about-text">
+          <h2>About Me</h2>
+          <p>I'm a licensed financial professional with World Financial Group (WFG) and multiple leading Canadian institutions. My mission is simple: help families protect their income, save on taxes, and build long-term wealth through unbiased, personalized planning.</p>
+          <blockquote class="v2-about-quote">"I'm building my practice by focusing on long-term relationships, not quick sales. I take the time to understand your unique situation and build a plan that actually works for you."</blockquote>
+          <div class="v2-commitment">
+            <div class="v2-commitment-icon">🤝</div>
+            <div>
+              <strong>My Commitment to You</strong>
+              <p>Every client gets my full attention, honest guidance, and a plan that truly fits their needs. I'm building my practice one family at a time.</p>
+            </div>
           </div>
-          <div class="booking-detail-item">
-            <span class="booking-detail-icon">💬</span>
-            <span>Video or Phone</span>
+        </div>
+        <div class="v2-about-stats">
+          <div class="v2-about-stat">
+            <span class="v2-about-stat-num">LLQP</span>
+            <span class="v2-about-stat-lbl">Licensed &amp; Certified</span>
           </div>
-          <div class="booking-detail-item">
-            <span class="booking-detail-icon">🆓</span>
-            <span>Completely Free</span>
+          <div class="v2-about-stat">
+            <span class="v2-about-stat-num">6+</span>
+            <span class="v2-about-stat-lbl">Providers Compared</span>
+          </div>
+          <div class="v2-about-stat">
+            <span class="v2-about-stat-num">$0</span>
+            <span class="v2-about-stat-lbl">Planning Fees</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Resources Section -->
+  <section id="resources" class="v2-section v2-resources">
+    <div class="v2-container">
+      <div class="v2-section-header fade-in">
+        <h2>Free Financial Tools</h2>
+        <p>Interactive calculators to better understand your financial picture</p>
+      </div>
+      <div class="v2-resources-grid fade-in">
+        <a href="/tools" class="v2-resource-card">
+          <div class="v2-resource-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <h3>Tax Savings Calculator</h3>
+          <p>See how RRSP, TFSA, FHSA, and RESP contributions can reduce your taxes</p>
+          <span class="v2-resource-cta">Try Calculator →</span>
+        </a>
+        <a href="/tools" class="v2-resource-card">
+          <div class="v2-resource-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <h3>Net Worth Tracker</h3>
+          <p>Track your assets, liabilities, income, and expenses all in one place</p>
+          <span class="v2-resource-cta">Open Tracker →</span>
+        </a>
+        <a href="/tools" class="v2-resource-card">
+          <div class="v2-resource-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <h3>Budget Tracker</h3>
+          <p>Plan and track your monthly spending by category with visual breakdowns</p>
+          <span class="v2-resource-cta">Open Tracker →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="v2-section v2-faq v2-bg-subtle">
+    <div class="v2-container">
+      <div class="v2-section-header fade-in">
+        <h2>Frequently Asked Questions</h2>
+      </div>
+      <div class="v2-faq-grid fade-in">
+
+        <div class="v2-faq-item">
+          <button class="v2-faq-btn" aria-expanded="false">
+            <span>Do you charge planning fees?</span>
+            <svg class="v2-faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="v2-faq-answer">
+            <p>No. I'm compensated by the financial institutions when we implement your plan. My planning services are completely free to you.</p>
           </div>
         </div>
 
-        <!-- Calendly Popup Button -->
-        <button
-          class="btn btn-gold btn-lg calendly-popup-btn"
+        <div class="v2-faq-item">
+          <button class="v2-faq-btn" aria-expanded="false">
+            <span>Are you tied to one insurance company?</span>
+            <svg class="v2-faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="v2-faq-answer">
+            <p>No. I partner with multiple leading providers through WFG, which allows me to compare options and find the best fit for your needs and budget.</p>
+          </div>
+        </div>
+
+        <div class="v2-faq-item">
+          <button class="v2-faq-btn" aria-expanded="false">
+            <span>I'm just starting out. Is this for me?</span>
+            <svg class="v2-faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="v2-faq-answer">
+            <p>Absolutely. We can start with basic protection and build from there as your income grows. Even small steps now compound over time.</p>
+          </div>
+        </div>
+
+        <div class="v2-faq-item">
+          <button class="v2-faq-btn" aria-expanded="false">
+            <span>What if I already have insurance or investments?</span>
+            <svg class="v2-faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="v2-faq-answer">
+            <p>Perfect! I'll review your existing coverage to ensure it's still appropriate and identify any gaps or optimization opportunities.</p>
+          </div>
+        </div>
+
+        <div class="v2-faq-item">
+          <button class="v2-faq-btn" aria-expanded="false">
+            <span>How do I prepare for our first meeting?</span>
+            <svg class="v2-faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="v2-faq-answer">
+            <p>No preparation needed. Just bring an open mind and be ready to discuss your goals, current situation, and concerns. I'll guide you through the rest.</p>
+          </div>
+        </div>
+
+        <div class="v2-faq-item">
+          <button class="v2-faq-btn" aria-expanded="false">
+            <span>Where are you located?</span>
+            <svg class="v2-faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="v2-faq-answer">
+            <p>I'm based in Kitchener, Ontario, and serve clients virtually across Canada or in-person in the Greater Toronto Area.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking Section -->
+  <section id="book" class="v2-section v2-book">
+    <div class="v2-container">
+      <div class="v2-book-card fade-in">
+        <h2>Book Your Free Consultation</h2>
+        <p>No pressure, no obligation. Let's discuss your goals and see how I can help.</p>
+        <div class="v2-book-perks">
+          <span>⏱️ 30 minutes</span>
+          <span>💬 Video or Phone</span>
+          <span>🆓 Completely Free</span>
+        </div>
+        <button class="v2-btn v2-btn-amber v2-btn-lg calendly-popup-btn"
           onclick="Calendly.initPopupWidget({url:'https://calendly.com/praveengaddam/30min?primary_color=d4a017&text_color=0f172a&background_color=ffffff'});return false;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-            <line x1="16" y1="2" x2="16" y2="6"></line>
-            <line x1="8" y1="2" x2="8" y2="6"></line>
-            <line x1="3" y1="10" x2="21" y2="10"></line>
-          </svg>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           Pick a Time That Works for You
         </button>
       </div>
     </div>
   </section>
 
-  <!-- FAQ Section -->
-  <section class="section alt">
-    <div class="container">
-      <h2 class="section-title">Frequently Asked Questions</h2>
-      
-      <div class="faq-grid">
-        <div class="faq-item">
-          <h4>Do you charge planning fees?</h4>
-          <p>No. I'm compensated by the financial institutions when we implement your plan. My planning services are completely free to you.</p>
-        </div>
-        <div class="faq-item">
-          <h4>Are you tied to one insurance company?</h4>
-          <p>No. I partner with multiple leading providers through WFG, which allows me to compare options and find the best fit for your needs and budget.</p>
-        </div>
-        <div class="faq-item">
-          <h4>I'm just starting out. Is this for me?</h4>
-          <p>Absolutely. We can start with basic protection and build from there as your income grows. Even small steps now compound over time.</p>
-        </div>
-        <div class="faq-item">
-          <h4>What if I already have insurance or investments?</h4>
-          <p>Perfect! I'll review your existing coverage to ensure it's still appropriate and identify any gaps or optimization opportunities.</p>
-        </div>
-        <div class="faq-item">
-          <h4>How do I prepare for our first meeting?</h4>
-          <p>No preparation needed. Just bring an open mind and be ready to discuss your goals, current situation, and concerns. I'll guide you through the rest.</p>
-        </div>
-        <div class="faq-item">
-          <h4>Where are you located?</h4>
-          <p>I'm based in Kitchener, Ontario, and serve clients virtually across Canada or in-person in the Greater Toronto Area.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Footer -->
-  <footer class="site-footer">
-    <div class="container footer-content">
-      <div class="footer-brand">
-        <svg width="32" height="32" viewBox="0 0 24 24">
+  <footer class="v2-footer">
+    <div class="v2-container v2-footer-inner">
+      <div class="v2-footer-brand">
+        <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z" fill="currentColor"/>
         </svg>
-        <span class="footer-brand-name">Ten Percent Club</span>
-      </div>
-      
-      <div class="footer-info">
-        <p>Licensed Financial Professional | License ID: 25242870</p>
-        <p>Kitchener, Ontario | Serving all of Canada virtually</p>
-        <p><a href="mailto:tenpercentclub10@gmail.com">tenpercentclub10@gmail.com</a></p>
-        <div class="footer-social">
-          <a href="https://www.linkedin.com/in/praveengaddam" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-              <rect x="2" y="9" width="4" height="12"></rect>
-              <circle cx="4" cy="4" r="2"></circle>
-            </svg>
-            LinkedIn
+        <span class="v2-footer-name">Ten Percent Club</span>
+        <p class="v2-footer-tagline">Simple financial planning for Canadian families.</p>
+        <div class="v2-footer-social">
+          <a href="https://www.linkedin.com/in/praveengaddam" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
           </a>
         </div>
       </div>
 
-      <div class="footer-bottom">
-        <p class="copyright">© <span id="year"></span> Ten Percent Club. All rights reserved. | <a href="/careers" class="footer-careers-link">Career Opportunities</a></p>
-        <p class="disclaimer">Insurance products and services are offered through World Financial Group Insurance Agency of Canada Inc. (WFGIAC). Products are underwritten by third-party insurance companies. Ten Percent Club is a personal brand and is not a separate legal entity. For a full list of partnered insurance providers, please contact me directly.</p>
+      <div class="v2-footer-links">
+        <h4>Services</h4>
+        <a href="#services">Insurance Planning</a>
+        <a href="#services">Tax-Efficient Protection</a>
+        <a href="#services">Long-Term Savings</a>
+        <a href="#services">Estate &amp; Beneficiary Planning</a>
+        <a href="/tools">Financial Tools</a>
+      </div>
+
+      <div class="v2-footer-contact">
+        <h4>Contact</h4>
+        <p>Licensed ID: 25242870</p>
+        <p>Kitchener, Ontario</p>
+        <a href="mailto:tenpercentclub10@gmail.com">tenpercentclub10@gmail.com</a>
+        <a href="/careers" class="v2-footer-careers">Career Opportunities</a>
+        <button class="v2-btn v2-btn-amber v2-footer-book-btn calendly-popup-btn"
+          onclick="Calendly.initPopupWidget({url:'https://calendly.com/praveengaddam/30min?primary_color=d4a017&text_color=0f172a&background_color=ffffff'});return false;">
+          Book Free Call
+        </button>
+      </div>
+    </div>
+
+    <div class="v2-footer-bottom">
+      <div class="v2-container">
+        <p>© <span id="year"></span> Ten Percent Club. All rights reserved.</p>
+        <p class="v2-footer-disclaimer">Insurance products and services are offered through World Financial Group Insurance Agency of Canada Inc. (WFGIAC). Products are underwritten by third-party insurance companies. Ten Percent Club is a personal brand and is not a separate legal entity. For a full list of partnered insurance providers, please contact me directly.</p>
       </div>
     </div>
   </footer>
 
-  <script src="script.js?v=2.0"></script>
+  <script src="script.js?v=3.0"></script>
 </body>
 </html>
