@@ -131,7 +131,8 @@ function updateCalculator() {
   if (income > 0) {
     limitsSection.style.display = 'block';
     contributionsSection.style.display = 'block';
-    taxBracketInfo.style.display = 'block';
+    taxBracketInfo.style.display = '';
+    taxBracketInfo.classList.add('show');
 
     // Update tax bracket info
     const bracketInfo = getTaxBracketInfo(income);
@@ -147,7 +148,7 @@ function updateCalculator() {
   } else {
     limitsSection.style.display = 'none';
     contributionsSection.style.display = 'none';
-    taxBracketInfo.style.display = 'none';
+    taxBracketInfo.classList.remove('show');
     document.getElementById('summarySection').style.display = 'none';
     return;
   }
@@ -288,39 +289,45 @@ function updateCalculator() {
   }
 }
 
-// Enable/disable sliders based on checkboxes
+// Enable/disable sliders based on checkboxes + toggle .on class for v2 styling
+function toggleContribBlock(checkbox, slider, blockId) {
+  slider.disabled = !checkbox.checked;
+  var block = document.getElementById(blockId);
+  if (block) block.classList.toggle('on', checkbox.checked);
+}
+
 function setupCheckboxListeners() {
   if (rrspEnabled) {
     rrspEnabled.addEventListener('change', () => {
-      rrspSlider.disabled = !rrspEnabled.checked;
+      toggleContribBlock(rrspEnabled, rrspSlider, 'rrspBlock');
       updateCalculator();
     });
   }
 
   if (tfsaEnabled) {
     tfsaEnabled.addEventListener('change', () => {
-      tfsaSlider.disabled = !tfsaEnabled.checked;
+      toggleContribBlock(tfsaEnabled, tfsaSlider, 'tfsaBlock');
       updateCalculator();
     });
   }
 
   if (fhsaEnabled) {
     fhsaEnabled.addEventListener('change', () => {
-      fhsaSlider.disabled = !fhsaEnabled.checked;
+      toggleContribBlock(fhsaEnabled, fhsaSlider, 'fhsaBlock');
       updateCalculator();
     });
   }
 
   if (respEnabled) {
     respEnabled.addEventListener('change', () => {
-      respSlider.disabled = !respEnabled.checked;
+      toggleContribBlock(respEnabled, respSlider, 'respBlock');
       updateCalculator();
     });
   }
 
   if (spouseRRSPEnabled) {
     spouseRRSPEnabled.addEventListener('change', () => {
-      spouseRRSPSlider.disabled = !spouseRRSPEnabled.checked;
+      toggleContribBlock(spouseRRSPEnabled, spouseRRSPSlider, 'spouseRRSPBlock');
       updateCalculator();
     });
   }
@@ -523,7 +530,8 @@ toolNavBtns.forEach(btn => {
 
     // Scroll to top of content on mobile
     if (window.innerWidth <= 1024) {
-      document.querySelector('.tools-content').scrollIntoView({ behavior: 'smooth' });
+      var contentEl = document.querySelector('.tools-content');
+      if (contentEl) contentEl.scrollIntoView({ behavior: 'smooth' });
     }
   });
 });
@@ -3027,9 +3035,17 @@ function updateLifeInsuranceCalc() {
   set('lifeCalcEducation',         formatCurrency(educationFund));
   set('lifeCalcFinalExpenses',     formatCurrency(finalExp));
   set('lifeCalcTotalNeeds',        formatCurrency(totalNeeds));
-  set('lifeCalcExistingCov',       '- ' + formatCurrency(existing));
-  set('lifeCalcExistingSavings',   '- ' + formatCurrency(savings));
+  set('lifeCalcExistingCov',       '– ' + formatCurrency(existing));
+  set('lifeCalcExistingSavings',   '– ' + formatCurrency(savings));
   set('lifeCalcRecommended',       formatCurrency(recommended));
+
+  // Coverage bar
+  var coveredPct = totalNeeds > 0 ? Math.min(100, (existing + savings) / totalNeeds * 100) : 0;
+  var grade = coveredPct >= 80 ? 'good' : coveredPct >= 40 ? 'warn' : 'bad';
+  var fillEl = document.getElementById('lifeCovFill');
+  var pctEl  = document.getElementById('lifeCovPct');
+  if (fillEl) { fillEl.style.width = coveredPct.toFixed(1) + '%'; fillEl.className = 'v2-cov-fill ' + grade; }
+  if (pctEl)  { pctEl.textContent = Math.round(coveredPct) + '% covered'; pctEl.className = 'v2-cov-pct ' + grade; }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -3079,18 +3095,29 @@ function updateDisabilityCalc() {
   set('diCalcShortfall',          formatCurrency(monthlyShortfall));
   set('diCalcFundMonths',         fundCoversMonths >= 999 ? 'Expenses covered \u2713' : fundCoversMonths + ' months');
 
+  // Coverage gauge
+  var coveredPct = recommendedBenefit > 0 ? Math.min(100, existingCov / recommendedBenefit * 100) : 0;
+  var grade = coveredPct >= 70 ? 'good' : coveredPct >= 40 ? 'warn' : 'bad';
+  var fillEl = document.getElementById('diCovFill');
+  var pctEl  = document.getElementById('diCovPct');
+  if (fillEl) { fillEl.style.width = coveredPct.toFixed(1) + '%'; fillEl.className = 'v2-cov-fill ' + grade; }
+  if (pctEl)  { pctEl.textContent = Math.round(coveredPct) + '% protected'; pctEl.className = 'v2-cov-pct ' + grade; }
+
   // Status note
   var statusEl = document.getElementById('diCoverageStatus');
   if (statusEl) {
     if (coverageGap === 0) {
-      statusEl.innerHTML = '<p><strong>Great news!</strong> Your existing coverage meets the recommended 70% income replacement threshold. Consider a review to confirm your policy terms, waiting period, and benefit period are still appropriate.</p>';
+      statusEl.innerHTML = '<strong>Well covered!</strong> Your existing coverage meets the 70% threshold. Book a free review to confirm your policy terms, waiting period, and benefit period are still right for you.';
+      statusEl.style.background = 'rgba(16,185,129,.08)';
       statusEl.style.borderLeftColor = '#10b981';
     } else if (coverageGap < 2000) {
-      statusEl.innerHTML = '<p><strong>Small gap detected.</strong> You have a ' + formatCurrency(coverageGap) + '/month coverage gap. A personal disability policy can fill this quickly and cost-effectively.</p>';
+      statusEl.innerHTML = '<strong>Small gap detected.</strong> You\'re ' + formatCurrency(coverageGap) + '/month short of the recommended 70% benefit. A personal policy can close this quickly.';
+      statusEl.style.background = 'rgba(245,158,11,.08)';
       statusEl.style.borderLeftColor = '#f59e0b';
     } else {
       var monthsMsg = fundCoversMonths < 999 ? fundCoversMonths + ' months' : 'a short period';
-      statusEl.innerHTML = '<p><strong>Significant coverage gap.</strong> Without additional coverage, a disability could leave you ' + formatCurrency(monthlyShortfall) + '/month short of your essential expenses after just ' + monthsMsg + '. Book a free consultation to review your options.</p>';
+      statusEl.innerHTML = '<strong>Significant gap.</strong> Without additional coverage, a disability could leave you ' + formatCurrency(monthlyShortfall) + '/month short of essential expenses after just ' + monthsMsg + '. Book a free call to review your options.';
+      statusEl.style.background = 'rgba(239,68,68,.08)';
       statusEl.style.borderLeftColor = '#ef4444';
     }
   }

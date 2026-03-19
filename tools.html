@@ -3,20 +3,24 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Financial Tools & Calculators | Ten Percent Club</title>
+  <title>Free Financial Tools | Ten Percent Club</title>
 
-  <!-- Google Fonts - Inter & Poppins -->
+  <!-- Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="styles.css?v=2.0" />
-  <meta name="description" content="Free Canadian financial calculators and tools: Tax savings calculator, CAGR calculator, GIC rates, savings account comparison, and more." />
+  <link rel="stylesheet" href="styles.css?v=3.0" />
+  <meta name="description" content="Free Canadian financial calculators: Tax savings, life insurance needs, and disability coverage — built for families working with an LLQP advisor." />
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="alternate icon" type="image/png" href="favicon.png" sizes="32x32">
   <link rel="apple-touch-icon" href="favicon.png">
+
+  <!-- Calendly -->
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 
   <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-KBPQ9T1N8Q"></script>
@@ -27,58 +31,68 @@
     gtag('config', 'G-KBPQ9T1N8Q');
   </script>
 </head>
-<body>
+<body class="v2-body">
 
-  <!-- Header -->
-  <header class="site-header">
-    <div class="container nav">
-      <a href="/" class="brand">
-        <svg class="brand-logo" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true">
+  <!-- Header (identical to home page) -->
+  <header class="v2-header" id="v2Header">
+    <div class="v2-container v2-nav">
+      <a href="/" class="v2-brand">
+        <svg class="v2-brand-logo" width="30" height="30" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z" fill="currentColor"/>
         </svg>
-        <div class="brand-text">
-          <span class="brand-name">Ten Percent Club</span>
-          <span class="brand-license">Licensed ID: 25242870</span>
+        <div class="v2-brand-text">
+          <span class="v2-brand-name">Ten Percent Club</span>
+          <span class="v2-brand-license">License ID: 25242870</span>
         </div>
       </a>
 
-      <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">
+      <button class="v2-menu-btn" id="v2MenuBtn" aria-label="Toggle menu">
         <span></span><span></span><span></span>
       </button>
 
-      <nav class="menu" id="menu">
+      <nav class="v2-menu" id="v2Menu">
         <a href="/">Home</a>
         <a href="/#services">Services</a>
-        <a href="/tools">Tools</a>
+        <a href="/tools" class="active">Tools</a>
         <a href="/#resources">Resources</a>
-        <a href="/#book" class="btn btn-primary">Book Free Call</a>
+        <button class="v2-btn v2-btn-primary calendly-popup-btn"
+          onclick="Calendly.initPopupWidget({url:'https://calendly.com/praveengaddam/30min?primary_color=d4a017&text_color=0f172a&background_color=ffffff'});return false;">
+          Book Free Call
+        </button>
       </nav>
     </div>
   </header>
 
-  <!-- Tools Hero Section -->
-  <section class="tools-hero">
-    <div class="container">
-      <h1 class="tools-title">Financial Tools & Calculators</h1>
-      <p class="tools-subtitle">Free calculators and comparison tools to help you make smart financial decisions</p>
+  <!-- Tools Hero -->
+  <section class="v2-tools-hero">
+    <div class="v2-container">
+      <div class="v2-tools-badge">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z"/></svg>
+        Free Financial Tools
+      </div>
+      <h1>Know Your Numbers Before We Talk</h1>
+      <p>Run the numbers yourself — then book a free call to turn insights into a personalized plan.</p>
+      <div class="v2-tools-pills">
+        <span>✓ No sign-up required</span>
+        <span>✓ 100% free</span>
+        <span>✓ Canadian tax rates</span>
+        <span>✓ Instant results</span>
+      </div>
     </div>
   </section>
 
-  <!-- Tools Layout with Sidebar -->
+  <!-- Tools Layout -->
   <section class="tools-layout">
     <div class="container-full">
       <div class="tools-wrapper">
 
-        <!-- Sidebar Navigation -->
+        <!-- Sidebar -->
         <aside class="tools-sidebar">
+          <span class="v2-sidebar-label">Choose a Tool</span>
           <nav class="tools-nav">
             <button class="tool-nav-btn active" data-tool="tax-calculator">
               <span class="tool-nav-icon">💰</span>
               <span class="tool-nav-text">Tax Savings Calculator</span>
-            </button>
-            <button class="tool-nav-btn" data-tool="net-worth-tracker">
-              <span class="tool-nav-icon">📊</span>
-              <span class="tool-nav-text">Net Worth Tracker</span>
             </button>
             <button class="tool-nav-btn" data-tool="life-insurance-calc">
               <span class="tool-nav-icon">🛡️</span>
@@ -88,701 +102,591 @@
               <span class="tool-nav-icon">💼</span>
               <span class="tool-nav-text">Disability Insurance Calculator</span>
             </button>
+            <button class="tool-nav-btn" data-tool="fna-tool">
+              <span class="tool-nav-icon">📋</span>
+              <span class="tool-nav-text">Financial Needs Analysis</span>
+            </button>
           </nav>
+
+          <div class="v2-sidebar-consult">
+            <p>See a gap in your coverage? Book a free 30-min review — no pressure, no fees.</p>
+            <a href="#" onclick="Calendly.initPopupWidget({url:'https://calendly.com/praveengaddam/30min?primary_color=d4a017&text_color=0f172a&background_color=ffffff'});return false;">
+              Book Free Call →
+            </a>
+          </div>
         </aside>
 
-        <!-- Main Content Area -->
+        <!-- Main Content -->
         <main class="tools-content">
 
-          <!-- Tax Calculator Tool -->
+          <!-- ==========================================
+               TAX SAVINGS CALCULATOR
+          =========================================== -->
           <div id="tax-calculator" class="tool-panel active">
-            <h2>Tax Savings Calculator</h2>
-            <p class="tool-description">Calculate your tax refunds from RRSP, TFSA, FHSA, RESP, and Spouse RRSP contributions</p>
+            <h2 class="v2-panel-title">Tax Savings Calculator</h2>
+            <p class="v2-panel-desc">See exactly how much you can get back from the CRA through RRSP, TFSA, FHSA, RESP, and Spousal RRSP contributions — based on your Ontario income.</p>
 
-            <div class="calculator-card">
-              <!-- Step 1: Salary Input -->
-              <div class="step-section">
-                <h3>Step 1: Enter Your Annual Salary</h3>
-                <div class="calculator-input-main">
-                  <label for="income">Your Annual Salary (Ontario)</label>
-                  <input type="range" id="income" min="0" max="250000" step="5000" value="0">
-                  <div class="calculator-value" id="incomeValue">$0</div>
+            <div class="v2-calc-card">
+
+              <!-- Step 1: Salary -->
+              <div class="v2-step-block">
+                <div class="v2-step-hd">
+                  <span class="v2-step-num">1</span>
+                  <span class="v2-step-title">Enter Your Annual Salary</span>
+                </div>
+                <div class="v2-slider-row">
+                  <div class="v2-slider-lbl-row">
+                    <label for="income">Annual Income (Ontario)</label>
+                    <span class="v2-slider-badge" id="incomeValue">$0</span>
+                  </div>
+                  <input type="range" class="v2-range" id="income" min="0" max="250000" step="5000" value="0">
                 </div>
 
-                <!-- Tax Bracket Display -->
-                <div class="tax-bracket-info" id="taxBracketInfo" style="display: none;">
-                  <div class="bracket-label">Your Tax Bracket:</div>
-                  <div class="bracket-value" id="taxBracketValue">-</div>
-                  <div class="bracket-rate" id="taxBracketRate">-</div>
-                </div>
-              </div>
-
-              <!-- Step 2: Contribution Limits (shown only when salary > 0) -->
-              <div class="step-section" id="limitsSection" style="display: none;">
-                <h3>Step 2: Your Annual Contribution Limits</h3>
-                <div class="limits-grid">
-                  <div class="limit-item">
-                    <span class="limit-label">RRSP (18% of income, max $31,560)</span>
-                    <span class="limit-value" id="maxRRSP">$0</span>
-                  </div>
-                  <div class="limit-item">
-                    <span class="limit-label">TFSA (2024 limit)</span>
-                    <span class="limit-value">$7,000</span>
-                  </div>
-                  <div class="limit-item">
-                    <span class="limit-label">FHSA (Annual limit)</span>
-                    <span class="limit-value">$8,000</span>
-                  </div>
-                  <div class="limit-item">
-                    <span class="limit-label">RESP (To maximize grant)</span>
-                    <span class="limit-value">$2,500</span>
-                  </div>
+                <!-- Bracket chip — shown by JS when income > 0 -->
+                <div class="v2-bracket-chip" id="taxBracketInfo">
+                  <span class="v2-bracket-lbl">Your Tax Bracket:</span>
+                  <span class="v2-bracket-name" id="taxBracketValue">—</span>
+                  <span class="v2-bracket-rate-tag" id="taxBracketRate">—</span>
                 </div>
               </div>
 
-              <!-- Step 3: Investment Options (shown only when salary > 0) -->
-              <div class="step-section" id="contributionsSection" style="display: none;">
-                <h3>Step 3: Enter Your Contributions</h3>
-
-                <div class="calculator-input">
-                  <div class="input-header">
-                    <label for="rrsp">
-                      <input type="checkbox" id="rrspEnabled">
-                      RRSP Contribution
-                      <span class="tooltip-icon" title="Tax-deductible, reduces your taxable income">ℹ️</span>
-                    </label>
-                  </div>
-                  <input type="range" id="rrsp" min="0" max="31560" step="500" value="0" disabled>
-                  <div class="calculator-value" id="rrspValue">$0</div>
-                  <div class="savings-preview" id="rrspSavings">Select to calculate tax refund</div>
+              <!-- Step 2: Contribution limits — shown by JS -->
+              <div class="v2-step-block" id="limitsSection" style="display:none;">
+                <div class="v2-step-hd">
+                  <span class="v2-step-num">2</span>
+                  <span class="v2-step-title">Your Annual Contribution Limits</span>
                 </div>
-
-                <div class="calculator-input">
-                  <div class="input-header">
-                    <label for="tfsa">
-                      <input type="checkbox" id="tfsaEnabled">
-                      TFSA Contribution
-                      <span class="tooltip-icon" title="Tax-free growth, no tax deduction">ℹ️</span>
-                    </label>
+                <div class="v2-limits-strip show">
+                  <div class="v2-limit-pill">
+                    <span class="v2-lp-type">RRSP</span>
+                    <span class="v2-lp-amt" id="maxRRSP">$0</span>
                   </div>
-                  <input type="range" id="tfsa" min="0" max="7000" step="500" value="0" disabled>
-                  <div class="calculator-value" id="tfsaValue">$0</div>
-                  <div class="savings-preview" id="tfsaSavings">Select to add contribution</div>
-                </div>
-
-                <div class="calculator-input">
-                  <div class="input-header">
-                    <label for="fhsa">
-                      <input type="checkbox" id="fhsaEnabled">
-                      FHSA Contribution
-                      <span class="tooltip-icon" title="Tax-deductible + tax-free withdrawal for first home">ℹ️</span>
-                    </label>
+                  <div class="v2-limit-pill">
+                    <span class="v2-lp-type">TFSA</span>
+                    <span class="v2-lp-amt">$7,000</span>
                   </div>
-                  <input type="range" id="fhsa" min="0" max="8000" step="500" value="0" disabled>
-                  <div class="calculator-value" id="fhsaValue">$0</div>
-                  <div class="savings-preview" id="fhsaSavings">Select to calculate tax refund</div>
-                </div>
-
-                <div class="calculator-input">
-                  <div class="input-header">
-                    <label for="resp">
-                      <input type="checkbox" id="respEnabled">
-                      RESP Contribution
-                      <span class="tooltip-icon" title="Get 20% grant (up to $500/year) + tax-deferred growth">ℹ️</span>
-                    </label>
+                  <div class="v2-limit-pill">
+                    <span class="v2-lp-type">FHSA</span>
+                    <span class="v2-lp-amt">$8,000</span>
                   </div>
-                  <input type="range" id="resp" min="0" max="2500" step="100" value="0" disabled>
-                  <div class="calculator-value" id="respValue">$0</div>
-                  <div class="savings-preview" id="respSavings">Select to calculate government grant</div>
-                </div>
-
-                <div class="calculator-input">
-                  <div class="input-header">
-                    <label for="spouseRRSP">
-                      <input type="checkbox" id="spouseRRSPEnabled">
-                      Spouse RRSP Contribution
-                      <span class="tooltip-icon" title="Reduce household taxes through income splitting">ℹ️</span>
-                    </label>
+                  <div class="v2-limit-pill">
+                    <span class="v2-lp-type">RESP</span>
+                    <span class="v2-lp-amt">$2,500</span>
                   </div>
-                  <input type="range" id="spouseRRSP" min="0" max="15000" step="500" value="0" disabled>
-                  <div class="calculator-value" id="spouseRRSPValue">$0</div>
-                  <div class="savings-preview" id="spouseRRSPSavings">Select to calculate tax refund</div>
                 </div>
               </div>
 
-              <!-- Summary Section (shown only when salary > 0 and at least one contribution) -->
-              <div class="summary-section" id="summarySection" style="display: none;">
-                <h3>Your Tax Savings Summary</h3>
+              <!-- Step 3: Contributions — shown by JS -->
+              <div class="v2-step-block" id="contributionsSection" style="display:none;">
+                <div class="v2-step-hd">
+                  <span class="v2-step-num">3</span>
+                  <span class="v2-step-title">Select Your Contributions</span>
+                </div>
 
-                <div class="summary-grid">
-                  <div class="summary-row">
-                    <span class="summary-label">Annual Salary:</span>
-                    <span class="summary-value" id="summarySalary">$0</span>
+                <!-- RRSP -->
+                <div class="v2-contrib-block" id="rrspBlock">
+                  <div class="v2-contrib-top">
+                    <input type="checkbox" id="rrspEnabled">
+                    <label class="v2-contrib-name" for="rrspEnabled">RRSP Contribution</label>
+                    <span class="v2-contrib-preview" id="rrspSavings">Select to calculate refund</span>
                   </div>
-
-                  <div class="summary-row">
-                    <span class="summary-label">Tax Bracket:</span>
-                    <span class="summary-value" id="summaryTaxBracket">-</span>
-                  </div>
-
-                  <div class="summary-divider"></div>
-
-                  <div class="summary-row" id="summaryTFSARow" style="display: none;">
-                    <span class="summary-label">TFSA Contribution:</span>
-                    <div class="summary-detail">
-                      <span class="summary-value" id="summaryTFSA">$0</span>
-                      <span class="summary-note">No immediate tax benefit (tax-free growth)</span>
+                  <div class="v2-contrib-slider">
+                    <div class="v2-slider-lbl-row">
+                      <label for="rrsp">Contribution amount</label>
+                      <span class="v2-slider-badge" id="rrspValue">$0</span>
                     </div>
-                  </div>
-
-                  <div class="summary-row" id="summaryRRSPRow" style="display: none;">
-                    <span class="summary-label">RRSP Contribution:</span>
-                    <div class="summary-detail">
-                      <span class="summary-value" id="summaryRRSP">$0</span>
-                      <span class="summary-benefit">Tax Refund: <strong id="summaryRRSPRefund">$0</strong></span>
-                    </div>
-                  </div>
-
-                  <div class="summary-row" id="summaryFHSARow" style="display: none;">
-                    <span class="summary-label">FHSA Contribution:</span>
-                    <div class="summary-detail">
-                      <span class="summary-value" id="summaryFHSA">$0</span>
-                      <span class="summary-benefit">Tax Refund: <strong id="summaryFHSARefund">$0</strong></span>
-                    </div>
-                  </div>
-
-                  <div class="summary-row" id="summaryRESPRow" style="display: none;">
-                    <span class="summary-label">RESP Contribution:</span>
-                    <div class="summary-detail">
-                      <span class="summary-value" id="summaryRESP">$0</span>
-                      <span class="summary-benefit">Government Grant: <strong id="summaryRESPGrant">$0</strong></span>
-                    </div>
-                  </div>
-
-                  <div class="summary-row" id="summarySpouseRRSPRow" style="display: none;">
-                    <span class="summary-label">Spouse RRSP Contribution:</span>
-                    <div class="summary-detail">
-                      <span class="summary-value" id="summarySpouseRRSP">$0</span>
-                      <span class="summary-benefit">Tax Refund: <strong id="summarySpouseRRSPRefund">$0</strong></span>
-                    </div>
-                  </div>
-
-                  <div class="summary-divider"></div>
-
-                  <div class="summary-row total-row">
-                    <span class="summary-label">Total Contributions:</span>
-                    <span class="summary-value total" id="summaryTotalContributions">$0</span>
-                  </div>
-
-                  <div class="summary-row total-row highlight">
-                    <span class="summary-label">Total Tax Refunds & Grants:</span>
-                    <span class="summary-value total gold" id="summaryTotalRefunds">$0</span>
-                  </div>
-
-                  <div class="summary-row total-row">
-                    <span class="summary-label">Net Out-of-Pocket Cost:</span>
-                    <span class="summary-value total" id="summaryNetCost">$0</span>
+                    <input type="range" class="v2-range" id="rrsp" min="0" max="31560" step="500" value="0" disabled>
                   </div>
                 </div>
 
-                <div class="result-note">
-                  <p><strong>Note:</strong> This calculator provides estimates for Ontario residents based on 2024 tax rates. Actual savings depend on your specific tax situation, available contribution room, and other deductions.</p>
+                <!-- TFSA -->
+                <div class="v2-contrib-block" id="tfsaBlock">
+                  <div class="v2-contrib-top">
+                    <input type="checkbox" id="tfsaEnabled">
+                    <label class="v2-contrib-name" for="tfsaEnabled">TFSA Contribution</label>
+                    <span class="v2-contrib-preview" id="tfsaSavings">Select to add</span>
+                  </div>
+                  <div class="v2-contrib-slider">
+                    <div class="v2-slider-lbl-row">
+                      <label for="tfsa">Contribution amount</label>
+                      <span class="v2-slider-badge" id="tfsaValue">$0</span>
+                    </div>
+                    <input type="range" class="v2-range" id="tfsa" min="0" max="7000" step="500" value="0" disabled>
+                  </div>
+                </div>
+
+                <!-- FHSA -->
+                <div class="v2-contrib-block" id="fhsaBlock">
+                  <div class="v2-contrib-top">
+                    <input type="checkbox" id="fhsaEnabled">
+                    <label class="v2-contrib-name" for="fhsaEnabled">FHSA Contribution <small style="font-weight:400;color:#64748b;">(First-Home)</small></label>
+                    <span class="v2-contrib-preview" id="fhsaSavings">Select to calculate refund</span>
+                  </div>
+                  <div class="v2-contrib-slider">
+                    <div class="v2-slider-lbl-row">
+                      <label for="fhsa">Contribution amount</label>
+                      <span class="v2-slider-badge" id="fhsaValue">$0</span>
+                    </div>
+                    <input type="range" class="v2-range" id="fhsa" min="0" max="8000" step="500" value="0" disabled>
+                  </div>
+                </div>
+
+                <!-- RESP -->
+                <div class="v2-contrib-block" id="respBlock">
+                  <div class="v2-contrib-top">
+                    <input type="checkbox" id="respEnabled">
+                    <label class="v2-contrib-name" for="respEnabled">RESP Contribution <small style="font-weight:400;color:#64748b;">(+20% govt grant)</small></label>
+                    <span class="v2-contrib-preview" id="respSavings">Select to calculate grant</span>
+                  </div>
+                  <div class="v2-contrib-slider">
+                    <div class="v2-slider-lbl-row">
+                      <label for="resp">Contribution amount</label>
+                      <span class="v2-slider-badge" id="respValue">$0</span>
+                    </div>
+                    <input type="range" class="v2-range" id="resp" min="0" max="2500" step="100" value="0" disabled>
+                  </div>
+                </div>
+
+                <!-- Spouse RRSP -->
+                <div class="v2-contrib-block" id="spouseRRSPBlock">
+                  <div class="v2-contrib-top">
+                    <input type="checkbox" id="spouseRRSPEnabled">
+                    <label class="v2-contrib-name" for="spouseRRSPEnabled">Spousal RRSP <small style="font-weight:400;color:#64748b;">(income splitting)</small></label>
+                    <span class="v2-contrib-preview" id="spouseRRSPSavings">Select to calculate refund</span>
+                  </div>
+                  <div class="v2-contrib-slider">
+                    <div class="v2-slider-lbl-row">
+                      <label for="spouseRRSP">Contribution amount</label>
+                      <span class="v2-slider-badge" id="spouseRRSPValue">$0</span>
+                    </div>
+                    <input type="range" class="v2-range" id="spouseRRSP" min="0" max="15000" step="500" value="0" disabled>
+                  </div>
                 </div>
               </div>
 
-              <a href="/#book" class="btn btn-gold btn-block">Let's Maximize Your Tax Savings →</a>
+            </div><!-- /v2-calc-card -->
+
+            <!-- Results panel — shown by JS when hasContributions -->
+            <div class="v2-results-panel" id="summarySection" style="display:none;">
+              <p class="v2-results-panel-ttl">Your Tax Savings Summary</p>
+
+              <div class="v2-rrow">
+                <span class="v2-rlbl">Annual Salary</span>
+                <span class="v2-rval" id="summarySalary">$0</span>
+              </div>
+              <div class="v2-rrow">
+                <span class="v2-rlbl">Tax Bracket</span>
+                <span class="v2-rval" id="summaryTaxBracket">—</span>
+              </div>
+              <div class="v2-rdiv"></div>
+
+              <div class="v2-rrow" id="summaryTFSARow" style="display:none;">
+                <span class="v2-rlbl">TFSA Contribution</span>
+                <div style="text-align:right;">
+                  <span class="v2-rval" id="summaryTFSA">$0</span>
+                  <div style="font-size:.75rem;color:rgba(255,255,255,.4);margin-top:2px;">Tax-free growth — no immediate refund</div>
+                </div>
+              </div>
+
+              <div class="v2-rrow" id="summaryRRSPRow" style="display:none;">
+                <span class="v2-rlbl">RRSP → Tax Refund</span>
+                <div style="text-align:right;">
+                  <span class="v2-rval" id="summaryRRSP">$0</span>
+                  <div style="font-size:.75rem;color:#10b981;margin-top:2px;">Refund: <strong id="summaryRRSPRefund">$0</strong></div>
+                </div>
+              </div>
+
+              <div class="v2-rrow" id="summaryFHSARow" style="display:none;">
+                <span class="v2-rlbl">FHSA → Tax Refund</span>
+                <div style="text-align:right;">
+                  <span class="v2-rval" id="summaryFHSA">$0</span>
+                  <div style="font-size:.75rem;color:#10b981;margin-top:2px;">Refund: <strong id="summaryFHSARefund">$0</strong></div>
+                </div>
+              </div>
+
+              <div class="v2-rrow" id="summaryRESPRow" style="display:none;">
+                <span class="v2-rlbl">RESP → Govt Grant</span>
+                <div style="text-align:right;">
+                  <span class="v2-rval" id="summaryRESP">$0</span>
+                  <div style="font-size:.75rem;color:#10b981;margin-top:2px;">Grant: <strong id="summaryRESPGrant">$0</strong></div>
+                </div>
+              </div>
+
+              <div class="v2-rrow" id="summarySpouseRRSPRow" style="display:none;">
+                <span class="v2-rlbl">Spousal RRSP → Refund</span>
+                <div style="text-align:right;">
+                  <span class="v2-rval" id="summarySpouseRRSP">$0</span>
+                  <div style="font-size:.75rem;color:#10b981;margin-top:2px;">Refund: <strong id="summarySpouseRRSPRefund">$0</strong></div>
+                </div>
+              </div>
+
+              <div class="v2-rdiv"></div>
+              <div class="v2-rrow">
+                <span class="v2-rlbl">Total Contributions</span>
+                <span class="v2-rval" id="summaryTotalContributions">$0</span>
+              </div>
+              <div class="v2-rrow">
+                <span class="v2-rlbl">Net Out-of-Pocket Cost</span>
+                <span class="v2-rval" id="summaryNetCost">$0</span>
+              </div>
+
+              <div class="v2-rhighlight">
+                <span class="v2-rlbl">Total Refunds &amp; Grants</span>
+                <span class="v2-rval" id="summaryTotalRefunds">$0</span>
+              </div>
             </div>
+
+            <div class="v2-calc-note">Ontario 2024 marginal tax rates. Estimates only — actual savings depend on your contribution room, filing status, and other deductions.</div>
+            <a href="#" class="v2-tool-cta" onclick="Calendly.initPopupWidget({url:'https://calendly.com/praveengaddam/30min?primary_color=d4a017&text_color=0f172a&background_color=ffffff'});return false;">
+              Let's Maximize Your Tax Savings →
+            </a>
           </div>
 
-          <!-- Life Insurance Needs Calculator -->
+          <!-- ==========================================
+               LIFE INSURANCE NEEDS CALCULATOR
+          =========================================== -->
           <div id="life-insurance-calc" class="tool-panel">
-            <h2>Life Insurance Needs Calculator</h2>
-            <p class="tool-description">Estimate how much life insurance coverage your family needs to stay financially secure if you were no longer here</p>
+            <h2 class="v2-panel-title">Life Insurance Needs Calculator</h2>
+            <p class="v2-panel-desc">Answer 4 quick questions to estimate how much life insurance your family needs to stay financially secure — using the income replacement method.</p>
 
-            <div class="calculator-card">
+            <div class="v2-calc-card">
 
-              <!-- Step 1: Income Replacement -->
-              <div class="step-section">
-                <h3>Step 1: Income Replacement</h3>
-                <div class="calculator-input-main">
-                  <label for="lifeAnnualIncome">Your Annual Income</label>
-                  <input type="range" id="lifeAnnualIncome" min="0" max="300000" step="5000" value="80000">
-                  <div class="calculator-value" id="lifeAnnualIncomeValue">$80,000</div>
+              <!-- Step 1 -->
+              <div class="v2-step-block">
+                <div class="v2-step-hd">
+                  <span class="v2-step-num">1</span>
+                  <span class="v2-step-title">Income Replacement</span>
                 </div>
-                <div class="calculator-input-main" style="margin-top: 20px;">
-                  <label for="lifeYearsReplace">Years of Income to Replace</label>
-                  <input type="range" id="lifeYearsReplace" min="5" max="30" step="1" value="20">
-                  <div class="calculator-value" id="lifeYearsReplaceValue">20 years</div>
+                <div class="v2-slider-row">
+                  <div class="v2-slider-lbl-row">
+                    <label for="lifeAnnualIncome">Your Annual Income</label>
+                    <span class="v2-slider-badge" id="lifeAnnualIncomeValue">$80,000</span>
+                  </div>
+                  <input type="range" class="v2-range" id="lifeAnnualIncome" min="0" max="300000" step="5000" value="80000">
+                </div>
+                <div class="v2-slider-row" style="margin-top:18px;">
+                  <div class="v2-slider-lbl-row">
+                    <label for="lifeYearsReplace">Years of income to replace</label>
+                    <span class="v2-slider-badge" id="lifeYearsReplaceValue">20 years</span>
+                  </div>
+                  <input type="range" class="v2-range" id="lifeYearsReplace" min="5" max="30" step="1" value="20">
                 </div>
               </div>
 
-              <!-- Step 2: Outstanding Debts -->
-              <div class="step-section">
-                <h3>Step 2: Outstanding Debts</h3>
-                <div class="calculator-input-main">
-                  <label for="lifeMortgage">Mortgage Balance</label>
-                  <input type="range" id="lifeMortgage" min="0" max="1500000" step="25000" value="400000">
-                  <div class="calculator-value" id="lifeMortgageValue">$400,000</div>
+              <!-- Step 2 -->
+              <div class="v2-step-block">
+                <div class="v2-step-hd">
+                  <span class="v2-step-num">2</span>
+                  <span class="v2-step-title">Outstanding Debts</span>
                 </div>
-                <div class="calculator-input-main" style="margin-top: 20px;">
-                  <label for="lifeOtherDebts">Other Debts (car loans, credit cards, personal loans)</label>
-                  <input type="range" id="lifeOtherDebts" min="0" max="200000" step="5000" value="20000">
-                  <div class="calculator-value" id="lifeOtherDebtsValue">$20,000</div>
+                <div class="v2-slider-row">
+                  <div class="v2-slider-lbl-row">
+                    <label for="lifeMortgage">Mortgage Balance</label>
+                    <span class="v2-slider-badge" id="lifeMortgageValue">$400,000</span>
+                  </div>
+                  <input type="range" class="v2-range" id="lifeMortgage" min="0" max="1500000" step="25000" value="400000">
                 </div>
-              </div>
-
-              <!-- Step 3: Education & Final Expenses -->
-              <div class="step-section">
-                <h3>Step 3: Children's Education & Final Expenses</h3>
-                <div class="calculator-input-main">
-                  <label for="lifeNumChildren">Number of Children</label>
-                  <input type="range" id="lifeNumChildren" min="0" max="6" step="1" value="1">
-                  <div class="calculator-value" id="lifeNumChildrenValue">1 child</div>
-                </div>
-                <div class="calculator-input-main" style="margin-top: 20px;">
-                  <label for="lifeFinalExpenses">Final Expenses (funeral, legal, estate costs)</label>
-                  <input type="range" id="lifeFinalExpenses" min="10000" max="50000" step="1000" value="15000">
-                  <div class="calculator-value" id="lifeFinalExpensesValue">$15,000</div>
+                <div class="v2-slider-row" style="margin-top:18px;">
+                  <div class="v2-slider-lbl-row">
+                    <label for="lifeOtherDebts">Other Debts (car, credit cards, loans)</label>
+                    <span class="v2-slider-badge" id="lifeOtherDebtsValue">$20,000</span>
+                  </div>
+                  <input type="range" class="v2-range" id="lifeOtherDebts" min="0" max="200000" step="5000" value="20000">
                 </div>
               </div>
 
-              <!-- Step 4: Existing Coverage & Savings -->
-              <div class="step-section">
-                <h3>Step 4: Existing Coverage & Savings</h3>
-                <div class="calculator-input-main">
-                  <label for="lifeExistingCoverage">Existing Life Insurance (group + personal policies)</label>
-                  <input type="range" id="lifeExistingCoverage" min="0" max="2000000" step="25000" value="0">
-                  <div class="calculator-value" id="lifeExistingCoverageValue">$0</div>
+              <!-- Step 3 -->
+              <div class="v2-step-block">
+                <div class="v2-step-hd">
+                  <span class="v2-step-num">3</span>
+                  <span class="v2-step-title">Children's Education &amp; Final Expenses</span>
                 </div>
-                <div class="calculator-input-main" style="margin-top: 20px;">
-                  <label for="lifeSavings">Liquid Savings (TFSA, savings accounts)</label>
-                  <input type="range" id="lifeSavings" min="0" max="500000" step="5000" value="25000">
-                  <div class="calculator-value" id="lifeSavingsValue">$25,000</div>
+                <div class="v2-slider-row">
+                  <div class="v2-slider-lbl-row">
+                    <label for="lifeNumChildren">Number of Children</label>
+                    <span class="v2-slider-badge" id="lifeNumChildrenValue">1 child</span>
+                  </div>
+                  <input type="range" class="v2-range" id="lifeNumChildren" min="0" max="6" step="1" value="1">
                 </div>
-              </div>
-
-              <!-- Summary -->
-              <div class="summary-section">
-                <h3>Your Life Insurance Needs Summary</h3>
-                <div class="summary-grid">
-                  <div class="summary-row">
-                    <span class="summary-label">Income Replacement</span>
-                    <span class="summary-value" id="lifeCalcIncomeReplacement">$1,600,000</span>
+                <div class="v2-slider-row" style="margin-top:18px;">
+                  <div class="v2-slider-lbl-row">
+                    <label for="lifeFinalExpenses">Final Expenses (funeral, legal, estate)</label>
+                    <span class="v2-slider-badge" id="lifeFinalExpensesValue">$15,000</span>
                   </div>
-                  <div class="summary-row">
-                    <span class="summary-label">Mortgage Balance</span>
-                    <span class="summary-value" id="lifeCalcMortgage">$400,000</span>
-                  </div>
-                  <div class="summary-row">
-                    <span class="summary-label">Other Debts</span>
-                    <span class="summary-value" id="lifeCalcDebts">$20,000</span>
-                  </div>
-                  <div class="summary-row">
-                    <span class="summary-label">Education Fund ($50K per child)</span>
-                    <span class="summary-value" id="lifeCalcEducation">$50,000</span>
-                  </div>
-                  <div class="summary-row">
-                    <span class="summary-label">Final Expenses</span>
-                    <span class="summary-value" id="lifeCalcFinalExpenses">$15,000</span>
-                  </div>
-                  <div class="summary-divider"></div>
-                  <div class="summary-row total-row">
-                    <span class="summary-label">Total Needs</span>
-                    <span class="summary-value total" id="lifeCalcTotalNeeds">$2,085,000</span>
-                  </div>
-                  <div class="summary-row">
-                    <span class="summary-label">Less: Existing Coverage</span>
-                    <span class="summary-value" id="lifeCalcExistingCov">- $0</span>
-                  </div>
-                  <div class="summary-row">
-                    <span class="summary-label">Less: Liquid Savings</span>
-                    <span class="summary-value" id="lifeCalcExistingSavings">- $25,000</span>
-                  </div>
-                  <div class="summary-divider"></div>
-                  <div class="summary-row total-row highlight">
-                    <span class="summary-label">Recommended Coverage</span>
-                    <span class="summary-value total gold" id="lifeCalcRecommended">$2,060,000</span>
-                  </div>
-                </div>
-                <div class="result-note">
-                  <p><strong>Note:</strong> This estimate uses the income replacement method. Actual needs depend on your specific situation, group benefits, investment growth assumptions, and spouse's income. A personalized review will give you a precise recommendation.</p>
+                  <input type="range" class="v2-range" id="lifeFinalExpenses" min="10000" max="50000" step="1000" value="15000">
                 </div>
               </div>
 
-              <a href="/#book" class="btn btn-gold btn-block">Get Your Personalized Insurance Review →</a>
+              <!-- Step 4 -->
+              <div class="v2-step-block">
+                <div class="v2-step-hd">
+                  <span class="v2-step-num">4</span>
+                  <span class="v2-step-title">Existing Coverage &amp; Savings</span>
+                </div>
+                <div class="v2-slider-row">
+                  <div class="v2-slider-lbl-row">
+                    <label for="lifeExistingCoverage">Existing Life Insurance (group + personal)</label>
+                    <span class="v2-slider-badge" id="lifeExistingCoverageValue">$0</span>
+                  </div>
+                  <input type="range" class="v2-range" id="lifeExistingCoverage" min="0" max="2000000" step="25000" value="0">
+                </div>
+                <div class="v2-slider-row" style="margin-top:18px;">
+                  <div class="v2-slider-lbl-row">
+                    <label for="lifeSavings">Liquid Savings (TFSA, savings accounts)</label>
+                    <span class="v2-slider-badge" id="lifeSavingsValue">$25,000</span>
+                  </div>
+                  <input type="range" class="v2-range" id="lifeSavings" min="0" max="500000" step="5000" value="25000">
+                </div>
+              </div>
+
+            </div><!-- /v2-calc-card -->
+
+            <!-- Results -->
+            <div class="v2-results-panel">
+              <p class="v2-results-panel-ttl">Life Insurance Needs Summary</p>
+
+              <div class="v2-rrow">
+                <span class="v2-rlbl">Income Replacement</span>
+                <span class="v2-rval" id="lifeCalcIncomeReplacement">$1,600,000</span>
+              </div>
+              <div class="v2-rrow">
+                <span class="v2-rlbl">Mortgage Balance</span>
+                <span class="v2-rval" id="lifeCalcMortgage">$400,000</span>
+              </div>
+              <div class="v2-rrow">
+                <span class="v2-rlbl">Other Debts</span>
+                <span class="v2-rval" id="lifeCalcDebts">$20,000</span>
+              </div>
+              <div class="v2-rrow">
+                <span class="v2-rlbl">Education Fund ($50K/child)</span>
+                <span class="v2-rval" id="lifeCalcEducation">$50,000</span>
+              </div>
+              <div class="v2-rrow">
+                <span class="v2-rlbl">Final Expenses</span>
+                <span class="v2-rval" id="lifeCalcFinalExpenses">$15,000</span>
+              </div>
+              <div class="v2-rdiv"></div>
+              <div class="v2-rrow">
+                <span class="v2-rlbl">Total Needs</span>
+                <span class="v2-rval" id="lifeCalcTotalNeeds">$2,085,000</span>
+              </div>
+              <div class="v2-rrow">
+                <span class="v2-rlbl">Less: Existing Coverage</span>
+                <span class="v2-rval" id="lifeCalcExistingCov">– $0</span>
+              </div>
+              <div class="v2-rrow">
+                <span class="v2-rlbl">Less: Liquid Savings</span>
+                <span class="v2-rval" id="lifeCalcExistingSavings">– $25,000</span>
+              </div>
+
+              <div class="v2-rhighlight">
+                <span class="v2-rlbl">Recommended Coverage</span>
+                <span class="v2-rval" id="lifeCalcRecommended">$2,060,000</span>
+              </div>
+
+              <!-- Coverage bar -->
+              <div class="v2-cov-section">
+                <div class="v2-cov-meta">
+                  <span class="v2-cov-meta-lbl">Coverage already provided</span>
+                  <span class="v2-cov-pct bad" id="lifeCovPct">0% covered</span>
+                </div>
+                <div class="v2-cov-track">
+                  <div class="v2-cov-fill bad" id="lifeCovFill"></div>
+                </div>
+              </div>
             </div>
+
+            <div class="v2-calc-note">Estimate uses the income replacement method. Actual needs depend on your group benefits, spouse's income, and investment growth assumptions.</div>
+            <a href="#" class="v2-tool-cta" onclick="Calendly.initPopupWidget({url:'https://calendly.com/praveengaddam/30min?primary_color=d4a017&text_color=0f172a&background_color=ffffff'});return false;">
+              Get Your Personalized Insurance Review →
+            </a>
           </div>
 
-          <!-- Disability Insurance Calculator -->
+          <!-- ==========================================
+               DISABILITY INSURANCE CALCULATOR
+          =========================================== -->
           <div id="disability-calc" class="tool-panel">
-            <h2>Disability Insurance Calculator</h2>
-            <p class="tool-description">See if you have enough coverage to protect your income if illness or injury prevents you from working — your most valuable asset is your ability to earn</p>
+            <h2 class="v2-panel-title">Disability Insurance Calculator</h2>
+            <p class="v2-panel-desc">Your ability to earn is your most valuable asset. Find out if you're protected — and how long your savings would last if illness or injury took you off work today.</p>
 
-            <div class="calculator-card">
+            <div class="v2-calc-card">
 
-              <!-- Step 1: Monthly Income & Expenses -->
-              <div class="step-section">
-                <h3>Step 1: Your Monthly Finances</h3>
-                <div class="calculator-input-main">
-                  <label for="diMonthlyIncome">Monthly Gross Income</label>
-                  <input type="range" id="diMonthlyIncome" min="0" max="25000" step="500" value="6000">
-                  <div class="calculator-value" id="diMonthlyIncomeValue">$6,000</div>
+              <!-- Step 1 -->
+              <div class="v2-step-block">
+                <div class="v2-step-hd">
+                  <span class="v2-step-num">1</span>
+                  <span class="v2-step-title">Your Monthly Finances</span>
                 </div>
-                <div class="calculator-input-main" style="margin-top: 20px;">
-                  <label for="diMonthlyExpenses">Monthly Essential Expenses (rent/mortgage, food, utilities, transport)</label>
-                  <input type="range" id="diMonthlyExpenses" min="0" max="15000" step="250" value="3500">
-                  <div class="calculator-value" id="diMonthlyExpensesValue">$3,500</div>
+                <div class="v2-slider-row">
+                  <div class="v2-slider-lbl-row">
+                    <label for="diMonthlyIncome">Monthly Gross Income</label>
+                    <span class="v2-slider-badge" id="diMonthlyIncomeValue">$6,000</span>
+                  </div>
+                  <input type="range" class="v2-range" id="diMonthlyIncome" min="0" max="25000" step="500" value="6000">
+                </div>
+                <div class="v2-slider-row" style="margin-top:18px;">
+                  <div class="v2-slider-lbl-row">
+                    <label for="diMonthlyExpenses">Monthly Essential Expenses</label>
+                    <span class="v2-slider-badge" id="diMonthlyExpensesValue">$3,500</span>
+                  </div>
+                  <input type="range" class="v2-range" id="diMonthlyExpenses" min="0" max="15000" step="250" value="3500">
                 </div>
               </div>
 
-              <!-- Step 2: Existing Coverage -->
-              <div class="step-section">
-                <h3>Step 2: Existing Disability Coverage</h3>
-                <div class="calculator-input-main">
-                  <label for="diExistingCoverage">Monthly Group / Employer Disability Benefit (enter 0 if none)</label>
-                  <input type="range" id="diExistingCoverage" min="0" max="10000" step="250" value="0">
-                  <div class="calculator-value" id="diExistingCoverageValue">$0 — no existing coverage</div>
+              <!-- Step 2 -->
+              <div class="v2-step-block">
+                <div class="v2-step-hd">
+                  <span class="v2-step-num">2</span>
+                  <span class="v2-step-title">Existing Coverage &amp; Emergency Fund</span>
                 </div>
-                <div class="calculator-input-main" style="margin-top: 20px;">
-                  <label for="diEmergencyFund">Emergency Fund (months of savings available)</label>
-                  <input type="range" id="diEmergencyFund" min="0" max="24" step="1" value="3">
-                  <div class="calculator-value" id="diEmergencyFundValue">3 months</div>
+                <div class="v2-slider-row">
+                  <div class="v2-slider-lbl-row">
+                    <label for="diExistingCoverage">Monthly Group / Employer Disability Benefit</label>
+                    <span class="v2-slider-badge" id="diExistingCoverageValue">$0 — none</span>
+                  </div>
+                  <input type="range" class="v2-range" id="diExistingCoverage" min="0" max="10000" step="250" value="0">
                 </div>
-              </div>
-
-              <!-- Summary -->
-              <div class="summary-section">
-                <h3>Your Disability Coverage Analysis</h3>
-                <div class="summary-grid">
-                  <div class="summary-row">
-                    <span class="summary-label">Monthly Gross Income</span>
-                    <span class="summary-value" id="diCalcGrossIncome">$6,000</span>
+                <div class="v2-slider-row" style="margin-top:18px;">
+                  <div class="v2-slider-lbl-row">
+                    <label for="diEmergencyFund">Emergency Fund (months of savings)</label>
+                    <span class="v2-slider-badge" id="diEmergencyFundValue">3 months</span>
                   </div>
-                  <div class="summary-row">
-                    <span class="summary-label">Industry Standard Benefit (70% of income)</span>
-                    <span class="summary-value" id="diCalcRecommendedBenefit">$4,200</span>
-                  </div>
-                  <div class="summary-divider"></div>
-                  <div class="summary-row">
-                    <span class="summary-label">Your Existing Coverage</span>
-                    <span class="summary-value" id="diCalcExistingCoverage">$0</span>
-                  </div>
-                  <div class="summary-row total-row highlight">
-                    <span class="summary-label">Monthly Coverage Gap</span>
-                    <span class="summary-value total gold" id="diCalcCoverageGap">$4,200</span>
-                  </div>
-                  <div class="summary-divider"></div>
-                  <div class="summary-row">
-                    <span class="summary-label">Monthly Essential Expenses</span>
-                    <span class="summary-value" id="diCalcExpenses">$3,500</span>
-                  </div>
-                  <div class="summary-row">
-                    <span class="summary-label">Monthly Shortfall if Disabled Today</span>
-                    <span class="summary-value" id="diCalcShortfall">$3,500</span>
-                  </div>
-                  <div class="summary-row">
-                    <span class="summary-label">Emergency Fund Would Cover</span>
-                    <span class="summary-value" id="diCalcFundMonths">3 months</span>
-                  </div>
-                </div>
-                <div id="diCoverageStatus" class="result-note">
-                  <p><strong>Significant coverage gap.</strong> Without additional coverage, a disability could leave you unable to cover your essential expenses after just a few months. Book a free consultation to review your options.</p>
+                  <input type="range" class="v2-range" id="diEmergencyFund" min="0" max="24" step="1" value="3">
                 </div>
               </div>
 
-              <a href="/#book" class="btn btn-gold btn-block">Review Your Disability Protection →</a>
+            </div><!-- /v2-calc-card -->
+
+            <!-- Results -->
+            <div class="v2-results-panel">
+              <p class="v2-results-panel-ttl">Your Disability Coverage Analysis</p>
+
+              <div class="v2-rrow">
+                <span class="v2-rlbl">Monthly Gross Income</span>
+                <span class="v2-rval" id="diCalcGrossIncome">$6,000</span>
+              </div>
+              <div class="v2-rrow">
+                <span class="v2-rlbl">Industry Standard (70% of income)</span>
+                <span class="v2-rval" id="diCalcRecommendedBenefit">$4,200</span>
+              </div>
+              <div class="v2-rdiv"></div>
+              <div class="v2-rrow">
+                <span class="v2-rlbl">Your Existing Coverage</span>
+                <span class="v2-rval" id="diCalcExistingCoverage">$0</span>
+              </div>
+              <div class="v2-rhighlight">
+                <span class="v2-rlbl">Monthly Coverage Gap</span>
+                <span class="v2-rval" id="diCalcCoverageGap">$4,200</span>
+              </div>
+              <div class="v2-rdiv" style="margin-top:12px;"></div>
+              <div class="v2-rrow">
+                <span class="v2-rlbl">Monthly Essential Expenses</span>
+                <span class="v2-rval" id="diCalcExpenses">$3,500</span>
+              </div>
+              <div class="v2-rrow">
+                <span class="v2-rlbl">Monthly Shortfall if Disabled Today</span>
+                <span class="v2-rval" id="diCalcShortfall">$3,500</span>
+              </div>
+              <div class="v2-rrow">
+                <span class="v2-rlbl">Emergency Fund Would Cover</span>
+                <span class="v2-rval" id="diCalcFundMonths">3 months</span>
+              </div>
+
+              <!-- Coverage gauge -->
+              <div class="v2-cov-section">
+                <div class="v2-cov-meta">
+                  <span class="v2-cov-meta-lbl">Income protected by existing coverage</span>
+                  <span class="v2-cov-pct bad" id="diCovPct">0% protected</span>
+                </div>
+                <div class="v2-cov-track">
+                  <div class="v2-cov-fill bad" id="diCovFill"></div>
+                </div>
+              </div>
+
+              <!-- Status note -->
+              <div id="diCoverageStatus" style="margin-top:14px;padding:12px 14px;background:rgba(239,68,68,.08);border-left:3px solid #ef4444;border-radius:6px;font-size:.82rem;color:rgba(255,255,255,.8);line-height:1.5;">
+                <strong>Significant gap.</strong> Without additional coverage, a disability could leave you unable to cover essential expenses after just a few months.
+              </div>
             </div>
+
+            <div class="v2-calc-note">The 70% income replacement standard is used by most Canadian insurers. Actual benefit amounts, waiting periods, and premiums vary by provider and occupation class.</div>
+            <a href="#" class="v2-tool-cta" onclick="Calendly.initPopupWidget({url:'https://calendly.com/praveengaddam/30min?primary_color=d4a017&text_color=0f172a&background_color=ffffff'});return false;">
+              Review Your Disability Protection →
+            </a>
           </div>
 
-          <!-- Net Worth Tracker Tool -->
-          <div id="net-worth-tracker" class="tool-panel">
-            <h2>Net Worth Tracker</h2>
-            <p class="tool-description">Track your complete financial picture - assets, liabilities, income, and expenses all in one place</p>
-
-            <div class="net-worth-container">
-
-              <!-- Financial Overview Cards -->
-              <div class="nw-overview-grid">
-                <div class="nw-card nw-card-primary">
-                  <div class="nw-card-header">
-                    <span class="nw-card-title">TOTAL NET WORTH</span>
-                    <span class="nw-card-icon">📈</span>
-                  </div>
-                  <div class="nw-card-value" id="nwTotalNetWorth">$0</div>
-                </div>
-
-                <div class="nw-card">
-                  <div class="nw-card-header">
-                    <span class="nw-card-title">LIQUID CASH</span>
-                    <span class="nw-card-icon">💵</span>
-                  </div>
-                  <div class="nw-card-value" id="nwLiquidCash">$0</div>
-                </div>
-
-                <div class="nw-card">
-                  <div class="nw-card-header">
-                    <span class="nw-card-title">FIXED ASSETS (EQUITY)</span>
-                    <span class="nw-card-icon">🏠</span>
-                  </div>
-                  <div class="nw-card-value" id="nwFixedAssets">$0</div>
-                </div>
-
-                <div class="nw-card nw-card-danger">
-                  <div class="nw-card-header">
-                    <span class="nw-card-title">TOTAL DEBT</span>
-                    <span class="nw-card-icon">💳</span>
-                  </div>
-                  <div class="nw-card-value nw-value-danger" id="nwTotalDebt">$0</div>
-                </div>
-
-                <div class="nw-card nw-card-warning">
-                  <div class="nw-card-header">
-                    <span class="nw-card-title">MONTHLY EXPENSES</span>
-                    <span class="nw-card-icon">💸</span>
-                  </div>
-                  <div class="nw-card-value nw-value-warning" id="nwMonthlyExpenses">$0</div>
-                </div>
-
-                <div class="nw-card nw-card-success">
-                  <div class="nw-card-header">
-                    <span class="nw-card-title">MONTHLY INCOME</span>
-                    <span class="nw-card-icon">💰</span>
-                  </div>
-                  <div class="nw-card-value nw-value-success" id="nwMonthlyIncome">$0</div>
-                </div>
-
-                <div class="nw-card">
-                  <div class="nw-card-header">
-                    <span class="nw-card-title">MONTHLY SURPLUS</span>
-                    <span class="nw-card-icon">🔄</span>
-                  </div>
-                  <div class="nw-card-value nw-value-success" id="nwMonthlySurplus">$0</div>
-                </div>
-
-                <div class="nw-card">
-                  <div class="nw-card-header">
-                    <span class="nw-card-title">ANNUAL INCOME</span>
-                    <span class="nw-card-icon">📅</span>
-                  </div>
-                  <div class="nw-card-value" id="nwAnnualIncome">$0</div>
-                </div>
-              </div>
-
-              <!-- Charts Section -->
-              <div class="nw-charts-section">
-                <div class="nw-chart-container">
-                  <h3>Net Worth History</h3>
-                  <div class="nw-chart-filters">
-                    <button class="nw-filter-btn" data-period="1M">1M</button>
-                    <button class="nw-filter-btn" data-period="3M">3M</button>
-                    <button class="nw-filter-btn" data-period="6M">6M</button>
-                    <button class="nw-filter-btn" data-period="YTD">YTD</button>
-                    <button class="nw-filter-btn active" data-period="1Y">1Y</button>
-                    <button class="nw-filter-btn" data-period="ALL">ALL</button>
-                  </div>
-                  <div class="nw-chart-placeholder">
-                    <canvas id="nwHistoryChart"></canvas>
-                  </div>
-                </div>
-
-                <div class="nw-chart-container">
-                  <h3>Monthly Cashflow</h3>
-                  <div class="nw-chart-placeholder">
-                    <canvas id="nwCashflowChart"></canvas>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Fixed Assets Section -->
-              <div class="nw-section">
-                <div class="nw-section-header">
-                  <h3>Fixed Assets <span class="nw-info-icon" title="Properties, vehicles, and other fixed assets">ⓘ</span></h3>
-                  <button class="btn btn-small btn-gold" onclick="addFixedAsset()">+ Add</button>
-                </div>
-                <div class="nw-table">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Asset</th>
-                        <th>Location</th>
-                        <th>Market Value</th>
-                        <th>Debt</th>
-                        <th>Equity</th>
-                        <th>Monthly Cost</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody id="fixedAssetsTableBody">
-                      <tr class="nw-empty-row">
-                        <td colspan="7" style="text-align: center; color: #94a3b8;">No fixed assets added yet</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <!-- Liquid Assets Section -->
-              <div class="nw-section">
-                <div class="nw-section-header">
-                  <h3>Liquid Assets <span class="nw-info-icon" title="Savings, investments, and other liquid assets">ⓘ</span></h3>
-                  <button class="btn btn-small btn-gold" onclick="addLiquidAsset()">+ Add</button>
-                </div>
-                <div class="nw-table">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Location</th>
-                        <th>Market Value</th>
-                        <th>Monthly Contribution</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody id="liquidAssetsTableBody">
-                      <tr class="nw-empty-row">
-                        <td colspan="5" style="text-align: center; color: #94a3b8;">No liquid assets added yet</td>
-                      </tr>
-                    </tbody>
-                    <tfoot>
-                      <tr class="nw-total-row">
-                        <td colspan="2"><strong>Total</strong></td>
-                        <td><strong id="liquidAssetsTotal">$0</strong></td>
-                        <td><strong id="liquidContributionTotal">$0</strong></td>
-                        <td></td>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
-              </div>
-
-              <!-- Monthly Cashflow Section -->
-              <div class="nw-section">
-                <div class="nw-section-header">
-                  <h3>Monthly Cashflow <span class="nw-info-icon" title="Track your monthly income and expenses">ⓘ</span></h3>
-                  <button class="btn btn-small btn-gold" onclick="addCashflowItem()">+ Add</button>
-                </div>
-                <div class="nw-table">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Income</th>
-                        <th>Expenses</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody id="cashflowTableBody">
-                      <tr class="nw-empty-row">
-                        <td colspan="4" style="text-align: center; color: #94a3b8;">No cashflow items added yet</td>
-                      </tr>
-                    </tbody>
-                    <tfoot>
-                      <tr class="nw-total-row">
-                        <td><strong>Total Surplus:</strong></td>
-                        <td><strong id="cashflowIncomeTotal" class="nw-value-success">$0</strong></td>
-                        <td><strong id="cashflowExpensesTotal" class="nw-value-danger">$0</strong></td>
-                        <td></td>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          <!-- Financial Needs Analysis Tool -->
+          <!-- ==========================================
+               FINANCIAL NEEDS ANALYSIS
+          =========================================== -->
           <div id="fna-tool" class="tool-panel">
-            <h2>Financial Needs Analysis (FNA)</h2>
-            <p class="tool-description">A comprehensive evaluation of your complete financial picture to create a personalized roadmap for your family's future</p>
+            <h2 class="v2-panel-title">Financial Needs Analysis</h2>
+            <p class="v2-panel-desc">A comprehensive one-on-one review of your complete financial picture — the first step to building a plan that actually works for your family.</p>
 
-            <!-- Public View - Consultation Prompt -->
-            <div id="fnaPublicView" class="password-prompt">
-              <div class="password-card">
-                <div class="fire-info-icon">📊</div>
-                <h3>Personalized Financial Needs Analysis</h3>
-                <p class="fire-info-text">The <strong>Financial Needs Analysis (FNA)</strong> is a comprehensive one-on-one consultation where we analyze your complete financial picture together:</p>
-                <ul class="fire-features">
-                  <li><strong>Tax Planning:</strong> Identify strategies to minimize your tax burden through RRSP, TFSA, FHSA, and other tax-advantaged accounts</li>
-                  <li><strong>Income Protection:</strong> Ensure your family is financially secure with proper life, critical illness, and disability insurance coverage</li>
-                  <li><strong>Wealth Creation:</strong> Develop an investment strategy aligned with your goals and risk tolerance for long-term wealth building</li>
-                  <li><strong>Children's Education:</strong> Plan for RESP contributions and maximize government grants to fund your children's future</li>
-                  <li><strong>Retirement Planning:</strong> Create a clear path to financial independence with CPP/OAS optimization and savings strategies</li>
-                  <li><strong>Debt Management:</strong> Develop strategies to pay off debt efficiently while building wealth simultaneously</li>
-                  <li><strong>Emergency Fund:</strong> Establish a safety net to protect against unexpected financial challenges</li>
-                  <li><strong>Estate Planning:</strong> Ensure your wealth transfers smoothly to your beneficiaries according to your wishes</li>
+            <!-- Public View -->
+            <div id="fnaPublicView">
+              <div class="v2-fna-card">
+                <div class="v2-fna-icon">📊</div>
+                <h3>What's Covered in Your Free FNA</h3>
+                <p class="v2-fna-intro">During our free 30-minute session, we'll sit together and map out your complete financial picture across eight key areas:</p>
+
+                <ul class="v2-fna-features">
+                  <li><strong>Tax Planning</strong> — RRSP, TFSA, FHSA strategies to minimize what you owe</li>
+                  <li><strong>Income Protection</strong> — Life, disability &amp; critical illness coverage gaps</li>
+                  <li><strong>Wealth Creation</strong> — Investment strategy aligned to your goals</li>
+                  <li><strong>Children's Education</strong> — RESP contributions and maximizing CESG grants</li>
+                  <li><strong>Retirement Planning</strong> — CPP/OAS optimization &amp; savings milestones</li>
+                  <li><strong>Debt Management</strong> — Pay off debt efficiently while building wealth</li>
+                  <li><strong>Emergency Fund</strong> — Build the safety net your family needs</li>
+                  <li><strong>Estate Planning</strong> — Ensure wealth transfers smoothly to beneficiaries</li>
                 </ul>
-                <p class="fire-cta-text">This detailed analysis requires a personalized consultation to ensure we address your unique situation, goals, and concerns. During our free 30-minute call, we'll sit together and analyze your complete financial needs.</p>
-                <a href="/#book" class="btn btn-gold btn-large">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                    <line x1="16" y1="2" x2="16" y2="6"></line>
-                    <line x1="8" y1="2" x2="8" y2="6"></line>
-                    <line x1="3" y1="10" x2="21" y2="10"></line>
-                  </svg>
-                  Book Free FNA Consultation
+
+                <div class="v2-fna-perks">
+                  <div class="v2-fna-perk">
+                    <strong>✓ No Obligation</strong>
+                    <span>Free session, zero pressure to buy anything</span>
+                  </div>
+                  <div class="v2-fna-perk">
+                    <strong>✓ Confidential</strong>
+                    <span>Your information stays completely private</span>
+                  </div>
+                  <div class="v2-fna-perk">
+                    <strong>✓ Personalized</strong>
+                    <span>Tailored to your specific family situation</span>
+                  </div>
+                  <div class="v2-fna-perk">
+                    <strong>✓ Actionable</strong>
+                    <span>Leave with clear next steps you can act on</span>
+                  </div>
+                </div>
+
+                <a href="#" class="v2-tool-cta" onclick="Calendly.initPopupWidget({url:'https://calendly.com/praveengaddam/30min?primary_color=d4a017&text_color=0f172a&background_color=ffffff'});return false;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  Book My Free FNA Consultation
                 </a>
-                <p class="fire-note">Get your personalized Financial Needs Analysis during our free consultation</p>
 
-                <div class="fna-benefits-grid">
-                  <div class="fna-benefit-card">
-                    <h4>✓ No Obligation</h4>
-                    <p>Free consultation with no pressure to purchase anything</p>
-                  </div>
-                  <div class="fna-benefit-card">
-                    <h4>✓ Confidential</h4>
-                    <p>Your information stays private and secure</p>
-                  </div>
-                  <div class="fna-benefit-card">
-                    <h4>✓ Personalized</h4>
-                    <p>Tailored advice for your specific situation</p>
-                  </div>
-                  <div class="fna-benefit-card">
-                    <h4>✓ Actionable</h4>
-                    <p>Walk away with clear next steps and recommendations</p>
-                  </div>
-                </div>
-
-                <!-- Owner Access Link (Small, Bottom Right) -->
-                <div style="text-align: right; margin-top: 20px;">
-                  <button onclick="showFNAPasswordPrompt()" style="background: none; border: none; color: #94a3b8; font-size: 12px; cursor: pointer; text-decoration: underline;">Owner Access</button>
-                </div>
+                <button onclick="showFNAPasswordPrompt()" class="v2-owner-link">Owner Access</button>
               </div>
             </div>
 
-            <!-- Password Prompt (Hidden by default) -->
-            <div id="fnaPasswordPrompt" style="display: none;">
-              <div class="password-card" style="max-width: 400px; margin: 0 auto;">
-                <div class="fire-info-icon">🔒</div>
-                <h3>Owner Access Required</h3>
-                <p class="fire-info-text">Enter your password to access the FNA analysis tool</p>
-
+            <!-- Password Prompt (hidden) -->
+            <div id="fnaPasswordPrompt" style="display:none;">
+              <div class="v2-pw-card">
+                <div style="font-size:32px;margin-bottom:14px;">🔒</div>
+                <h3>Owner Access</h3>
+                <p>Enter your password to access the FNA analysis tool</p>
                 <form onsubmit="return unlockFNATool(event)">
-                  <div class="form-group">
-                    <label for="fnaOwnerPassword">Password</label>
-                    <input
-                      type="password"
-                      id="fnaOwnerPassword"
-                      class="input-field"
-                      placeholder="Enter password"
-                      autocomplete="off"
-                      required
-                    >
-                    <div id="fnaPasswordError" style="color: #ef4444; font-size: 14px; margin-top: 8px; display: none;">Incorrect password</div>
-                  </div>
-
-                  <button type="submit" class="btn btn-gold btn-large">Unlock FNA Tool</button>
-                  <button type="button" onclick="hideFNAPasswordPrompt()" class="btn btn-secondary" style="margin-top: 10px;">Cancel</button>
+                  <input type="password" id="fnaOwnerPassword" class="v2-pw-input" placeholder="Enter password" autocomplete="off" required>
+                  <p class="v2-pw-error" id="fnaPasswordError">Incorrect password. Please try again.</p>
+                  <a href="#" class="v2-tool-cta" onclick="this.closest('form').requestSubmit(); return false;" style="text-decoration:none;">Unlock FNA Tool</a>
+                  <button type="button" onclick="hideFNAPasswordPrompt()" style="display:block;width:100%;margin-top:10px;padding:11px;background:none;border:1px solid #e2e8f0;border-radius:8px;cursor:pointer;font-size:.88rem;color:#64748b;">Cancel</button>
                 </form>
               </div>
             </div>
 
-            <!-- Full FNA Tool (Hidden until password entered) -->
-            <div id="fnaToolContent" style="display: none;">
-              <!-- This will be populated with the full FNA tool from fna_admin.html -->
-              <p style="text-align: center; padding: 40px;">Loading FNA tool...</p>
+            <!-- Full FNA (hidden until unlocked) -->
+            <div id="fnaToolContent" style="display:none;">
+              <p style="text-align:center;padding:40px;color:#64748b;">Loading FNA tool...</p>
             </div>
-
           </div>
 
         </main>
@@ -790,50 +694,73 @@
     </div>
   </section>
 
-  <!-- CTA Section -->
-  <section class="section alt">
-    <div class="container">
-      <div class="cta-card">
-        <h2>Need Personal Guidance?</h2>
-        <p>These tools are great for planning, but personalized advice can help you maximize your savings. Book a free consultation to discuss your specific situation.</p>
-        <a href="/#book" class="btn btn-gold">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-            <line x1="16" y1="2" x2="16" y2="6"></line>
-            <line x1="8" y1="2" x2="8" y2="6"></line>
-            <line x1="3" y1="10" x2="21" y2="10"></line>
-          </svg>
-          Book Free 30-min Call
-        </a>
+  <!-- Book Section -->
+  <section class="v2-section v2-book">
+    <div class="v2-container">
+      <div class="v2-book-card fade-in">
+        <h2>Ready to Turn These Numbers Into a Plan?</h2>
+        <p>The calculators give you the picture — I'll help you act on it. Book a free 30-minute call and let's build your personalized financial roadmap.</p>
+        <div class="v2-book-perks">
+          <span>⏱️ 30 minutes</span>
+          <span>💬 Video or Phone</span>
+          <span>🆓 Completely Free</span>
+        </div>
+        <button class="v2-btn v2-btn-amber v2-btn-lg calendly-popup-btn"
+          onclick="Calendly.initPopupWidget({url:'https://calendly.com/praveengaddam/30min?primary_color=d4a017&text_color=0f172a&background_color=ffffff'});return false;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Pick a Time That Works for You
+        </button>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="site-footer">
-    <div class="container footer-content">
-      <div class="footer-brand">
-        <svg width="32" height="32" viewBox="0 0 24 24">
+  <!-- Footer (identical to home page) -->
+  <footer class="v2-footer">
+    <div class="v2-container v2-footer-inner">
+      <div class="v2-footer-brand">
+        <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z" fill="currentColor"/>
         </svg>
-        <span class="footer-brand-name">Ten Percent Club</span>
+        <span class="v2-footer-name">Ten Percent Club</span>
+        <p class="v2-footer-tagline">Simple financial planning for Canadian families.</p>
+        <div class="v2-footer-social">
+          <a href="https://www.linkedin.com/in/praveengaddam" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+        </div>
       </div>
 
-      <div class="footer-info">
-        <p>Licensed Financial Professional | License ID: 25242870</p>
-        <p>Kitchener, Ontario | Serving all of Canada virtually</p>
-        <p><a href="mailto:tenpercentclub10@gmail.com">tenpercentclub10@gmail.com</a></p>
+      <div class="v2-footer-links">
+        <h4>Services</h4>
+        <a href="/#services">Insurance Planning</a>
+        <a href="/#services">Tax-Efficient Protection</a>
+        <a href="/#services">Long-Term Savings</a>
+        <a href="/#services">Estate &amp; Beneficiary Planning</a>
+        <a href="/tools">Financial Tools</a>
       </div>
 
-      <div class="footer-bottom">
-        <p class="copyright">© <span id="year"></span> Ten Percent Club. All rights reserved.</p>
-        <p class="disclaimer">Insurance products and services are provided through World Financial Group Insurance Agency. Investment products and services are provided through World Financial Group, Inc. (WFG), member FINRA/SIPC.</p>
+      <div class="v2-footer-contact">
+        <h4>Contact</h4>
+        <p>Licensed ID: 25242870</p>
+        <p>Kitchener, Ontario</p>
+        <a href="mailto:tenpercentclub10@gmail.com">tenpercentclub10@gmail.com</a>
+        <button class="v2-btn v2-btn-amber v2-footer-book-btn calendly-popup-btn"
+          onclick="Calendly.initPopupWidget({url:'https://calendly.com/praveengaddam/30min?primary_color=d4a017&text_color=0f172a&background_color=ffffff'});return false;">
+          Book Free Call
+        </button>
+      </div>
+    </div>
+
+    <div class="v2-footer-bottom">
+      <div class="v2-container">
+        <p>© <span id="year"></span> Ten Percent Club. All rights reserved.</p>
+        <p class="v2-footer-disclaimer">Insurance products and services are offered through World Financial Group Insurance Agency of Canada Inc. (WFGIAC). Products are underwritten by third-party insurance companies. Ten Percent Club is a personal brand and is not a separate legal entity.</p>
       </div>
     </div>
   </footer>
 
-  <!-- Chart.js Library -->
+  <!-- Chart.js (kept for compatibility) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <script src="script.js?v=2.0"></script>
+  <script src="script.js?v=3.0"></script>
 </body>
 </html>
