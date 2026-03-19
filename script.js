@@ -2979,364 +2979,125 @@ function updateCharts() {
 }
 
 // ===================================
-// Budget Tracker Functions
+// Life Insurance Needs Calculator
 // ===================================
 
-let btData = {
-  currentMonth: new Date().toISOString().slice(0, 7), // YYYY-MM format
-  months: {}
-};
-
-let btSpendingChart = null;
-
-// Initialize Budget Tracker
-function initBudgetTracker() {
-  loadBudgetData();
-  updateBudgetDisplay();
-  initBudgetChart();
-}
-
-// Load data from localStorage
-function loadBudgetData() {
-  const saved = localStorage.getItem('budgetTrackerData');
-  if (saved) {
-    btData = JSON.parse(saved);
-  }
-
-  // Ensure current month exists
-  if (!btData.months[btData.currentMonth]) {
-    btData.months[btData.currentMonth] = {
-      income: 0,
-      categories: []
-    };
-  }
-}
-
-// Save data to localStorage
-function saveBudgetData() {
-  localStorage.setItem('budgetTrackerData', JSON.stringify(btData));
-}
-
-// Format currency
-function formatBudgetCurrency(amount) {
-  return '$' + Math.abs(amount).toLocaleString('en-CA', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0
+function initLifeInsuranceCalc() {
+  ['lifeAnnualIncome','lifeYearsReplace','lifeMortgage','lifeOtherDebts',
+   'lifeNumChildren','lifeFinalExpenses','lifeExistingCoverage','lifeSavings'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('input', updateLifeInsuranceCalc);
   });
+  updateLifeInsuranceCalc();
 }
 
-// Get month name from YYYY-MM format
-function getMonthName(monthStr) {
-  const [year, month] = monthStr.split('-');
-  const date = new Date(year, month - 1);
-  return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+function updateLifeInsuranceCalc() {
+  function val(id) { var el = document.getElementById(id); return el ? parseInt(el.value) || 0 : 0; }
+  function set(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; }
+
+  var income       = val('lifeAnnualIncome');
+  var years        = val('lifeYearsReplace') || 20;
+  var mortgage     = val('lifeMortgage');
+  var otherDebts   = val('lifeOtherDebts');
+  var numChildren  = val('lifeNumChildren');
+  var finalExp     = val('lifeFinalExpenses') || 15000;
+  var existing     = val('lifeExistingCoverage');
+  var savings      = val('lifeSavings');
+
+  // Display labels
+  set('lifeAnnualIncomeValue',   formatCurrency(income));
+  set('lifeYearsReplaceValue',   years + (years === 1 ? ' year' : ' years'));
+  set('lifeMortgageValue',       formatCurrency(mortgage));
+  set('lifeOtherDebtsValue',     formatCurrency(otherDebts));
+  set('lifeNumChildrenValue',    numChildren === 0 ? '0 children' : numChildren === 1 ? '1 child' : numChildren + ' children');
+  set('lifeFinalExpensesValue',  formatCurrency(finalExp));
+  set('lifeExistingCoverageValue', formatCurrency(existing));
+  set('lifeSavingsValue',        formatCurrency(savings));
+
+  // Calculations
+  var incomeReplacement = income * years;
+  var educationFund     = numChildren * 50000;
+  var totalNeeds        = incomeReplacement + mortgage + otherDebts + educationFund + finalExp;
+  var recommended       = Math.max(0, totalNeeds - existing - savings);
+
+  // Update summary
+  set('lifeCalcIncomeReplacement', formatCurrency(incomeReplacement));
+  set('lifeCalcMortgage',          formatCurrency(mortgage));
+  set('lifeCalcDebts',             formatCurrency(otherDebts));
+  set('lifeCalcEducation',         formatCurrency(educationFund));
+  set('lifeCalcFinalExpenses',     formatCurrency(finalExp));
+  set('lifeCalcTotalNeeds',        formatCurrency(totalNeeds));
+  set('lifeCalcExistingCov',       '- ' + formatCurrency(existing));
+  set('lifeCalcExistingSavings',   '- ' + formatCurrency(savings));
+  set('lifeCalcRecommended',       formatCurrency(recommended));
 }
 
-// Change month
-function changeMonth(direction) {
-  const [year, month] = btData.currentMonth.split('-').map(Number);
-  const date = new Date(year, month - 1 + direction);
-  btData.currentMonth = date.toISOString().slice(0, 7);
-
-  // Ensure new month exists
-  if (!btData.months[btData.currentMonth]) {
-    btData.months[btData.currentMonth] = {
-      income: 0,
-      categories: []
-    };
-  }
-
-  saveBudgetData();
-  updateBudgetDisplay();
-}
-
-// Add category
-function addBudgetCategory() {
-  const currentMonthData = btData.months[btData.currentMonth];
-  const newCategory = {
-    id: Date.now(),
-    name: '',
-    planned: 0,
-    actual: 0
-  };
-
-  currentMonthData.categories.push(newCategory);
-  saveBudgetData();
-  renderBudgetCategories();
-  updateBudgetSummary();
-}
-
-// Delete category
-function deleteBudgetCategory(id) {
-  const currentMonthData = btData.months[btData.currentMonth];
-  currentMonthData.categories = currentMonthData.categories.filter(c => c.id !== id);
-  saveBudgetData();
-  renderBudgetCategories();
-  updateBudgetSummary();
-  updateBudgetChart();
-}
-
-// Update category
-function updateBudgetCategory(id, field, value) {
-  const currentMonthData = btData.months[btData.currentMonth];
-  const category = currentMonthData.categories.find(c => c.id === id);
-
-  if (category) {
-    if (field === 'name') {
-      category[field] = value;
-    } else {
-      category[field] = parseFloat(value) || 0;
-    }
-    saveBudgetData();
-    updateBudgetSummary();
-    updateBudgetChart();
-  }
-}
-
-// Update monthly income
-function updateMonthlyIncome(value) {
-  const currentMonthData = btData.months[btData.currentMonth];
-  currentMonthData.income = parseFloat(value) || 0;
-  saveBudgetData();
-  updateBudgetSummary();
-}
-
-// Render categories table
-function renderBudgetCategories() {
-  const tbody = document.getElementById('btCategoriesTableBody');
-  const currentMonthData = btData.months[btData.currentMonth];
-
-  if (currentMonthData.categories.length === 0) {
-    tbody.innerHTML = '<tr class="bt-empty-row"><td colspan="7" style="text-align: center; color: #94a3b8;">No categories added yet</td></tr>';
-    return;
-  }
-
-  tbody.innerHTML = currentMonthData.categories.map(cat => {
-    const remaining = cat.planned - cat.actual;
-    const status = remaining >= 0 ? 'under' : 'over';
-    const statusText = remaining >= 0 ? 'Under' : 'Over';
-
-    return `
-      <tr>
-        <td><span class="bt-drag-handle">⋮⋮</span></td>
-        <td>
-          <input
-            type="text"
-            value="${cat.name}"
-            onchange="updateBudgetCategory(${cat.id}, 'name', this.value)"
-            placeholder="e.g., Groceries"
-          >
-        </td>
-        <td>
-          <input
-            type="number"
-            value="${cat.planned}"
-            onchange="updateBudgetCategory(${cat.id}, 'planned', this.value)"
-            placeholder="$0"
-            min="0"
-            step="1"
-          >
-        </td>
-        <td>
-          <input
-            type="number"
-            value="${cat.actual}"
-            onchange="updateBudgetCategory(${cat.id}, 'actual', this.value)"
-            placeholder="$0"
-            min="0"
-            step="1"
-          >
-        </td>
-        <td style="color: ${remaining >= 0 ? '#059669' : '#ef4444'}; font-weight: 600;">
-          ${formatBudgetCurrency(remaining)}
-        </td>
-        <td>
-          ${remaining === 0 ? '—' : `<span class="bt-status-badge ${status}">${statusText}</span>`}
-        </td>
-        <td>
-          <button class="bt-delete-btn" onclick="deleteBudgetCategory(${cat.id})" title="Delete">🗑️</button>
-        </td>
-      </tr>
-    `;
-  }).join('');
-}
-
-// Update budget summary
-function updateBudgetSummary() {
-  const currentMonthData = btData.months[btData.currentMonth];
-
-  // Calculate totals
-  const totalPlanned = currentMonthData.categories.reduce((sum, c) => sum + c.planned, 0);
-  const totalActual = currentMonthData.categories.reduce((sum, c) => sum + c.actual, 0);
-  const totalRemaining = totalPlanned - totalActual;
-  const income = currentMonthData.income;
-  const remaining = income - totalActual;
-
-  // Update summary cards
-  const incomeDisplay = document.getElementById('btMonthlyIncomeDisplay');
-  const incomeInput = document.getElementById('btMonthlyIncomeInput');
-  if (incomeDisplay) {
-    incomeDisplay.textContent = formatBudgetCurrency(income);
-  }
-  if (incomeInput && incomeInput.style.display === 'none') {
-    incomeInput.value = income || '';
-  }
-  document.getElementById('btRemaining').textContent = formatBudgetCurrency(remaining);
-  document.getElementById('btActualSpend').textContent = formatBudgetCurrency(totalActual);
-
-  // Update table footer
-  document.getElementById('btTotalPlanned').textContent = formatBudgetCurrency(totalPlanned);
-  document.getElementById('btTotalActual').textContent = formatBudgetCurrency(totalActual);
-  document.getElementById('btTotalRemaining').textContent = formatBudgetCurrency(totalRemaining);
-
-  // Update progress bar
-  const progressPercent = income > 0 ? Math.min((totalActual / income) * 100, 100) : 0;
-  const progressFill = document.getElementById('btProgressFill');
-  progressFill.style.width = progressPercent + '%';
-
-  if (progressPercent > 100 || totalActual > income) {
-    progressFill.classList.add('over-budget');
-  } else {
-    progressFill.classList.remove('over-budget');
-  }
-
-  // Update progress text
-  document.getElementById('btSpentDisplay').textContent =
-    `${formatBudgetCurrency(totalActual)} of ${formatBudgetCurrency(income)}`;
-  document.getElementById('btProgressPercent').textContent =
-    `${Math.round(progressPercent)}% used`;
-  document.getElementById('btProgressRemaining').textContent =
-    `${Math.round(100 - progressPercent)}% remaining`;
-
-  // Update budget status
-  const budgetDiff = income - totalActual;
-  const statusEl = document.getElementById('btBudgetStatus');
-  statusEl.textContent = budgetDiff >= 0
-    ? `${formatBudgetCurrency(budgetDiff)} under budget`
-    : `${formatBudgetCurrency(Math.abs(budgetDiff))} over budget`;
-  statusEl.className = 'bt-status-value ' + (budgetDiff >= 0 ? '' : 'over');
-
-  // Update remaining card color
-  const remainingEl = document.getElementById('btRemaining');
-  remainingEl.className = 'bt-card-value ' + (remaining >= 0 ? 'bt-value-success' : 'bt-value-danger');
-}
-
-// Update display
-function updateBudgetDisplay() {
-  // Update month header
-  document.getElementById('btCurrentMonth').textContent =
-    getMonthName(btData.currentMonth) + ' Budget';
-
-  renderBudgetCategories();
-  updateBudgetSummary();
-  updateBudgetChart();
-}
-
-// Initialize chart
-function initBudgetChart() {
-  const ctx = document.getElementById('btSpendingChart');
-  if (!ctx) return;
-
-  btSpendingChart = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: [],
-      datasets: [{
-        data: [],
-        backgroundColor: [
-          '#10b981', '#3b82f6', '#f59e0b', '#8b5cf6', '#ef4444',
-          '#06b6d4', '#ec4899', '#14b8a6', '#f97316', '#a855f7',
-          '#84cc16', '#6366f1', '#f43f5e', '#0ea5e9', '#d946ef'
-        ],
-        borderWidth: 2,
-        borderColor: '#fff'
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'right',
-          labels: {
-            padding: 15,
-            font: {
-              size: 13,
-              family: "'Inter', sans-serif"
-            },
-            color: '#475569'
-          }
-        },
-        tooltip: {
-          callbacks: {
-            label: function(context) {
-              const label = context.label || '';
-              const value = formatBudgetCurrency(context.parsed);
-              const total = context.dataset.data.reduce((a, b) => a + b, 0);
-              const percentage = ((context.parsed / total) * 100).toFixed(1);
-              return `${label}: ${value} (${percentage}%)`;
-            }
-          }
-        }
-      }
-    }
-  });
-}
-
-// Update chart
-function updateBudgetChart() {
-  if (!btSpendingChart) return;
-
-  const currentMonthData = btData.months[btData.currentMonth];
-  const categoriesWithSpending = currentMonthData.categories.filter(c => c.actual > 0);
-
-  if (categoriesWithSpending.length === 0) {
-    btSpendingChart.data.labels = ['No spending data'];
-    btSpendingChart.data.datasets[0].data = [1];
-    btSpendingChart.data.datasets[0].backgroundColor = ['#e2e8f0'];
-  } else {
-    btSpendingChart.data.labels = categoriesWithSpending.map(c => c.name || 'Unnamed');
-    btSpendingChart.data.datasets[0].data = categoriesWithSpending.map(c => c.actual);
-  }
-
-  btSpendingChart.update();
-}
-
-// Toggle income edit mode
-function toggleIncomeEdit() {
-  const display = document.getElementById('btMonthlyIncomeDisplay');
-  const input = document.getElementById('btMonthlyIncomeInput');
-  const currentMonthData = btData.months[btData.currentMonth];
-
-  if (display && input) {
-    display.style.display = 'none';
-    input.style.display = 'block';
-    input.value = currentMonthData.income || '';
-    input.focus();
-    input.select();
-  }
-}
-
-// Save income edit
-function saveIncomeEdit() {
-  const display = document.getElementById('btMonthlyIncomeDisplay');
-  const input = document.getElementById('btMonthlyIncomeInput');
-
-  if (display && input) {
-    const value = parseFloat(input.value) || 0;
-    updateMonthlyIncome(value);
-
-    display.style.display = 'block';
-    input.style.display = 'none';
-  }
-}
-
-// Initialize Budget Tracker on page load
 document.addEventListener('DOMContentLoaded', function() {
-  const budgetPanel = document.getElementById('budget-tracker');
-  if (budgetPanel) {
-    initBudgetTracker();
+  if (document.getElementById('life-insurance-calc')) initLifeInsuranceCalc();
+});
+
+// ===================================
+// Disability Insurance Calculator
+// ===================================
+
+function initDisabilityCalc() {
+  ['diMonthlyIncome','diMonthlyExpenses','diExistingCoverage','diEmergencyFund'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('input', updateDisabilityCalc);
+  });
+  updateDisabilityCalc();
+}
+
+function updateDisabilityCalc() {
+  function val(id) { var el = document.getElementById(id); return el ? parseInt(el.value) || 0 : 0; }
+  function set(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; }
+
+  var monthlyIncome   = val('diMonthlyIncome');
+  var monthlyExpenses = val('diMonthlyExpenses');
+  var existingCov     = val('diExistingCoverage');
+  var fundMonthsInput = val('diEmergencyFund');
+
+  // Display labels
+  set('diMonthlyIncomeValue',    formatCurrency(monthlyIncome));
+  set('diMonthlyExpensesValue',  formatCurrency(monthlyExpenses));
+  set('diExistingCoverageValue', existingCov === 0 ? '$0 \u2014 no existing coverage' : formatCurrency(existingCov));
+  set('diEmergencyFundValue',    fundMonthsInput + (fundMonthsInput === 1 ? ' month' : ' months'));
+
+  // Calculations
+  var recommendedBenefit = Math.round(monthlyIncome * 0.70);
+  var coverageGap        = Math.max(0, recommendedBenefit - existingCov);
+  var monthlyShortfall   = Math.max(0, monthlyExpenses - existingCov);
+  var savingsTotal       = fundMonthsInput * monthlyExpenses;
+  var fundCoversMonths   = monthlyShortfall > 0 ? Math.floor(savingsTotal / monthlyShortfall) : 999;
+
+  // Update summary
+  set('diCalcGrossIncome',        formatCurrency(monthlyIncome));
+  set('diCalcRecommendedBenefit', formatCurrency(recommendedBenefit));
+  set('diCalcExistingCoverage',   formatCurrency(existingCov));
+  set('diCalcCoverageGap',        formatCurrency(coverageGap));
+  set('diCalcExpenses',           formatCurrency(monthlyExpenses));
+  set('diCalcShortfall',          formatCurrency(monthlyShortfall));
+  set('diCalcFundMonths',         fundCoversMonths >= 999 ? 'Expenses covered \u2713' : fundCoversMonths + ' months');
+
+  // Status note
+  var statusEl = document.getElementById('diCoverageStatus');
+  if (statusEl) {
+    if (coverageGap === 0) {
+      statusEl.innerHTML = '<p><strong>Great news!</strong> Your existing coverage meets the recommended 70% income replacement threshold. Consider a review to confirm your policy terms, waiting period, and benefit period are still appropriate.</p>';
+      statusEl.style.borderLeftColor = '#10b981';
+    } else if (coverageGap < 2000) {
+      statusEl.innerHTML = '<p><strong>Small gap detected.</strong> You have a ' + formatCurrency(coverageGap) + '/month coverage gap. A personal disability policy can fill this quickly and cost-effectively.</p>';
+      statusEl.style.borderLeftColor = '#f59e0b';
+    } else {
+      var monthsMsg = fundCoversMonths < 999 ? fundCoversMonths + ' months' : 'a short period';
+      statusEl.innerHTML = '<p><strong>Significant coverage gap.</strong> Without additional coverage, a disability could leave you ' + formatCurrency(monthlyShortfall) + '/month short of your essential expenses after just ' + monthsMsg + '. Book a free consultation to review your options.</p>';
+      statusEl.style.borderLeftColor = '#ef4444';
+    }
   }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (document.getElementById('disability-calc')) initDisabilityCalc();
 });
 
 /* ============================================================

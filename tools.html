@@ -80,9 +80,13 @@
               <span class="tool-nav-icon">📊</span>
               <span class="tool-nav-text">Net Worth Tracker</span>
             </button>
-            <button class="tool-nav-btn" data-tool="budget-tracker">
-              <span class="tool-nav-icon">📅</span>
-              <span class="tool-nav-text">Budget Tracker</span>
+            <button class="tool-nav-btn" data-tool="life-insurance-calc">
+              <span class="tool-nav-icon">🛡️</span>
+              <span class="tool-nav-text">Life Insurance Calculator</span>
+            </button>
+            <button class="tool-nav-btn" data-tool="disability-calc">
+              <span class="tool-nav-icon">💼</span>
+              <span class="tool-nav-text">Disability Insurance Calculator</span>
             </button>
           </nav>
         </aside>
@@ -290,141 +294,203 @@
             </div>
           </div>
 
-          <!-- Budget Tracker Tool -->
-          <div id="budget-tracker" class="tool-panel">
-            <h2>Budget Tracker</h2>
-            <p class="tool-description">Track your monthly income and expenses to stay on top of your budget</p>
+          <!-- Life Insurance Needs Calculator -->
+          <div id="life-insurance-calc" class="tool-panel">
+            <h2>Life Insurance Needs Calculator</h2>
+            <p class="tool-description">Estimate how much life insurance coverage your family needs to stay financially secure if you were no longer here</p>
 
-            <div class="budget-tracker-container">
+            <div class="calculator-card">
 
-              <!-- Month Navigation -->
-              <div class="bt-month-nav">
-                <button class="bt-nav-btn" onclick="changeMonth(-1)">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="15 18 9 12 15 6"></polyline>
-                  </svg>
-                </button>
-                <h3 id="btCurrentMonth">January Budget 2026</h3>
-                <button class="bt-nav-btn" onclick="changeMonth(1)">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                  </svg>
-                </button>
+              <!-- Step 1: Income Replacement -->
+              <div class="step-section">
+                <h3>Step 1: Income Replacement</h3>
+                <div class="calculator-input-main">
+                  <label for="lifeAnnualIncome">Your Annual Income</label>
+                  <input type="range" id="lifeAnnualIncome" min="0" max="300000" step="5000" value="80000">
+                  <div class="calculator-value" id="lifeAnnualIncomeValue">$80,000</div>
+                </div>
+                <div class="calculator-input-main" style="margin-top: 20px;">
+                  <label for="lifeYearsReplace">Years of Income to Replace</label>
+                  <input type="range" id="lifeYearsReplace" min="5" max="30" step="1" value="20">
+                  <div class="calculator-value" id="lifeYearsReplaceValue">20 years</div>
+                </div>
               </div>
 
-              <!-- Summary Cards -->
-              <div class="bt-summary-cards">
-                <div class="bt-card bt-card-income">
-                  <div class="bt-card-header">
-                    <span class="bt-card-label">Monthly Income</span>
-                    <div class="bt-card-actions">
-                      <button class="bt-edit-btn" onclick="toggleIncomeEdit()" title="Edit">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                        </svg>
-                      </button>
-                    </div>
+              <!-- Step 2: Outstanding Debts -->
+              <div class="step-section">
+                <h3>Step 2: Outstanding Debts</h3>
+                <div class="calculator-input-main">
+                  <label for="lifeMortgage">Mortgage Balance</label>
+                  <input type="range" id="lifeMortgage" min="0" max="1500000" step="25000" value="400000">
+                  <div class="calculator-value" id="lifeMortgageValue">$400,000</div>
+                </div>
+                <div class="calculator-input-main" style="margin-top: 20px;">
+                  <label for="lifeOtherDebts">Other Debts (car loans, credit cards, personal loans)</label>
+                  <input type="range" id="lifeOtherDebts" min="0" max="200000" step="5000" value="20000">
+                  <div class="calculator-value" id="lifeOtherDebtsValue">$20,000</div>
+                </div>
+              </div>
+
+              <!-- Step 3: Education & Final Expenses -->
+              <div class="step-section">
+                <h3>Step 3: Children's Education & Final Expenses</h3>
+                <div class="calculator-input-main">
+                  <label for="lifeNumChildren">Number of Children</label>
+                  <input type="range" id="lifeNumChildren" min="0" max="6" step="1" value="1">
+                  <div class="calculator-value" id="lifeNumChildrenValue">1 child</div>
+                </div>
+                <div class="calculator-input-main" style="margin-top: 20px;">
+                  <label for="lifeFinalExpenses">Final Expenses (funeral, legal, estate costs)</label>
+                  <input type="range" id="lifeFinalExpenses" min="10000" max="50000" step="1000" value="15000">
+                  <div class="calculator-value" id="lifeFinalExpensesValue">$15,000</div>
+                </div>
+              </div>
+
+              <!-- Step 4: Existing Coverage & Savings -->
+              <div class="step-section">
+                <h3>Step 4: Existing Coverage & Savings</h3>
+                <div class="calculator-input-main">
+                  <label for="lifeExistingCoverage">Existing Life Insurance (group + personal policies)</label>
+                  <input type="range" id="lifeExistingCoverage" min="0" max="2000000" step="25000" value="0">
+                  <div class="calculator-value" id="lifeExistingCoverageValue">$0</div>
+                </div>
+                <div class="calculator-input-main" style="margin-top: 20px;">
+                  <label for="lifeSavings">Liquid Savings (TFSA, savings accounts)</label>
+                  <input type="range" id="lifeSavings" min="0" max="500000" step="5000" value="25000">
+                  <div class="calculator-value" id="lifeSavingsValue">$25,000</div>
+                </div>
+              </div>
+
+              <!-- Summary -->
+              <div class="summary-section">
+                <h3>Your Life Insurance Needs Summary</h3>
+                <div class="summary-grid">
+                  <div class="summary-row">
+                    <span class="summary-label">Income Replacement</span>
+                    <span class="summary-value" id="lifeCalcIncomeReplacement">$1,600,000</span>
                   </div>
-                  <div class="bt-card-value-container">
-                    <div class="bt-card-value" id="btMonthlyIncomeDisplay">$0</div>
-                    <input
-                      type="number"
-                      id="btMonthlyIncomeInput"
-                      class="bt-card-input"
-                      style="display: none;"
-                      placeholder="0"
-                      min="0"
-                      step="1"
-                      onblur="saveIncomeEdit()"
-                      onkeypress="if(event.key === 'Enter') saveIncomeEdit()"
-                    >
+                  <div class="summary-row">
+                    <span class="summary-label">Mortgage Balance</span>
+                    <span class="summary-value" id="lifeCalcMortgage">$400,000</span>
+                  </div>
+                  <div class="summary-row">
+                    <span class="summary-label">Other Debts</span>
+                    <span class="summary-value" id="lifeCalcDebts">$20,000</span>
+                  </div>
+                  <div class="summary-row">
+                    <span class="summary-label">Education Fund ($50K per child)</span>
+                    <span class="summary-value" id="lifeCalcEducation">$50,000</span>
+                  </div>
+                  <div class="summary-row">
+                    <span class="summary-label">Final Expenses</span>
+                    <span class="summary-value" id="lifeCalcFinalExpenses">$15,000</span>
+                  </div>
+                  <div class="summary-divider"></div>
+                  <div class="summary-row total-row">
+                    <span class="summary-label">Total Needs</span>
+                    <span class="summary-value total" id="lifeCalcTotalNeeds">$2,085,000</span>
+                  </div>
+                  <div class="summary-row">
+                    <span class="summary-label">Less: Existing Coverage</span>
+                    <span class="summary-value" id="lifeCalcExistingCov">- $0</span>
+                  </div>
+                  <div class="summary-row">
+                    <span class="summary-label">Less: Liquid Savings</span>
+                    <span class="summary-value" id="lifeCalcExistingSavings">- $25,000</span>
+                  </div>
+                  <div class="summary-divider"></div>
+                  <div class="summary-row total-row highlight">
+                    <span class="summary-label">Recommended Coverage</span>
+                    <span class="summary-value total gold" id="lifeCalcRecommended">$2,060,000</span>
                   </div>
                 </div>
+                <div class="result-note">
+                  <p><strong>Note:</strong> This estimate uses the income replacement method. Actual needs depend on your specific situation, group benefits, investment growth assumptions, and spouse's income. A personalized review will give you a precise recommendation.</p>
+                </div>
+              </div>
 
-                <div class="bt-card bt-card-remaining">
-                  <div class="bt-card-header">
-                    <span class="bt-card-label">Remaining</span>
-                    <span class="bt-card-icon">💵</span>
+              <a href="/#book" class="btn btn-gold btn-block">Get Your Personalized Insurance Review →</a>
+            </div>
+          </div>
+
+          <!-- Disability Insurance Calculator -->
+          <div id="disability-calc" class="tool-panel">
+            <h2>Disability Insurance Calculator</h2>
+            <p class="tool-description">See if you have enough coverage to protect your income if illness or injury prevents you from working — your most valuable asset is your ability to earn</p>
+
+            <div class="calculator-card">
+
+              <!-- Step 1: Monthly Income & Expenses -->
+              <div class="step-section">
+                <h3>Step 1: Your Monthly Finances</h3>
+                <div class="calculator-input-main">
+                  <label for="diMonthlyIncome">Monthly Gross Income</label>
+                  <input type="range" id="diMonthlyIncome" min="0" max="25000" step="500" value="6000">
+                  <div class="calculator-value" id="diMonthlyIncomeValue">$6,000</div>
+                </div>
+                <div class="calculator-input-main" style="margin-top: 20px;">
+                  <label for="diMonthlyExpenses">Monthly Essential Expenses (rent/mortgage, food, utilities, transport)</label>
+                  <input type="range" id="diMonthlyExpenses" min="0" max="15000" step="250" value="3500">
+                  <div class="calculator-value" id="diMonthlyExpensesValue">$3,500</div>
+                </div>
+              </div>
+
+              <!-- Step 2: Existing Coverage -->
+              <div class="step-section">
+                <h3>Step 2: Existing Disability Coverage</h3>
+                <div class="calculator-input-main">
+                  <label for="diExistingCoverage">Monthly Group / Employer Disability Benefit (enter 0 if none)</label>
+                  <input type="range" id="diExistingCoverage" min="0" max="10000" step="250" value="0">
+                  <div class="calculator-value" id="diExistingCoverageValue">$0 — no existing coverage</div>
+                </div>
+                <div class="calculator-input-main" style="margin-top: 20px;">
+                  <label for="diEmergencyFund">Emergency Fund (months of savings available)</label>
+                  <input type="range" id="diEmergencyFund" min="0" max="24" step="1" value="3">
+                  <div class="calculator-value" id="diEmergencyFundValue">3 months</div>
+                </div>
+              </div>
+
+              <!-- Summary -->
+              <div class="summary-section">
+                <h3>Your Disability Coverage Analysis</h3>
+                <div class="summary-grid">
+                  <div class="summary-row">
+                    <span class="summary-label">Monthly Gross Income</span>
+                    <span class="summary-value" id="diCalcGrossIncome">$6,000</span>
                   </div>
-                  <div class="bt-card-value bt-value-success" id="btRemaining">$0</div>
-                </div>
-
-                <div class="bt-card bt-card-spend">
-                  <div class="bt-card-header">
-                    <span class="bt-card-label">Actual Spend</span>
-                    <span class="bt-card-icon">💳</span>
+                  <div class="summary-row">
+                    <span class="summary-label">Industry Standard Benefit (70% of income)</span>
+                    <span class="summary-value" id="diCalcRecommendedBenefit">$4,200</span>
                   </div>
-                  <div class="bt-card-value bt-value-warning" id="btActualSpend">$0</div>
+                  <div class="summary-divider"></div>
+                  <div class="summary-row">
+                    <span class="summary-label">Your Existing Coverage</span>
+                    <span class="summary-value" id="diCalcExistingCoverage">$0</span>
+                  </div>
+                  <div class="summary-row total-row highlight">
+                    <span class="summary-label">Monthly Coverage Gap</span>
+                    <span class="summary-value total gold" id="diCalcCoverageGap">$4,200</span>
+                  </div>
+                  <div class="summary-divider"></div>
+                  <div class="summary-row">
+                    <span class="summary-label">Monthly Essential Expenses</span>
+                    <span class="summary-value" id="diCalcExpenses">$3,500</span>
+                  </div>
+                  <div class="summary-row">
+                    <span class="summary-label">Monthly Shortfall if Disabled Today</span>
+                    <span class="summary-value" id="diCalcShortfall">$3,500</span>
+                  </div>
+                  <div class="summary-row">
+                    <span class="summary-label">Emergency Fund Would Cover</span>
+                    <span class="summary-value" id="diCalcFundMonths">3 months</span>
+                  </div>
+                </div>
+                <div id="diCoverageStatus" class="result-note">
+                  <p><strong>Significant coverage gap.</strong> Without additional coverage, a disability could leave you unable to cover your essential expenses after just a few months. Book a free consultation to review your options.</p>
                 </div>
               </div>
 
-              <!-- Budget Progress -->
-              <div class="bt-progress-section">
-                <h3>Budget Progress</h3>
-                <div class="bt-progress-row">
-                  <span class="bt-progress-label">Spent this month</span>
-                  <span class="bt-progress-value" id="btSpentDisplay">$0 of $0</span>
-                </div>
-                <div class="bt-progress-bar">
-                  <div class="bt-progress-fill" id="btProgressFill" style="width: 0%"></div>
-                </div>
-                <div class="bt-progress-info">
-                  <span id="btProgressPercent">0% used</span>
-                  <span id="btProgressRemaining">100% remaining</span>
-                </div>
-                <div class="bt-budget-status">
-                  <span class="bt-status-label">Planned vs Actual</span>
-                  <span class="bt-status-value" id="btBudgetStatus">$0 under budget</span>
-                </div>
-              </div>
-
-              <!-- Categories Table -->
-              <div class="bt-categories-section">
-                <div class="bt-section-header">
-                  <h3>Categories for this Month</h3>
-                  <button class="btn btn-small btn-gold" onclick="addBudgetCategory()">+ Add</button>
-                </div>
-
-                <div class="bt-table-wrapper">
-                  <table class="bt-table">
-                    <thead>
-                      <tr>
-                        <th style="width: 30px;"></th>
-                        <th>Category</th>
-                        <th>Planned</th>
-                        <th>Actual</th>
-                        <th>Remaining</th>
-                        <th>Status</th>
-                        <th style="width: 50px;">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody id="btCategoriesTableBody">
-                      <tr class="bt-empty-row">
-                        <td colspan="7" style="text-align: center; color: #94a3b8;">No categories added yet</td>
-                      </tr>
-                    </tbody>
-                    <tfoot>
-                      <tr class="bt-total-row">
-                        <td colspan="2"><strong>Total</strong></td>
-                        <td><strong id="btTotalPlanned">$0</strong></td>
-                        <td><strong id="btTotalActual">$0</strong></td>
-                        <td><strong id="btTotalRemaining">$0</strong></td>
-                        <td colspan="2"></td>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
-              </div>
-
-              <!-- Spending Breakdown Chart -->
-              <div class="bt-chart-section">
-                <h3>Spending Breakdown</h3>
-                <div class="bt-chart-container">
-                  <canvas id="btSpendingChart"></canvas>
-                </div>
-              </div>
-
+              <a href="/#book" class="btn btn-gold btn-block">Review Your Disability Protection →</a>
             </div>
           </div>
 
