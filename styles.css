@@ -7771,3 +7771,266 @@ input[type="range"].v2-range:disabled::-webkit-slider-thumb {
   .v2-fna-features { grid-template-columns: 1fr; }
   .v2-fna-perks { grid-template-columns: 1fr 1fr; }
 }
+
+/* ============================================================
+   EDITABLE NUMBER INPUTS (replace read-only slider badges)
+   ============================================================ */
+.v2-editable-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  background: rgba(0,151,167,.08);
+  border: 1.5px solid rgba(0,151,167,.18);
+  border-radius: 7px;
+  padding: 2px 8px 2px 6px;
+  transition: border-color .15s, background .15s, box-shadow .15s;
+  cursor: text;
+}
+.v2-editable-badge:focus-within {
+  border-color: var(--v2-teal);
+  background: rgba(0,151,167,.12);
+  box-shadow: 0 0 0 3px rgba(0,151,167,.1);
+}
+.v2-editable-prefix,
+.v2-editable-suffix {
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--v2-teal);
+  flex-shrink: 0;
+  line-height: 1;
+  user-select: none;
+}
+.v2-editable-input {
+  border: none;
+  background: transparent;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: .9rem;
+  font-weight: 700;
+  color: var(--v2-teal);
+  outline: none;
+  text-align: right;
+  width: 72px;
+  padding: 2px 0;
+  -moz-appearance: textfield;
+}
+.v2-editable-input::-webkit-outer-spin-button,
+.v2-editable-input::-webkit-inner-spin-button { -webkit-appearance: none; appearance: none; margin: 0; }
+.v2-editable-input.wide  { width: 88px; }
+.v2-editable-input.wider { width: 104px; }
+.v2-editable-input.sm    { width: 38px; }
+
+/* ============================================================
+   CREDIT CARD FINDER TOOL
+   ============================================================ */
+.v2-cc-tool {
+  max-width: 1100px;
+}
+.v2-cc-header {
+  margin-bottom: 28px;
+}
+.v2-cc-header h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  font-weight: 800;
+  color: var(--v2-navy);
+  margin: 0 0 8px;
+}
+.v2-cc-header p {
+  font-size: .93rem;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Category pills */
+.v2-cc-cats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+.v2-cc-cat-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #fff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 25px;
+  cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: .84rem;
+  font-weight: 600;
+  color: #475569;
+  transition: all .18s;
+  white-space: nowrap;
+}
+.v2-cc-cat-btn:hover { border-color: var(--v2-teal); color: var(--v2-teal); }
+.v2-cc-cat-btn.active { background: var(--v2-teal); border-color: var(--v2-teal); color: #fff; }
+.v2-cc-cat-icon { font-size: 15px; line-height: 1; }
+
+/* Category intro text */
+.v2-cc-intro-bar {
+  background: linear-gradient(135deg, rgba(0,151,167,.07), rgba(0,151,167,.03));
+  border: 1px solid rgba(0,151,167,.15);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 22px;
+  font-size: .875rem;
+  color: #374151;
+  line-height: 1.55;
+}
+
+/* Card grid */
+.v2-cc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+/* Individual card */
+.v2-cc-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,.05), 0 4px 16px rgba(0,0,0,.05);
+  border: 1px solid #e8ecf0;
+  display: flex;
+  flex-direction: column;
+  transition: transform .2s, box-shadow .2s;
+}
+.v2-cc-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,.1); }
+
+/* Colour accent strip at top */
+.v2-cc-strip { height: 5px; }
+
+.v2-cc-body { padding: 18px 18px 14px; display: flex; flex-direction: column; flex: 1; }
+
+/* Top row: badge + network */
+.v2-cc-top-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.v2-cc-pick-badge {
+  font-size: .66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+.v2-cc-pick-badge.top    { background: rgba(245,158,11,.12); color: #b45309; }
+.v2-cc-pick-badge.nofee  { background: rgba(16,185,129,.1);  color: #059669; }
+.v2-cc-pick-badge.prem   { background: rgba(99,102,241,.1);  color: #4f46e5; }
+.v2-cc-pick-badge.best   { background: rgba(0,151,167,.1);   color: var(--v2-teal); }
+.v2-cc-network-tag {
+  font-size: .65rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.v2-cc-name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: .975rem;
+  font-weight: 800;
+  color: var(--v2-navy);
+  margin: 0 0 2px;
+  line-height: 1.25;
+}
+.v2-cc-issuer { font-size: .75rem; color: #94a3b8; margin: 0 0 12px; }
+
+/* Big rate highlight */
+.v2-cc-rate {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
+  padding: 10px 13px;
+  margin-bottom: 13px;
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+.v2-cc-rate-num {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--v2-teal);
+  line-height: 1;
+}
+.v2-cc-rate-desc { font-size: .77rem; color: #64748b; line-height: 1.35; }
+
+/* Features list */
+.v2-cc-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+  flex: 1;
+}
+.v2-cc-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: .8rem;
+  color: #374151;
+  line-height: 1.45;
+  padding: 5px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+.v2-cc-features li:last-child { border-bottom: none; }
+.v2-cc-features li::before {
+  content: '';
+  width: 5px; height: 5px; min-width: 5px;
+  background: var(--v2-teal);
+  border-radius: 50%;
+  margin-top: 5px;
+}
+
+/* Card footer: fee + welcome */
+.v2-cc-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 11px;
+  border-top: 1px solid #f1f5f9;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.v2-cc-fee-tag {
+  font-size: .75rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+.v2-cc-fee-tag.free { background: rgba(16,185,129,.1); color: #059669; }
+.v2-cc-fee-tag.paid { background: rgba(13,33,55,.07); color: #475569; }
+.v2-cc-welcome-tag { font-size: .72rem; color: #94a3b8; text-align: right; line-height: 1.3; }
+
+/* Caveat note under features */
+.v2-cc-caveat {
+  font-size: .74rem;
+  color: #64748b;
+  line-height: 1.45;
+  padding: 8px 10px;
+  background: rgba(99,102,241,.05);
+  border-left: 2px solid #a5b4fc;
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 12px;
+}
+
+/* Disclaimer at bottom of tool */
+.v2-cc-disclaimer {
+  margin-top: 8px;
+  padding: 12px 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: .75rem;
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .v2-cc-grid { grid-template-columns: 1fr; }
+  .v2-cc-cats { gap: 6px; }
+  .v2-cc-cat-btn { padding: 7px 12px; font-size: .78rem; }
+}

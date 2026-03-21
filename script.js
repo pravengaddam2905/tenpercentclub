@@ -120,9 +120,6 @@ function calculateRESPGrant(respContribution) {
 function updateCalculator() {
   const income = parseInt(incomeSlider.value);
 
-  // Update income display
-  document.getElementById('incomeValue').textContent = formatCurrency(income);
-
   // Bracket chip — show only when income > 0
   const taxBracketInfo = document.getElementById('taxBracketInfo');
   if (income > 0) {
@@ -297,19 +294,51 @@ function setupCheckboxListeners() {
   }
 }
 
-// Initialize calculator
-if (incomeSlider) {
-  incomeSlider.addEventListener('input', updateCalculator);
+// ===== Bidirectional slider ↔ editable input sync =====
+// Links a range slider with a number input so either can drive the other.
+function linkSliderInput(sliderId, inputId, onChangeFn) {
+  var slider = document.getElementById(sliderId);
+  var input  = document.getElementById(inputId);
+  if (!slider) return;
 
-  if (rrspSlider) rrspSlider.addEventListener('input', updateCalculator);
-  if (tfsaSlider) tfsaSlider.addEventListener('input', updateCalculator);
-  if (fhsaSlider) fhsaSlider.addEventListener('input', updateCalculator);
-  if (respSlider) respSlider.addEventListener('input', updateCalculator);
-  if (spouseRRSPSlider) spouseRRSPSlider.addEventListener('input', updateCalculator);
+  // Set input initial value from slider
+  if (input) input.value = slider.value;
+
+  // Slider → input (and fire recalc)
+  slider.addEventListener('input', function () {
+    if (input) input.value = slider.value;
+    if (onChangeFn) onChangeFn();
+  });
+
+  // Input → slider (clamp to slider range, fire recalc)
+  if (input) {
+    var syncFromInput = function () {
+      var min  = parseFloat(slider.min)  || 0;
+      var max  = parseFloat(slider.max)  || 999999;
+      var step = parseFloat(slider.step) || 1;
+      var val  = parseFloat(input.value);
+      if (isNaN(val)) val = min;
+      val = Math.max(min, Math.min(max, val));
+      val = Math.round(val / step) * step;
+      slider.value = val;
+      input.value  = val;
+      if (onChangeFn) onChangeFn();
+    };
+    input.addEventListener('change', syncFromInput);
+    input.addEventListener('blur',   syncFromInput);
+  }
+}
+
+// Initialize tax calculator with bidirectional sync
+if (incomeSlider) {
+  linkSliderInput('income',      'incomeValue',     updateCalculator);
+  linkSliderInput('rrsp',        'rrspValue',       updateCalculator);
+  linkSliderInput('tfsa',        'tfsaValue',       updateCalculator);
+  linkSliderInput('fhsa',        'fhsaValue',       updateCalculator);
+  linkSliderInput('resp',        'respValue',       updateCalculator);
+  linkSliderInput('spouseRRSP',  'spouseRRSPValue', updateCalculator);
 
   setupCheckboxListeners();
-
-  // Initial calculation
   updateCalculator();
 }
 
@@ -2955,11 +2984,14 @@ function updateCharts() {
 // ===================================
 
 function initLifeInsuranceCalc() {
-  ['lifeAnnualIncome','lifeYearsReplace','lifeMortgage','lifeOtherDebts',
-   'lifeNumChildren','lifeFinalExpenses','lifeExistingCoverage','lifeSavings'].forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el) el.addEventListener('input', updateLifeInsuranceCalc);
-  });
+  linkSliderInput('lifeAnnualIncome',    'lifeAnnualIncomeValue',    updateLifeInsuranceCalc);
+  linkSliderInput('lifeYearsReplace',    'lifeYearsReplaceValue',    updateLifeInsuranceCalc);
+  linkSliderInput('lifeMortgage',        'lifeMortgageValue',        updateLifeInsuranceCalc);
+  linkSliderInput('lifeOtherDebts',      'lifeOtherDebtsValue',      updateLifeInsuranceCalc);
+  linkSliderInput('lifeNumChildren',     'lifeNumChildrenValue',     updateLifeInsuranceCalc);
+  linkSliderInput('lifeFinalExpenses',   'lifeFinalExpensesValue',   updateLifeInsuranceCalc);
+  linkSliderInput('lifeExistingCoverage','lifeExistingCoverageValue',updateLifeInsuranceCalc);
+  linkSliderInput('lifeSavings',         'lifeSavingsValue',         updateLifeInsuranceCalc);
   updateLifeInsuranceCalc();
 }
 
@@ -2976,15 +3008,7 @@ function updateLifeInsuranceCalc() {
   var existing     = val('lifeExistingCoverage');
   var savings      = val('lifeSavings');
 
-  // Display labels
-  set('lifeAnnualIncomeValue',   formatCurrency(income));
-  set('lifeYearsReplaceValue',   years + (years === 1 ? ' year' : ' years'));
-  set('lifeMortgageValue',       formatCurrency(mortgage));
-  set('lifeOtherDebtsValue',     formatCurrency(otherDebts));
-  set('lifeNumChildrenValue',    numChildren === 0 ? '0 children' : numChildren === 1 ? '1 child' : numChildren + ' children');
-  set('lifeFinalExpensesValue',  formatCurrency(finalExp));
-  set('lifeExistingCoverageValue', formatCurrency(existing));
-  set('lifeSavingsValue',        formatCurrency(savings));
+  // Display labels now handled by editable inputs (see linkSliderInput setup)
 
   // Calculations
   var incomeReplacement = income * years;
@@ -3035,10 +3059,10 @@ document.addEventListener('DOMContentLoaded', function() {
 // ===================================
 
 function initDisabilityCalc() {
-  ['diMonthlyIncome','diMonthlyExpenses','diExistingCoverage','diEmergencyFund'].forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el) el.addEventListener('input', updateDisabilityCalc);
-  });
+  linkSliderInput('diMonthlyIncome',    'diMonthlyIncomeValue',    updateDisabilityCalc);
+  linkSliderInput('diMonthlyExpenses',  'diMonthlyExpensesValue',  updateDisabilityCalc);
+  linkSliderInput('diExistingCoverage', 'diExistingCoverageValue', updateDisabilityCalc);
+  linkSliderInput('diEmergencyFund',    'diEmergencyFundValue',    updateDisabilityCalc);
   updateDisabilityCalc();
 }
 
@@ -3051,11 +3075,7 @@ function updateDisabilityCalc() {
   var existingCov     = val('diExistingCoverage');
   var fundMonthsInput = val('diEmergencyFund');
 
-  // Display labels
-  set('diMonthlyIncomeValue',    formatCurrency(monthlyIncome));
-  set('diMonthlyExpensesValue',  formatCurrency(monthlyExpenses));
-  set('diExistingCoverageValue', existingCov === 0 ? '$0 \u2014 no existing coverage' : formatCurrency(existingCov));
-  set('diEmergencyFundValue',    fundMonthsInput + (fundMonthsInput === 1 ? ' month' : ' months'));
+  // Display labels now handled by editable inputs (see linkSliderInput setup)
 
   // Calculations
   var recommendedBenefit = Math.round(monthlyIncome * 0.70);
@@ -3264,4 +3284,541 @@ document.addEventListener('DOMContentLoaded', function() {
   } else {
     init();
   }
+})();
+
+/* ============================================================
+   CANADIAN CREDIT CARD FINDER
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var CC = {
+    groceries: {
+      label: 'Groceries', icon: '🛒',
+      intro: 'Canadians spend an average of $14,000/year on groceries — the right card can put $600+ back in your pocket annually. These cards offer the highest return at supermarkets and grocery stores across Canada.',
+      cards: [
+        {
+          name: 'PC Financial World Elite Mastercard',
+          issuer: 'President\'s Choice Bank',
+          fee: 0, feeLabel: 'No Annual Fee', network: 'Mastercard', color: '#c41e3a',
+          badge: '🏆 Best No-Fee', badgeClass: 'nofee',
+          rate: '~4.5%', rateDesc: 'effective at Loblaws · No Frills · Shoppers Drug Mart',
+          features: [
+            '45 PC Optimum points per $1 at Loblaws banner stores (~4.5% value)',
+            '10 points per $1 on all other everyday purchases',
+            'Redeem points directly for free groceries — no conversion needed',
+            'Welcome bonus: 50,000 PC Optimum points (~$50 in groceries)'
+          ],
+          income: '$80K household', welcome: '50,000 PC Optimum pts',
+          caveat: 'PC Optimum points only redeemable at Loblaws, No Frills, and Shoppers Drug Mart.'
+        },
+        {
+          name: 'Scotiabank Gold American Express',
+          issuer: 'Scotiabank', fee: 120, feeLabel: '$120/yr', network: 'Amex', color: '#CC0000',
+          badge: '⭐ Editor\'s Pick', badgeClass: 'top',
+          rate: '6x Scene+', rateDesc: 'points per $1 at eligible Canadian grocery stores',
+          features: [
+            '6x Scene+ points on groceries (~5.4% value redeemed for travel/movies)',
+            '3x on dining, entertainment, and gas · 1x everywhere else',
+            'No foreign transaction fees — saves ~2.5% on USD purchases',
+            'Welcome: up to 40,000 Scene+ points + first year fee waived'
+          ],
+          income: '$12K personal', welcome: 'Up to 40,000 Scene+ pts',
+          caveat: 'Scene+ points are best value when redeemed for Cineplex or travel through Scene+.'
+        },
+        {
+          name: 'BMO CashBack World Elite Mastercard',
+          issuer: 'BMO', fee: 120, feeLabel: '$120/yr', network: 'Mastercard', color: '#0075BE',
+          badge: '💵 Top Cash Back', badgeClass: 'best',
+          rate: '5% cash back', rateDesc: 'on groceries (up to $500/month)',
+          features: [
+            '5% cashback on grocery purchases (capped at $500/month)',
+            '4% on transit · 3% on gas, streaming & recurring bills · 1% on everything else',
+            'Welcome: 10% cashback on all purchases for the first 3 months',
+            'Annual fee often waived first year with qualifying offer'
+          ],
+          income: '$80K personal or $150K household', welcome: '10% cash back (3 months)',
+          caveat: 'Grocery 5% rate capped at $500/month in spending (~$300 max/yr). Amount above that earns 1%.'
+        },
+        {
+          name: 'CIBC Dividend Visa Infinite',
+          issuer: 'CIBC', fee: 120, feeLabel: '$120/yr', network: 'Visa', color: '#8B0000',
+          badge: '⛽ Gas + Groceries', badgeClass: 'top',
+          rate: '4% cash back', rateDesc: 'on groceries and gas (no cap)',
+          features: [
+            '4% cashback on groceries AND gas — great combo for families',
+            '2% on dining, transit, and recurring bills · 1% on everything else',
+            'No complicated points system — straight cashback credited to your account',
+            'Welcome: first year fee rebated + bonus cashback offer'
+          ],
+          income: '$60K personal or $100K household', welcome: 'First year fee rebated',
+          caveat: 'Must have a CIBC bank account to apply. Annual fee of $120 applies after year one.'
+        }
+      ]
+    },
+
+    dining: {
+      label: 'Dining', icon: '🍽️',
+      intro: 'Whether it\'s restaurants, food delivery, or your daily coffee run — these cards reward every meal. Great for Canadian families who eat out regularly or order delivery.',
+      cards: [
+        {
+          name: 'American Express Cobalt',
+          issuer: 'American Express', fee: 155.88, feeLabel: '$155.88/yr', network: 'Amex', color: '#007CC3',
+          badge: '🏆 Best for Dining', badgeClass: 'top',
+          rate: '5x MR Points', rateDesc: 'per $1 at Canadian restaurants, cafes & food delivery',
+          features: [
+            '5x Membership Rewards on food & drinks at eligible Canadian restaurants',
+            '3x on streaming (Netflix, Crave, Disney+) · 2x on travel & transit',
+            'Transfer MR points to Aeroplan, Marriott Bonvoy, or Hilton for extra value',
+            'Welcome: earn up to 2,500 MR points/month for 12 months (30,000 total)'
+          ],
+          income: 'No minimum stated', welcome: 'Up to 30,000 MR pts',
+          caveat: 'Not all restaurants accept Amex — verify before relying on it exclusively.'
+        },
+        {
+          name: 'Scotiabank Gold American Express',
+          issuer: 'Scotiabank', fee: 120, feeLabel: '$120/yr', network: 'Amex', color: '#CC0000',
+          badge: '⭐ Editor\'s Pick', badgeClass: 'top',
+          rate: '6x Scene+', rateDesc: 'points per $1 on dining and groceries',
+          features: [
+            '6x Scene+ on dining AND groceries — one card covers both categories',
+            '3x on gas, transit, and entertainment · 1x everywhere else',
+            'No foreign transaction fees — great for dining while travelling abroad',
+            'Welcome: up to 40,000 Scene+ points'
+          ],
+          income: '$12K personal', welcome: 'Up to 40,000 Scene+ pts',
+          caveat: 'Scene+ points are best redeemed for Cineplex tickets or Scene+ travel portal.'
+        },
+        {
+          name: 'Simplii Financial Cash Back Visa',
+          issuer: 'Simplii Financial (CIBC)', fee: 0, feeLabel: 'No Annual Fee', network: 'Visa', color: '#e6002d',
+          badge: '💵 Best No-Fee Dining', badgeClass: 'nofee',
+          rate: '4% cash back', rateDesc: 'at restaurants, bars & coffee shops',
+          features: [
+            '4% cashback at restaurants, bars, and coffee shops (up to $5,000/year)',
+            '1.5% cashback on all other eligible purchases',
+            'No annual fee — one of Canada\'s best free dining reward cards',
+            'Welcome: 20% cashback for first 3 months (up to $500 spend)'
+          ],
+          income: 'No minimum stated', welcome: '20% cash back (3 months)',
+          caveat: 'Dining 4% rate capped at $5,000 in annual restaurant spending.'
+        },
+        {
+          name: 'Tangerine Money-Back Mastercard',
+          issuer: 'Tangerine Bank', fee: 0, feeLabel: 'No Annual Fee', network: 'Mastercard', color: '#FF6600',
+          badge: '🎯 Flexible 2%', badgeClass: 'nofee',
+          rate: '2% money-back', rateDesc: 'on restaurants/food delivery (your chosen category)',
+          features: [
+            'Choose restaurants as one of 2 (or 3 with Tangerine account) 2% categories',
+            'Other category options: groceries, gas, drug stores, home improvement, and more',
+            'No annual fee, no minimum income, straightforward cashback',
+            'Welcome: 10% cashback for 2 months (on up to $1,000 spend)'
+          ],
+          income: 'No minimum stated', welcome: '10% cash back (2 months)',
+          caveat: 'Only 2 free categories (3 with a Tangerine account). Pick categories that match your spending.'
+        }
+      ]
+    },
+
+    gas: {
+      label: 'Gas', icon: '⛽',
+      intro: 'With gas prices regularly topping $1.50/L in Ontario, earning rewards at the pump can add up fast. These cards maximize your return at Canadian gas stations.',
+      cards: [
+        {
+          name: 'CIBC Dividend Visa Infinite',
+          issuer: 'CIBC', fee: 120, feeLabel: '$120/yr', network: 'Visa', color: '#8B0000',
+          badge: '🏆 Best for Gas', badgeClass: 'top',
+          rate: '4% cash back', rateDesc: 'at gas stations across Canada (no cap)',
+          features: [
+            '4% cashback at gas stations AND grocery stores — outstanding combo',
+            '2% on transit, dining, and recurring bills · 1% on everything else',
+            'Works at all major Canadian gas stations (no brand restriction)',
+            'Welcome: first year fee rebated + bonus cashback'
+          ],
+          income: '$60K personal or $100K household', welcome: 'First year fee rebated',
+          caveat: 'Annual fee of $120 applies after the first year.'
+        },
+        {
+          name: 'Scotiabank Gold American Express',
+          issuer: 'Scotiabank', fee: 120, feeLabel: '$120/yr', network: 'Amex', color: '#CC0000',
+          badge: '⭐ Editor\'s Pick', badgeClass: 'top',
+          rate: '3x Scene+', rateDesc: 'per $1 at eligible gas stations',
+          features: [
+            '3x Scene+ on gas · 6x on dining & groceries — versatile everyday card',
+            'No foreign transaction fees on fuel purchases abroad',
+            'Use points for movies, travel, or Scene+ partners',
+            'Welcome: up to 40,000 Scene+ points'
+          ],
+          income: '$12K personal', welcome: 'Up to 40,000 Scene+ pts',
+          caveat: 'Not all gas stations may qualify as "eligible." Check Scotiabank\'s eligible merchant list.'
+        },
+        {
+          name: 'PC Financial World Elite Mastercard',
+          issuer: 'President\'s Choice Bank', fee: 0, feeLabel: 'No Annual Fee', network: 'Mastercard', color: '#c41e3a',
+          badge: '💵 Best No-Fee', badgeClass: 'nofee',
+          rate: '30 pts/$1', rateDesc: 'at Esso and Mobil stations (~3% value)',
+          features: [
+            '30 PC Optimum points/$1 at Esso and Mobil stations',
+            '45 points/$1 at Loblaws banner stores for top grocery rewards too',
+            'No annual fee — strong everyday card with no cost',
+            'Welcome: 50,000 PC Optimum points (~$50)'
+          ],
+          income: '$80K household', welcome: '50,000 PC Optimum pts',
+          caveat: 'Gas rewards only apply at Esso/Mobil. Regular gas stations earn 10 points/$1.'
+        }
+      ]
+    },
+
+    travel: {
+      label: 'Travel', icon: '✈️',
+      intro: 'The right travel card can mean free flights, lounge access, and zero foreign transaction fees. These are the top Canadian cards for frequent travellers and vacation planners.',
+      cards: [
+        {
+          name: 'American Express Platinum Card',
+          issuer: 'American Express', fee: 799, feeLabel: '$799/yr', network: 'Amex', color: '#707070',
+          badge: '👑 Premium Pick', badgeClass: 'prem',
+          rate: '3x MR Points', rateDesc: 'on flights booked directly with airlines',
+          features: [
+            'Unlimited airport lounge access: Centurion Lounges + Priority Pass (1,200+ lounges)',
+            '$200 annual travel credit · $100 NEXUS credit every 4.5 years',
+            'Marriott Bonvoy Gold Elite + Hilton Honors Gold status — automatic hotel upgrades',
+            'Welcome: up to 100,000 MR points (worth $1,000+ in travel)'
+          ],
+          income: 'No minimum stated', welcome: 'Up to 100,000 MR pts',
+          caveat: 'At $799/year the card pays for itself only if you use the $200 travel credit and lounge access regularly.'
+        },
+        {
+          name: 'Scotiabank Passport Visa Infinite',
+          issuer: 'Scotiabank', fee: 150, feeLabel: '$150/yr', network: 'Visa', color: '#CC0000',
+          badge: '🌍 No FX Fees', badgeClass: 'best',
+          rate: '3x Scene+', rateDesc: 'on groceries · 2x on dining, entertainment & transit',
+          features: [
+            'No foreign transaction fees — saves 2.5% on every USD/EUR purchase abroad',
+            '6 complimentary airport lounge visits per year (Visa Airport Companion)',
+            'Comprehensive travel insurance including emergency medical, trip cancellation',
+            'Welcome: up to 40,000 Scene+ points + first year fee waived'
+          ],
+          income: '$60K personal or $100K household', welcome: 'Up to 40,000 Scene+ pts',
+          caveat: 'Scene+ travel portal may not always have the lowest hotel/flight prices — compare before booking.'
+        },
+        {
+          name: 'TD Aeroplan Visa Infinite',
+          issuer: 'TD Bank', fee: 139, feeLabel: '$139/yr', network: 'Visa', color: '#34B233',
+          badge: '✈️ Best for Air Canada', badgeClass: 'top',
+          rate: '1.5 Aeroplan pts/$1', rateDesc: 'on everyday purchases',
+          features: [
+            '3x Aeroplan on grocery, dining & Air Canada purchases · 1.5x on everything else',
+            'First checked bag free on Air Canada for you and up to 8 travel companions',
+            'Preferred pricing on Aeroplan flight rewards (saves 25% on miles needed)',
+            'Welcome: up to 20,000 Aeroplan points + first year fee waived'
+          ],
+          income: '$60K personal or $100K household', welcome: 'Up to 20,000 Aeroplan pts',
+          caveat: 'Best value if you fly Air Canada regularly. Aeroplan points transfer 1:1 to Star Alliance partners.'
+        },
+        {
+          name: 'RBC Avion Visa Infinite',
+          issuer: 'RBC', fee: 120, feeLabel: '$120/yr', network: 'Visa', color: '#006AC3',
+          badge: '🎯 Any Airline', badgeClass: 'best',
+          rate: '1.25 Avion pts/$1', rateDesc: 'on all purchases · 3x on groceries',
+          features: [
+            'Redeem for flights on ANY airline — not locked to one carrier like Aeroplan',
+            '3x Avion on grocery · 1.25x on all other purchases',
+            'Avion points can also be redeemed for merchandise, gift cards, or cash',
+            'Welcome: 35,000 Avion points + first year fee often waived'
+          ],
+          income: '$60K personal or $100K household', welcome: '35,000 Avion pts',
+          caveat: 'Avion rewards chart requires careful reading — peak flights cost significantly more points.'
+        }
+      ]
+    },
+
+    hotels: {
+      label: 'Hotels', icon: '🏨',
+      intro: 'Hotel loyalty cards let you earn free nights, automatic status upgrades, and late checkout perks. Choose based on which hotel brand you stay at most.',
+      cards: [
+        {
+          name: 'Marriott Bonvoy American Express',
+          issuer: 'American Express Canada', fee: 120, feeLabel: '$120/yr', network: 'Amex', color: '#8B0000',
+          badge: '🏆 Best Hotel Card', badgeClass: 'top',
+          rate: '5x Bonvoy Points', rateDesc: 'per $1 on all purchases (10x at Marriott hotels)',
+          features: [
+            '5x Bonvoy points on all purchases · 10x per $1 when staying at Marriott worldwide',
+            'Automatic Silver Elite status: 10% bonus points + priority late checkout',
+            '1 Free Night Award annually (up to 35,000 pts value — rooms from $100–$300+)',
+            'Welcome: 60,000 Bonvoy points (roughly 2–3 free nights at mid-tier properties)'
+          ],
+          income: 'No minimum stated', welcome: '60,000 Bonvoy pts',
+          caveat: 'Best value if you stay at Marriott, Westin, Sheraton, W, or St. Regis properties. Free Night cert must be used within a year.'
+        },
+        {
+          name: 'American Express Platinum Card',
+          issuer: 'American Express', fee: 799, feeLabel: '$799/yr', network: 'Amex', color: '#707070',
+          badge: '👑 Multi-Brand Status', badgeClass: 'prem',
+          rate: 'Gold Elite Status', rateDesc: 'at both Marriott Bonvoy AND Hilton Honors',
+          features: [
+            'Marriott Bonvoy Gold Elite + Hilton Honors Gold — automatic upgrades at two brands',
+            '$200 annual hotel credit at select Fine Hotels + Resorts properties',
+            '3x MR on flights · various hotel credits and complimentary amenities on arrival',
+            'Welcome: up to 100,000 MR points (use for hotel gift certificates or flight transfers)'
+          ],
+          income: 'No minimum stated', welcome: 'Up to 100,000 MR pts',
+          caveat: 'At $799/yr, this card makes sense only for frequent travellers who regularly use the $200 credit, lounge access, and hotel perks.'
+        },
+        {
+          name: 'Scotiabank Passport Visa Infinite',
+          issuer: 'Scotiabank', fee: 150, feeLabel: '$150/yr', network: 'Visa', color: '#CC0000',
+          badge: '🔄 Brand-Flexible', badgeClass: 'best',
+          rate: '2x Scene+ pts', rateDesc: 'on hotel bookings via Expedia for Scotia',
+          features: [
+            'Flexible Scene+ points redeemable at any hotel via Expedia for Scotia',
+            '3x Scene+ on groceries · no foreign transaction fees while staying abroad',
+            '6 airport lounge visits per year — excellent for hotel + flight bundles',
+            'Welcome: up to 40,000 Scene+ points'
+          ],
+          income: '$60K personal or $100K household', welcome: 'Up to 40,000 Scene+ pts',
+          caveat: 'Best for travellers who stay at many different hotel brands rather than one loyalty program.'
+        }
+      ]
+    },
+
+    shopping: {
+      label: 'Shopping', icon: '🛍️',
+      intro: 'From Amazon.ca to your local mall, these cards maximize rewards on everyday retail shopping — both online and in-store across Canada.',
+      cards: [
+        {
+          name: 'Amazon.ca Mastercard',
+          issuer: 'MBNA', fee: 0, feeLabel: 'No Annual Fee', network: 'Mastercard', color: '#FF9900',
+          badge: '🏆 Best for Amazon', badgeClass: 'nofee',
+          rate: '2.5%', rateDesc: 'back at Amazon.ca & Whole Foods (Prime members)',
+          features: [
+            '2.5% back at Amazon.ca and Whole Foods Market for Prime members',
+            '1.5% back on all other everyday purchases',
+            'No annual fee — rewards auto-apply as credit on your statement',
+            'Welcome: $60 Amazon.ca gift card on approval'
+          ],
+          income: 'No minimum stated', welcome: '$60 Amazon gift card',
+          caveat: 'The 2.5% rate requires an active Amazon Prime membership ($9.99/month or $99/year).'
+        },
+        {
+          name: 'Neo Financial Mastercard',
+          issuer: 'Neo Financial', fee: 0, feeLabel: 'No Annual Fee', network: 'Mastercard', color: '#000000',
+          badge: '⚡ Partner Boosts', badgeClass: 'nofee',
+          rate: 'Up to 15%', rateDesc: 'at 10,000+ Neo partner stores',
+          features: [
+            'Up to 15% cashback at partner stores (average 5% at top partners)',
+            'Partners include Petro-Canada, Sport Chek, Hudson\'s Bay, and many more',
+            'Minimum 0.5% guaranteed on all other purchases',
+            'Digital-first card — manage everything in the Neo app'
+          ],
+          income: 'No minimum stated', welcome: 'Varies by partner offer',
+          caveat: 'High rates only at partner stores. Non-partner spending earns just 0.5% — pair with another card for those purchases.'
+        },
+        {
+          name: 'Rogers World Elite Mastercard',
+          issuer: 'Rogers Bank', fee: 0, feeLabel: 'No Annual Fee', network: 'Mastercard', color: '#DA291C',
+          badge: '🌐 Best Flat-Rate', badgeClass: 'nofee',
+          rate: '1.5% Rogers Dollars', rateDesc: 'on all purchases · 3% on USD spending',
+          features: [
+            '1.5% Rogers Dollars back on all Canadian purchases — no categories to track',
+            '3% back on all USD purchases — excellent for US online shopping',
+            'Rogers Dollars apply against Rogers, Fido, or Shaw bills or cash back',
+            'Welcome: up to $80 in Rogers Dollars'
+          ],
+          income: '$80K household or active Rogers/Fido/Shaw customer', welcome: 'Up to $80 Rogers Dollars',
+          caveat: 'Best value if you have a Rogers/Fido/Shaw bill. Without one, reward redemption options are limited.'
+        },
+        {
+          name: 'Tangerine Money-Back Mastercard',
+          issuer: 'Tangerine Bank', fee: 0, feeLabel: 'No Annual Fee', network: 'Mastercard', color: '#FF6600',
+          badge: '🎯 Choose Your Categories', badgeClass: 'nofee',
+          rate: '2% money-back', rateDesc: 'on any 2–3 categories you choose',
+          features: [
+            'Choose any 2–3 categories for 2% back: shopping, drug stores, home improvement, etc.',
+            '0.5% on all other purchases — simple and predictable',
+            'No annual fee, no minimum income requirement, easy online account management',
+            'Welcome: 10% cashback for 2 months on up to $1,000 spend'
+          ],
+          income: 'No minimum stated', welcome: '10% cash back (2 months)',
+          caveat: 'The 0.5% rate on non-category purchases is low — use a flat-rate card like Rogers for everything else.'
+        }
+      ]
+    },
+
+    entertainment: {
+      label: 'Entertainment', icon: '🎬',
+      intro: 'Movies, concerts, sports events, and streaming subscriptions — these cards turn your entertainment spending into meaningful rewards.',
+      cards: [
+        {
+          name: 'Scotiabank Gold American Express',
+          issuer: 'Scotiabank', fee: 120, feeLabel: '$120/yr', network: 'Amex', color: '#CC0000',
+          badge: '🏆 Best for Entertainment', badgeClass: 'top',
+          rate: '3x Scene+', rateDesc: 'at Cineplex, Ticketmaster, sports venues & performing arts',
+          features: [
+            '3x Scene+ at Cineplex theatres, Ticketmaster, live sports & performing arts',
+            '6x Scene+ on dining & groceries — a powerful everyday earning card',
+            'Scene+ points are directly redeemable for free Cineplex movies',
+            'Welcome: up to 40,000 Scene+ points'
+          ],
+          income: '$12K personal', welcome: 'Up to 40,000 Scene+ pts',
+          caveat: 'Scene+ works best if you use Cineplex regularly — otherwise, consider a flexible cashback card.'
+        },
+        {
+          name: 'American Express Cobalt',
+          issuer: 'American Express', fee: 155.88, feeLabel: '$155.88/yr', network: 'Amex', color: '#007CC3',
+          badge: '📺 Best for Streaming', badgeClass: 'best',
+          rate: '3x MR Points', rateDesc: 'on eligible streaming subscriptions (Netflix, Crave, Disney+)',
+          features: [
+            '3x MR on streaming subscriptions — automatically applied, no enrollment needed',
+            '5x MR on food & drinks · 2x on travel & transit',
+            'MR points transfer to Aeroplan, Marriott, and Hilton at great ratios',
+            'Welcome: up to 30,000 MR points over 12 months'
+          ],
+          income: 'No minimum stated', welcome: 'Up to 30,000 MR pts',
+          caveat: 'Not all venues accept Amex — have a backup Visa/MC for places that don\'t.'
+        },
+        {
+          name: 'TD Cash Back Visa Infinite',
+          issuer: 'TD Bank', fee: 120, feeLabel: '$120/yr', network: 'Visa', color: '#34B233',
+          badge: '📱 Recurring Bills', badgeClass: 'best',
+          rate: '3% cash back', rateDesc: 'on groceries, gas, and recurring bills (streaming, phone)',
+          features: [
+            '3% cashback on recurring bills — Netflix, Spotify, phone plans all qualify',
+            '3% on groceries · 3% on gas · 1% on everything else',
+            'Cashback credited directly to your TD account annually',
+            'Welcome: first year fee often waived + bonus cashback period'
+          ],
+          income: '$60K personal or $100K household', welcome: 'First year fee waived',
+          caveat: 'Annual fee of $120 applies after year one. Evaluate whether 3% on bills saves more than the fee costs.'
+        }
+      ]
+    },
+
+    nofee: {
+      label: 'No Annual Fee', icon: '💳',
+      intro: 'You don\'t need to pay an annual fee to earn great rewards. These no-fee cards deliver strong everyday value — a perfect starting point or companion card for any wallet.',
+      cards: [
+        {
+          name: 'PC Financial World Elite Mastercard',
+          issuer: 'President\'s Choice Bank', fee: 0, feeLabel: 'No Annual Fee', network: 'Mastercard', color: '#c41e3a',
+          badge: '🏆 Best Overall No-Fee', badgeClass: 'nofee',
+          rate: '~4.5%', rateDesc: 'at Loblaws · No Frills · Shoppers Drug Mart',
+          features: [
+            '45 PC Optimum pts/$1 at Loblaws, No Frills, SDM (~4.5% effective value)',
+            '10 pts/$1 on all other eligible purchases',
+            'No annual fee — consistently ranked Canada\'s best no-fee rewards card',
+            'Welcome: 50,000 PC Optimum points (~$50 in groceries)'
+          ],
+          income: '$80K household', welcome: '50,000 PC Optimum pts',
+          caveat: 'Points only redeemable at Loblaws, No Frills, and Shoppers Drug Mart partner stores.'
+        },
+        {
+          name: 'Simplii Financial Cash Back Visa',
+          issuer: 'Simplii Financial (CIBC)', fee: 0, feeLabel: 'No Annual Fee', network: 'Visa', color: '#e6002d',
+          badge: '🍽️ Best Dining + All', badgeClass: 'nofee',
+          rate: '4% dining / 1.5% all', rateDesc: 'at restaurants + 1.5% on all other purchases',
+          features: [
+            '4% cashback at restaurants, bars, and coffee shops (up to $5,000/year)',
+            '1.5% on all other purchases — strong flat rate with no fee',
+            'No annual fee and no minimum income requirement',
+            'Welcome: 20% cashback for 3 months on eligible purchases'
+          ],
+          income: 'No minimum stated', welcome: '20% cash back (3 months)',
+          caveat: 'Must hold a Simplii Financial No-Fee Chequing Account to apply.'
+        },
+        {
+          name: 'Rogers World Elite Mastercard',
+          issuer: 'Rogers Bank', fee: 0, feeLabel: 'No Annual Fee', network: 'Mastercard', color: '#DA291C',
+          badge: '🌐 Best Flat Rate', badgeClass: 'nofee',
+          rate: '1.5% everywhere', rateDesc: 'Rogers Dollars on all purchases · 3% on USD',
+          features: [
+            '1.5% Rogers Dollars on all Canadian purchases — simple, no categories needed',
+            '3% back on all USD purchases, making it the best card for US online shopping',
+            'No annual fee with an active Rogers, Fido, or Shaw subscription',
+            'Welcome: up to $80 in Rogers Dollars'
+          ],
+          income: '$80K household or Rogers/Fido/Shaw customer', welcome: 'Up to $80 Rogers Dollars',
+          caveat: 'Annual fee of $29 applies if you don\'t have a Rogers/Fido/Shaw account.'
+        },
+        {
+          name: 'Tangerine Money-Back Mastercard',
+          issuer: 'Tangerine Bank', fee: 0, feeLabel: 'No Annual Fee', network: 'Mastercard', color: '#FF6600',
+          badge: '🎯 Most Flexible', badgeClass: 'nofee',
+          rate: '2% on any categories', rateDesc: 'you choose: groceries, dining, gas, shopping & more',
+          features: [
+            'Pick any 2 spending categories for 2% cashback (3 with Tangerine account)',
+            'Categories: groceries, restaurants, gas, drug stores, home improvement, entertainment, & more',
+            'No annual fee and no minimum income requirement — open to almost everyone',
+            'Welcome: 10% cashback for 2 months on up to $1,000'
+          ],
+          income: 'No minimum stated', welcome: '10% cash back (2 months)',
+          caveat: 'Only 0.5% on purchases outside your chosen categories. Pair with a flat-rate card for other spending.'
+        }
+      ]
+    }
+  };
+
+  var currentCat = 'groceries';
+
+  function renderCatBtns() {
+    var container = document.getElementById('ccCatBtns');
+    if (!container) return;
+    container.innerHTML = '';
+    Object.keys(CC).forEach(function (key) {
+      var cat = CC[key];
+      var btn = document.createElement('button');
+      btn.className = 'v2-cc-cat-btn' + (key === currentCat ? ' active' : '');
+      btn.innerHTML = '<span class="v2-cc-cat-icon">' + cat.icon + '</span>' + cat.label;
+      btn.addEventListener('click', function () {
+        currentCat = key;
+        document.querySelectorAll('.v2-cc-cat-btn').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        renderCards();
+      });
+      container.appendChild(btn);
+    });
+  }
+
+  function renderCards() {
+    var data = CC[currentCat];
+    var intro = document.getElementById('ccIntroBar');
+    var grid  = document.getElementById('ccGrid');
+    if (!grid) return;
+    if (intro) intro.textContent = data.intro;
+    grid.innerHTML = '';
+    data.cards.forEach(function (card) {
+      var el = document.createElement('div');
+      el.className = 'v2-cc-card';
+      el.innerHTML =
+        '<div class="v2-cc-strip" style="background:' + card.color + '"></div>' +
+        '<div class="v2-cc-body">' +
+          '<div class="v2-cc-top-row">' +
+            '<span class="v2-cc-pick-badge ' + card.badgeClass + '">' + card.badge + '</span>' +
+            '<span class="v2-cc-network-tag">' + card.network + '</span>' +
+          '</div>' +
+          '<h3 class="v2-cc-name">' + card.name + '</h3>' +
+          '<p class="v2-cc-issuer">' + card.issuer + '</p>' +
+          '<div class="v2-cc-rate">' +
+            '<span class="v2-cc-rate-num">' + card.rate + '</span>' +
+            '<span class="v2-cc-rate-desc">' + card.rateDesc + '</span>' +
+          '</div>' +
+          '<ul class="v2-cc-features">' +
+            card.features.map(function (f) { return '<li>' + f + '</li>'; }).join('') +
+          '</ul>' +
+          (card.caveat ? '<div class="v2-cc-caveat">⚠ ' + card.caveat + '</div>' : '') +
+          '<div class="v2-cc-footer">' +
+            '<span class="v2-cc-fee-tag ' + (card.fee === 0 ? 'free' : 'paid') + '">' + card.feeLabel + '</span>' +
+            '<span class="v2-cc-welcome-tag">Welcome:<br>' + card.welcome + '</span>' +
+          '</div>' +
+        '</div>';
+      grid.appendChild(el);
+    });
+  }
+
+  function initCreditCards() {
+    if (!document.getElementById('ccGrid')) return;
+    renderCatBtns();
+    renderCards();
+  }
+
+  document.addEventListener('DOMContentLoaded', initCreditCards);
 })();
