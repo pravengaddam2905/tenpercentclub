@@ -7461,15 +7461,15 @@ input[type="range"].v2-range:disabled::-webkit-slider-thumb {
   position: sticky;
   top: 64px;
   z-index: 40;
-  background: #fff;
-  border-bottom: 2px solid #e2e8f0;
-  box-shadow: 0 2px 12px rgba(0,0,0,.07);
+  background: var(--v2-navy);
+  border-bottom: 3px solid var(--v2-teal);
+  box-shadow: 0 4px 16px rgba(13,33,55,.35);
 }
 .v2-tabs-bar {
   display: flex;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 24px;
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -7480,24 +7480,25 @@ input[type="range"].v2-range:disabled::-webkit-slider-thumb {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 3px;
   padding: 14px 16px;
   background: transparent;
   border: none;
   border-bottom: 3px solid transparent;
   cursor: pointer;
   font-family: 'Plus Jakarta Sans', sans-serif;
-  color: #64748b;
+  color: rgba(255,255,255,.65);
   transition: color .2s, border-color .2s, background .2s;
   white-space: nowrap;
-  margin-bottom: -2px;
+  margin-bottom: -3px;
 }
-.v2-tab-btn:hover { color: var(--v2-teal); background: rgba(0,151,167,.04); }
-.v2-tab-btn.active { color: var(--v2-teal); border-bottom-color: var(--v2-teal); }
-.v2-tab-icon { font-size: 20px; line-height: 1; margin-bottom: 1px; }
-.v2-tab-label { font-size: .82rem; font-weight: 700; }
-.v2-tab-sub { font-size: .68rem; color: #94a3b8; }
-.v2-tab-btn.active .v2-tab-sub { color: rgba(0,151,167,.65); }
+.v2-tab-btn:hover { color: #fff; background: rgba(255,255,255,.08); }
+.v2-tab-btn.active { color: #fff; border-bottom-color: var(--v2-amber); background: rgba(255,255,255,.06); }
+.v2-tab-icon { font-size: 28px; line-height: 1; margin-bottom: 2px; }
+.v2-tab-label { font-size: .84rem; font-weight: 700; letter-spacing: .01em; }
+.v2-tab-sub { font-size: .68rem; color: rgba(255,255,255,.45); }
+.v2-tab-btn.active .v2-tab-label { color: #fff; }
+.v2-tab-btn.active .v2-tab-sub { color: var(--v2-amber); }
 
 /* ---- Tools body (wraps all sections) ---- */
 .v2-tools-body {
