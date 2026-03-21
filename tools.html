@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="styles.css?v=3.0" />
+  <link rel="stylesheet" href="styles.css?v=4.0" />
   <meta name="description" content="Free Canadian financial calculators: Tax savings, life insurance needs, and disability coverage — built for families working with an LLQP advisor." />
 
   <!-- Favicon -->
@@ -33,7 +33,7 @@
 </head>
 <body class="v2-body">
 
-  <!-- Header (identical to home page) -->
+  <!-- Header -->
   <header class="v2-header" id="v2Header">
     <div class="v2-container v2-nav">
       <a href="/" class="v2-brand">
@@ -86,541 +86,592 @@
     <div class="container-full">
       <div class="tools-wrapper">
 
-        <!-- Sidebar -->
-        <aside class="tools-sidebar">
-          <span class="v2-sidebar-label">Choose a Tool</span>
-          <nav class="tools-nav">
-            <button class="tool-nav-btn active" data-tool="tax-calculator">
-              <span class="tool-nav-icon">💰</span>
-              <span class="tool-nav-text">Tax Savings Calculator</span>
+        <!-- Sticky Tab Bar -->
+        <div class="v2-tabs-wrap">
+          <div class="v2-tabs-bar">
+            <button class="tool-nav-btn v2-tab-btn active" data-tool="tax-calculator">
+              <span class="v2-tab-icon">💰</span>
+              <span class="v2-tab-label">Tax Savings</span>
+              <span class="v2-tab-sub">RRSP · TFSA · FHSA</span>
             </button>
-            <button class="tool-nav-btn" data-tool="life-insurance-calc">
-              <span class="tool-nav-icon">🛡️</span>
-              <span class="tool-nav-text">Life Insurance Calculator</span>
+            <button class="tool-nav-btn v2-tab-btn" data-tool="life-insurance-calc">
+              <span class="v2-tab-icon">🛡️</span>
+              <span class="v2-tab-label">Life Insurance</span>
+              <span class="v2-tab-sub">Income replacement</span>
             </button>
-            <button class="tool-nav-btn" data-tool="disability-calc">
-              <span class="tool-nav-icon">💼</span>
-              <span class="tool-nav-text">Disability Insurance Calculator</span>
+            <button class="tool-nav-btn v2-tab-btn" data-tool="disability-calc">
+              <span class="v2-tab-icon">💼</span>
+              <span class="v2-tab-label">Disability</span>
+              <span class="v2-tab-sub">Income protection</span>
             </button>
-            <button class="tool-nav-btn" data-tool="fna-tool">
-              <span class="tool-nav-icon">📋</span>
-              <span class="tool-nav-text">Financial Needs Analysis</span>
+            <button class="tool-nav-btn v2-tab-btn" data-tool="fna-tool">
+              <span class="v2-tab-icon">📋</span>
+              <span class="v2-tab-label">Free FNA</span>
+              <span class="v2-tab-sub">Full financial review</span>
             </button>
-          </nav>
-
-          <div class="v2-sidebar-consult">
-            <p>See a gap in your coverage? Book a free 30-min review — no pressure, no fees.</p>
-            <a href="#" onclick="Calendly.initPopupWidget({url:'https://calendly.com/praveengaddam/30min?primary_color=d4a017&text_color=0f172a&background_color=ffffff'});return false;">
-              Book Free Call →
-            </a>
           </div>
-        </aside>
+        </div>
 
-        <!-- Main Content -->
-        <main class="tools-content">
+        <!-- Tools Body -->
+        <div class="v2-tools-body">
 
-          <!-- ==========================================
+          <!-- =============================================
                TAX SAVINGS CALCULATOR
-          =========================================== -->
-          <div id="tax-calculator" class="tool-panel active">
-            <h2 class="v2-panel-title">Tax Savings Calculator</h2>
-            <p class="v2-panel-desc">See exactly how much you can get back from the CRA through RRSP, TFSA, FHSA, RESP, and Spousal RRSP contributions — based on your Ontario income.</p>
+          ============================================== -->
+          <section id="tax-calculator" class="tool-panel v2-tool-section active">
 
-            <div class="v2-calc-card">
-
-              <!-- Step 1: Salary -->
-              <div class="v2-step-block">
-                <div class="v2-step-hd">
-                  <span class="v2-step-num">1</span>
-                  <span class="v2-step-title">Enter Your Annual Salary</span>
-                </div>
-                <div class="v2-slider-row">
-                  <div class="v2-slider-lbl-row">
-                    <label for="income">Annual Income (Ontario)</label>
-                    <span class="v2-slider-badge" id="incomeValue">$0</span>
-                  </div>
-                  <input type="range" class="v2-range" id="income" min="0" max="250000" step="5000" value="0">
-                </div>
-
-                <!-- Bracket chip — shown by JS when income > 0 -->
-                <div class="v2-bracket-chip" id="taxBracketInfo">
-                  <span class="v2-bracket-lbl">Your Tax Bracket:</span>
-                  <span class="v2-bracket-name" id="taxBracketValue">—</span>
-                  <span class="v2-bracket-rate-tag" id="taxBracketRate">—</span>
-                </div>
+            <!-- LEFT: Inputs -->
+            <div class="v2-inputs-col">
+              <div class="v2-inputs-header">
+                <h2>💰 Tax Savings Calculator</h2>
+                <p>See exactly how much you can get back from the CRA through RRSP, TFSA, FHSA, RESP, and Spousal RRSP contributions — based on your Ontario income.</p>
               </div>
+              <div class="v2-inputs-body">
 
-              <!-- Step 2: Contribution limits — shown by JS -->
-              <div class="v2-step-block" id="limitsSection" style="display:none;">
-                <div class="v2-step-hd">
-                  <span class="v2-step-num">2</span>
-                  <span class="v2-step-title">Your Annual Contribution Limits</span>
-                </div>
-                <div class="v2-limits-strip show">
-                  <div class="v2-limit-pill">
-                    <span class="v2-lp-type">RRSP</span>
-                    <span class="v2-lp-amt" id="maxRRSP">$0</span>
+                <!-- Step 1: Salary -->
+                <div class="v2-step-block">
+                  <div class="v2-step-hd">
+                    <span class="v2-step-num">1</span>
+                    <span class="v2-step-title">Your Annual Income</span>
                   </div>
-                  <div class="v2-limit-pill">
-                    <span class="v2-lp-type">TFSA</span>
-                    <span class="v2-lp-amt">$7,000</span>
-                  </div>
-                  <div class="v2-limit-pill">
-                    <span class="v2-lp-type">FHSA</span>
-                    <span class="v2-lp-amt">$8,000</span>
-                  </div>
-                  <div class="v2-limit-pill">
-                    <span class="v2-lp-type">RESP</span>
-                    <span class="v2-lp-amt">$2,500</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Step 3: Contributions — shown by JS -->
-              <div class="v2-step-block" id="contributionsSection" style="display:none;">
-                <div class="v2-step-hd">
-                  <span class="v2-step-num">3</span>
-                  <span class="v2-step-title">Select Your Contributions</span>
-                </div>
-
-                <!-- RRSP -->
-                <div class="v2-contrib-block" id="rrspBlock">
-                  <div class="v2-contrib-top">
-                    <input type="checkbox" id="rrspEnabled">
-                    <label class="v2-contrib-name" for="rrspEnabled">RRSP Contribution</label>
-                    <span class="v2-contrib-preview" id="rrspSavings">Select to calculate refund</span>
-                  </div>
-                  <div class="v2-contrib-slider">
+                  <div class="v2-slider-row">
                     <div class="v2-slider-lbl-row">
-                      <label for="rrsp">Contribution amount</label>
-                      <span class="v2-slider-badge" id="rrspValue">$0</span>
+                      <label for="income">Annual Income (Ontario)</label>
+                      <span class="v2-slider-badge" id="incomeValue">$0</span>
                     </div>
-                    <input type="range" class="v2-range" id="rrsp" min="0" max="31560" step="500" value="0" disabled>
+                    <input type="range" class="v2-range" id="income" min="0" max="250000" step="5000" value="0">
+                  </div>
+                  <div class="v2-bracket-chip" id="taxBracketInfo">
+                    <span class="v2-bracket-lbl">Tax Bracket:</span>
+                    <span class="v2-bracket-name" id="taxBracketValue">—</span>
+                    <span class="v2-bracket-rate-tag" id="taxBracketRate">—</span>
                   </div>
                 </div>
 
-                <!-- TFSA -->
-                <div class="v2-contrib-block" id="tfsaBlock">
-                  <div class="v2-contrib-top">
-                    <input type="checkbox" id="tfsaEnabled">
-                    <label class="v2-contrib-name" for="tfsaEnabled">TFSA Contribution</label>
-                    <span class="v2-contrib-preview" id="tfsaSavings">Select to add</span>
+                <!-- Step 2: Contribution Limits -->
+                <div class="v2-step-block" id="limitsSection">
+                  <div class="v2-step-hd">
+                    <span class="v2-step-num">2</span>
+                    <span class="v2-step-title">Annual Contribution Limits</span>
                   </div>
-                  <div class="v2-contrib-slider">
-                    <div class="v2-slider-lbl-row">
-                      <label for="tfsa">Contribution amount</label>
-                      <span class="v2-slider-badge" id="tfsaValue">$0</span>
+                  <div class="v2-limits-strip show">
+                    <div class="v2-limit-pill">
+                      <span class="v2-lp-type">RRSP</span>
+                      <span class="v2-lp-amt" id="maxRRSP">$0</span>
                     </div>
-                    <input type="range" class="v2-range" id="tfsa" min="0" max="7000" step="500" value="0" disabled>
-                  </div>
-                </div>
-
-                <!-- FHSA -->
-                <div class="v2-contrib-block" id="fhsaBlock">
-                  <div class="v2-contrib-top">
-                    <input type="checkbox" id="fhsaEnabled">
-                    <label class="v2-contrib-name" for="fhsaEnabled">FHSA Contribution <small style="font-weight:400;color:#64748b;">(First-Home)</small></label>
-                    <span class="v2-contrib-preview" id="fhsaSavings">Select to calculate refund</span>
-                  </div>
-                  <div class="v2-contrib-slider">
-                    <div class="v2-slider-lbl-row">
-                      <label for="fhsa">Contribution amount</label>
-                      <span class="v2-slider-badge" id="fhsaValue">$0</span>
+                    <div class="v2-limit-pill">
+                      <span class="v2-lp-type">TFSA</span>
+                      <span class="v2-lp-amt">$7,000</span>
                     </div>
-                    <input type="range" class="v2-range" id="fhsa" min="0" max="8000" step="500" value="0" disabled>
-                  </div>
-                </div>
-
-                <!-- RESP -->
-                <div class="v2-contrib-block" id="respBlock">
-                  <div class="v2-contrib-top">
-                    <input type="checkbox" id="respEnabled">
-                    <label class="v2-contrib-name" for="respEnabled">RESP Contribution <small style="font-weight:400;color:#64748b;">(+20% govt grant)</small></label>
-                    <span class="v2-contrib-preview" id="respSavings">Select to calculate grant</span>
-                  </div>
-                  <div class="v2-contrib-slider">
-                    <div class="v2-slider-lbl-row">
-                      <label for="resp">Contribution amount</label>
-                      <span class="v2-slider-badge" id="respValue">$0</span>
+                    <div class="v2-limit-pill">
+                      <span class="v2-lp-type">FHSA</span>
+                      <span class="v2-lp-amt">$8,000</span>
                     </div>
-                    <input type="range" class="v2-range" id="resp" min="0" max="2500" step="100" value="0" disabled>
-                  </div>
-                </div>
-
-                <!-- Spouse RRSP -->
-                <div class="v2-contrib-block" id="spouseRRSPBlock">
-                  <div class="v2-contrib-top">
-                    <input type="checkbox" id="spouseRRSPEnabled">
-                    <label class="v2-contrib-name" for="spouseRRSPEnabled">Spousal RRSP <small style="font-weight:400;color:#64748b;">(income splitting)</small></label>
-                    <span class="v2-contrib-preview" id="spouseRRSPSavings">Select to calculate refund</span>
-                  </div>
-                  <div class="v2-contrib-slider">
-                    <div class="v2-slider-lbl-row">
-                      <label for="spouseRRSP">Contribution amount</label>
-                      <span class="v2-slider-badge" id="spouseRRSPValue">$0</span>
+                    <div class="v2-limit-pill">
+                      <span class="v2-lp-type">RESP</span>
+                      <span class="v2-lp-amt">$2,500</span>
                     </div>
-                    <input type="range" class="v2-range" id="spouseRRSP" min="0" max="15000" step="500" value="0" disabled>
                   </div>
                 </div>
+
+                <!-- Step 3: Contributions -->
+                <div class="v2-step-block" id="contributionsSection">
+                  <div class="v2-step-hd">
+                    <span class="v2-step-num">3</span>
+                    <span class="v2-step-title">Select Your Contributions</span>
+                  </div>
+
+                  <!-- RRSP -->
+                  <div class="v2-contrib-block" id="rrspBlock">
+                    <div class="v2-contrib-top">
+                      <input type="checkbox" id="rrspEnabled">
+                      <label class="v2-contrib-name" for="rrspEnabled">RRSP Contribution</label>
+                      <span class="v2-contrib-preview" id="rrspSavings">Select to calculate refund</span>
+                    </div>
+                    <div class="v2-contrib-slider">
+                      <div class="v2-slider-lbl-row">
+                        <label for="rrsp">Amount</label>
+                        <span class="v2-slider-badge" id="rrspValue">$0</span>
+                      </div>
+                      <input type="range" class="v2-range" id="rrsp" min="0" max="31560" step="500" value="0" disabled>
+                    </div>
+                  </div>
+
+                  <!-- TFSA -->
+                  <div class="v2-contrib-block" id="tfsaBlock">
+                    <div class="v2-contrib-top">
+                      <input type="checkbox" id="tfsaEnabled">
+                      <label class="v2-contrib-name" for="tfsaEnabled">TFSA Contribution</label>
+                      <span class="v2-contrib-preview" id="tfsaSavings">Select to add</span>
+                    </div>
+                    <div class="v2-contrib-slider">
+                      <div class="v2-slider-lbl-row">
+                        <label for="tfsa">Amount</label>
+                        <span class="v2-slider-badge" id="tfsaValue">$0</span>
+                      </div>
+                      <input type="range" class="v2-range" id="tfsa" min="0" max="7000" step="500" value="0" disabled>
+                    </div>
+                  </div>
+
+                  <!-- FHSA -->
+                  <div class="v2-contrib-block" id="fhsaBlock">
+                    <div class="v2-contrib-top">
+                      <input type="checkbox" id="fhsaEnabled">
+                      <label class="v2-contrib-name" for="fhsaEnabled">FHSA <small style="font-weight:400;color:#94a3b8;">(First-Home)</small></label>
+                      <span class="v2-contrib-preview" id="fhsaSavings">Select to calculate refund</span>
+                    </div>
+                    <div class="v2-contrib-slider">
+                      <div class="v2-slider-lbl-row">
+                        <label for="fhsa">Amount</label>
+                        <span class="v2-slider-badge" id="fhsaValue">$0</span>
+                      </div>
+                      <input type="range" class="v2-range" id="fhsa" min="0" max="8000" step="500" value="0" disabled>
+                    </div>
+                  </div>
+
+                  <!-- RESP -->
+                  <div class="v2-contrib-block" id="respBlock">
+                    <div class="v2-contrib-top">
+                      <input type="checkbox" id="respEnabled">
+                      <label class="v2-contrib-name" for="respEnabled">RESP <small style="font-weight:400;color:#94a3b8;">(+20% govt grant)</small></label>
+                      <span class="v2-contrib-preview" id="respSavings">Select to calculate grant</span>
+                    </div>
+                    <div class="v2-contrib-slider">
+                      <div class="v2-slider-lbl-row">
+                        <label for="resp">Amount</label>
+                        <span class="v2-slider-badge" id="respValue">$0</span>
+                      </div>
+                      <input type="range" class="v2-range" id="resp" min="0" max="2500" step="100" value="0" disabled>
+                    </div>
+                  </div>
+
+                  <!-- Spouse RRSP -->
+                  <div class="v2-contrib-block" id="spouseRRSPBlock">
+                    <div class="v2-contrib-top">
+                      <input type="checkbox" id="spouseRRSPEnabled">
+                      <label class="v2-contrib-name" for="spouseRRSPEnabled">Spousal RRSP <small style="font-weight:400;color:#94a3b8;">(income splitting)</small></label>
+                      <span class="v2-contrib-preview" id="spouseRRSPSavings">Select to calculate refund</span>
+                    </div>
+                    <div class="v2-contrib-slider">
+                      <div class="v2-slider-lbl-row">
+                        <label for="spouseRRSP">Amount</label>
+                        <span class="v2-slider-badge" id="spouseRRSPValue">$0</span>
+                      </div>
+                      <input type="range" class="v2-range" id="spouseRRSP" min="0" max="15000" step="500" value="0" disabled>
+                    </div>
+                  </div>
+
+                </div><!-- /contributionsSection -->
+              </div>
+            </div><!-- /v2-inputs-col -->
+
+            <!-- RIGHT: Results (always visible) -->
+            <div class="v2-results-col" id="summarySection">
+              <div class="v2-res-label">Your Tax Savings Summary</div>
+
+              <!-- Hero number -->
+              <div class="v2-res-hero">
+                <div class="v2-res-hero-lbl">Total Refunds &amp; Grants</div>
+                <div class="v2-res-hero-amt" id="summaryTotalRefunds">$0</div>
+                <div class="v2-res-hero-sub">Based on your Ontario income &amp; contributions</div>
               </div>
 
-            </div><!-- /v2-calc-card -->
-
-            <!-- Results panel — shown by JS when hasContributions -->
-            <div class="v2-results-panel" id="summarySection" style="display:none;">
-              <p class="v2-results-panel-ttl">Your Tax Savings Summary</p>
-
-              <div class="v2-rrow">
-                <span class="v2-rlbl">Annual Salary</span>
-                <span class="v2-rval" id="summarySalary">$0</span>
+              <!-- Info rows -->
+              <div class="v2-rr">
+                <span class="v2-rr-lbl">Annual Salary</span>
+                <span class="v2-rr-val" id="summarySalary">$0</span>
               </div>
-              <div class="v2-rrow">
-                <span class="v2-rlbl">Tax Bracket</span>
-                <span class="v2-rval" id="summaryTaxBracket">—</span>
+              <div class="v2-rr">
+                <span class="v2-rr-lbl">Tax Bracket</span>
+                <span class="v2-rr-val" id="summaryTaxBracket">—</span>
               </div>
-              <div class="v2-rdiv"></div>
 
-              <div class="v2-rrow" id="summaryTFSARow" style="display:none;">
-                <span class="v2-rlbl">TFSA Contribution</span>
+              <div class="v2-rdiv-res"></div>
+
+              <!-- Contribution rows (shown when enabled) -->
+              <div class="v2-rr" id="summaryRRSPRow" style="display:none;">
+                <span class="v2-rr-lbl">RRSP → Refund</span>
                 <div style="text-align:right;">
-                  <span class="v2-rval" id="summaryTFSA">$0</span>
-                  <div style="font-size:.75rem;color:rgba(255,255,255,.4);margin-top:2px;">Tax-free growth — no immediate refund</div>
+                  <div class="v2-rr-val" id="summaryRRSP">$0</div>
+                  <div class="v2-rr-sub positive">Refund: <strong id="summaryRRSPRefund">$0</strong></div>
+                </div>
+              </div>
+              <div class="v2-rr" id="summaryTFSARow" style="display:none;">
+                <span class="v2-rr-lbl">TFSA</span>
+                <div style="text-align:right;">
+                  <div class="v2-rr-val" id="summaryTFSA">$0</div>
+                  <div class="v2-rr-sub" style="color:rgba(255,255,255,.35);">Tax-free growth</div>
+                </div>
+              </div>
+              <div class="v2-rr" id="summaryFHSARow" style="display:none;">
+                <span class="v2-rr-lbl">FHSA → Refund</span>
+                <div style="text-align:right;">
+                  <div class="v2-rr-val" id="summaryFHSA">$0</div>
+                  <div class="v2-rr-sub positive">Refund: <strong id="summaryFHSARefund">$0</strong></div>
+                </div>
+              </div>
+              <div class="v2-rr" id="summaryRESPRow" style="display:none;">
+                <span class="v2-rr-lbl">RESP → Grant</span>
+                <div style="text-align:right;">
+                  <div class="v2-rr-val" id="summaryRESP">$0</div>
+                  <div class="v2-rr-sub positive">Grant: <strong id="summaryRESPGrant">$0</strong></div>
+                </div>
+              </div>
+              <div class="v2-rr" id="summarySpouseRRSPRow" style="display:none;">
+                <span class="v2-rr-lbl">Spousal RRSP → Refund</span>
+                <div style="text-align:right;">
+                  <div class="v2-rr-val" id="summarySpouseRRSP">$0</div>
+                  <div class="v2-rr-sub positive">Refund: <strong id="summarySpouseRRSPRefund">$0</strong></div>
                 </div>
               </div>
 
-              <div class="v2-rrow" id="summaryRRSPRow" style="display:none;">
-                <span class="v2-rlbl">RRSP → Tax Refund</span>
-                <div style="text-align:right;">
-                  <span class="v2-rval" id="summaryRRSP">$0</span>
-                  <div style="font-size:.75rem;color:#10b981;margin-top:2px;">Refund: <strong id="summaryRRSPRefund">$0</strong></div>
-                </div>
+              <div class="v2-rdiv-res" style="margin-top:4px;"></div>
+
+              <div class="v2-rr">
+                <span class="v2-rr-lbl">Total Contributions</span>
+                <span class="v2-rr-val" id="summaryTotalContributions">$0</span>
+              </div>
+              <div class="v2-rr-box">
+                <span class="v2-rr-lbl">Net Out-of-Pocket Cost</span>
+                <span class="v2-rr-val" id="summaryNetCost">$0</span>
               </div>
 
-              <div class="v2-rrow" id="summaryFHSARow" style="display:none;">
-                <span class="v2-rlbl">FHSA → Tax Refund</span>
-                <div style="text-align:right;">
-                  <span class="v2-rval" id="summaryFHSA">$0</span>
-                  <div style="font-size:.75rem;color:#10b981;margin-top:2px;">Refund: <strong id="summaryFHSARefund">$0</strong></div>
-                </div>
-              </div>
+              <a href="#" class="v2-res-cta"
+                onclick="Calendly.initPopupWidget({url:'https://calendly.com/praveengaddam/30min?primary_color=d4a017&text_color=0f172a&background_color=ffffff'});return false;">
+                Let's Maximize Your Tax Savings →
+              </a>
+              <p class="v2-res-note">Ontario 2024 marginal tax rates. Estimates only — actual savings depend on your contribution room, filing status, and other deductions.</p>
+            </div><!-- /results-col -->
 
-              <div class="v2-rrow" id="summaryRESPRow" style="display:none;">
-                <span class="v2-rlbl">RESP → Govt Grant</span>
-                <div style="text-align:right;">
-                  <span class="v2-rval" id="summaryRESP">$0</span>
-                  <div style="font-size:.75rem;color:#10b981;margin-top:2px;">Grant: <strong id="summaryRESPGrant">$0</strong></div>
-                </div>
-              </div>
+          </section><!-- /tax-calculator -->
 
-              <div class="v2-rrow" id="summarySpouseRRSPRow" style="display:none;">
-                <span class="v2-rlbl">Spousal RRSP → Refund</span>
-                <div style="text-align:right;">
-                  <span class="v2-rval" id="summarySpouseRRSP">$0</span>
-                  <div style="font-size:.75rem;color:#10b981;margin-top:2px;">Refund: <strong id="summarySpouseRRSPRefund">$0</strong></div>
-                </div>
-              </div>
 
-              <div class="v2-rdiv"></div>
-              <div class="v2-rrow">
-                <span class="v2-rlbl">Total Contributions</span>
-                <span class="v2-rval" id="summaryTotalContributions">$0</span>
-              </div>
-              <div class="v2-rrow">
-                <span class="v2-rlbl">Net Out-of-Pocket Cost</span>
-                <span class="v2-rval" id="summaryNetCost">$0</span>
-              </div>
-
-              <div class="v2-rhighlight">
-                <span class="v2-rlbl">Total Refunds &amp; Grants</span>
-                <span class="v2-rval" id="summaryTotalRefunds">$0</span>
-              </div>
-            </div>
-
-            <div class="v2-calc-note">Ontario 2024 marginal tax rates. Estimates only — actual savings depend on your contribution room, filing status, and other deductions.</div>
-            <a href="#" class="v2-tool-cta" onclick="Calendly.initPopupWidget({url:'https://calendly.com/praveengaddam/30min?primary_color=d4a017&text_color=0f172a&background_color=ffffff'});return false;">
-              Let's Maximize Your Tax Savings →
-            </a>
-          </div>
-
-          <!-- ==========================================
+          <!-- =============================================
                LIFE INSURANCE NEEDS CALCULATOR
-          =========================================== -->
-          <div id="life-insurance-calc" class="tool-panel">
-            <h2 class="v2-panel-title">Life Insurance Needs Calculator</h2>
-            <p class="v2-panel-desc">Answer 4 quick questions to estimate how much life insurance your family needs to stay financially secure — using the income replacement method.</p>
+          ============================================== -->
+          <section id="life-insurance-calc" class="tool-panel v2-tool-section">
 
-            <div class="v2-calc-card">
+            <!-- LEFT: Inputs -->
+            <div class="v2-inputs-col">
+              <div class="v2-inputs-header">
+                <h2>🛡️ Life Insurance Calculator</h2>
+                <p>Answer 4 quick questions to estimate how much life insurance your family needs to stay financially secure — using the income replacement method.</p>
+              </div>
+              <div class="v2-inputs-body">
 
-              <!-- Step 1 -->
-              <div class="v2-step-block">
-                <div class="v2-step-hd">
-                  <span class="v2-step-num">1</span>
-                  <span class="v2-step-title">Income Replacement</span>
-                </div>
-                <div class="v2-slider-row">
-                  <div class="v2-slider-lbl-row">
-                    <label for="lifeAnnualIncome">Your Annual Income</label>
-                    <span class="v2-slider-badge" id="lifeAnnualIncomeValue">$80,000</span>
+                <!-- Step 1 -->
+                <div class="v2-step-block">
+                  <div class="v2-step-hd">
+                    <span class="v2-step-num">1</span>
+                    <span class="v2-step-title">Income Replacement</span>
                   </div>
-                  <input type="range" class="v2-range" id="lifeAnnualIncome" min="0" max="300000" step="5000" value="80000">
-                </div>
-                <div class="v2-slider-row" style="margin-top:18px;">
-                  <div class="v2-slider-lbl-row">
-                    <label for="lifeYearsReplace">Years of income to replace</label>
-                    <span class="v2-slider-badge" id="lifeYearsReplaceValue">20 years</span>
+                  <div class="v2-slider-row">
+                    <div class="v2-slider-lbl-row">
+                      <label for="lifeAnnualIncome">Annual Income</label>
+                      <span class="v2-slider-badge" id="lifeAnnualIncomeValue">$80,000</span>
+                    </div>
+                    <input type="range" class="v2-range" id="lifeAnnualIncome" min="0" max="300000" step="5000" value="80000">
                   </div>
-                  <input type="range" class="v2-range" id="lifeYearsReplace" min="5" max="30" step="1" value="20">
-                </div>
-              </div>
-
-              <!-- Step 2 -->
-              <div class="v2-step-block">
-                <div class="v2-step-hd">
-                  <span class="v2-step-num">2</span>
-                  <span class="v2-step-title">Outstanding Debts</span>
-                </div>
-                <div class="v2-slider-row">
-                  <div class="v2-slider-lbl-row">
-                    <label for="lifeMortgage">Mortgage Balance</label>
-                    <span class="v2-slider-badge" id="lifeMortgageValue">$400,000</span>
+                  <div class="v2-slider-row" style="margin-top:16px;">
+                    <div class="v2-slider-lbl-row">
+                      <label for="lifeYearsReplace">Years of income to replace</label>
+                      <span class="v2-slider-badge" id="lifeYearsReplaceValue">20 years</span>
+                    </div>
+                    <input type="range" class="v2-range" id="lifeYearsReplace" min="5" max="30" step="1" value="20">
                   </div>
-                  <input type="range" class="v2-range" id="lifeMortgage" min="0" max="1500000" step="25000" value="400000">
                 </div>
-                <div class="v2-slider-row" style="margin-top:18px;">
-                  <div class="v2-slider-lbl-row">
-                    <label for="lifeOtherDebts">Other Debts (car, credit cards, loans)</label>
-                    <span class="v2-slider-badge" id="lifeOtherDebtsValue">$20,000</span>
+
+                <!-- Step 2 -->
+                <div class="v2-step-block">
+                  <div class="v2-step-hd">
+                    <span class="v2-step-num">2</span>
+                    <span class="v2-step-title">Outstanding Debts</span>
                   </div>
-                  <input type="range" class="v2-range" id="lifeOtherDebts" min="0" max="200000" step="5000" value="20000">
-                </div>
-              </div>
-
-              <!-- Step 3 -->
-              <div class="v2-step-block">
-                <div class="v2-step-hd">
-                  <span class="v2-step-num">3</span>
-                  <span class="v2-step-title">Children's Education &amp; Final Expenses</span>
-                </div>
-                <div class="v2-slider-row">
-                  <div class="v2-slider-lbl-row">
-                    <label for="lifeNumChildren">Number of Children</label>
-                    <span class="v2-slider-badge" id="lifeNumChildrenValue">1 child</span>
+                  <div class="v2-slider-row">
+                    <div class="v2-slider-lbl-row">
+                      <label for="lifeMortgage">Mortgage Balance</label>
+                      <span class="v2-slider-badge" id="lifeMortgageValue">$400,000</span>
+                    </div>
+                    <input type="range" class="v2-range" id="lifeMortgage" min="0" max="1500000" step="25000" value="400000">
                   </div>
-                  <input type="range" class="v2-range" id="lifeNumChildren" min="0" max="6" step="1" value="1">
-                </div>
-                <div class="v2-slider-row" style="margin-top:18px;">
-                  <div class="v2-slider-lbl-row">
-                    <label for="lifeFinalExpenses">Final Expenses (funeral, legal, estate)</label>
-                    <span class="v2-slider-badge" id="lifeFinalExpensesValue">$15,000</span>
+                  <div class="v2-slider-row" style="margin-top:16px;">
+                    <div class="v2-slider-lbl-row">
+                      <label for="lifeOtherDebts">Other Debts (car, credit cards)</label>
+                      <span class="v2-slider-badge" id="lifeOtherDebtsValue">$20,000</span>
+                    </div>
+                    <input type="range" class="v2-range" id="lifeOtherDebts" min="0" max="200000" step="5000" value="20000">
                   </div>
-                  <input type="range" class="v2-range" id="lifeFinalExpenses" min="10000" max="50000" step="1000" value="15000">
                 </div>
-              </div>
 
-              <!-- Step 4 -->
-              <div class="v2-step-block">
-                <div class="v2-step-hd">
-                  <span class="v2-step-num">4</span>
-                  <span class="v2-step-title">Existing Coverage &amp; Savings</span>
-                </div>
-                <div class="v2-slider-row">
-                  <div class="v2-slider-lbl-row">
-                    <label for="lifeExistingCoverage">Existing Life Insurance (group + personal)</label>
-                    <span class="v2-slider-badge" id="lifeExistingCoverageValue">$0</span>
+                <!-- Step 3 -->
+                <div class="v2-step-block">
+                  <div class="v2-step-hd">
+                    <span class="v2-step-num">3</span>
+                    <span class="v2-step-title">Children &amp; Final Expenses</span>
                   </div>
-                  <input type="range" class="v2-range" id="lifeExistingCoverage" min="0" max="2000000" step="25000" value="0">
-                </div>
-                <div class="v2-slider-row" style="margin-top:18px;">
-                  <div class="v2-slider-lbl-row">
-                    <label for="lifeSavings">Liquid Savings (TFSA, savings accounts)</label>
-                    <span class="v2-slider-badge" id="lifeSavingsValue">$25,000</span>
+                  <div class="v2-slider-row">
+                    <div class="v2-slider-lbl-row">
+                      <label for="lifeNumChildren">Number of Children</label>
+                      <span class="v2-slider-badge" id="lifeNumChildrenValue">1 child</span>
+                    </div>
+                    <input type="range" class="v2-range" id="lifeNumChildren" min="0" max="6" step="1" value="1">
                   </div>
-                  <input type="range" class="v2-range" id="lifeSavings" min="0" max="500000" step="5000" value="25000">
+                  <div class="v2-slider-row" style="margin-top:16px;">
+                    <div class="v2-slider-lbl-row">
+                      <label for="lifeFinalExpenses">Final Expenses (funeral, estate)</label>
+                      <span class="v2-slider-badge" id="lifeFinalExpensesValue">$15,000</span>
+                    </div>
+                    <input type="range" class="v2-range" id="lifeFinalExpenses" min="10000" max="50000" step="1000" value="15000">
+                  </div>
                 </div>
-              </div>
 
-            </div><!-- /v2-calc-card -->
+                <!-- Step 4 -->
+                <div class="v2-step-block">
+                  <div class="v2-step-hd">
+                    <span class="v2-step-num">4</span>
+                    <span class="v2-step-title">Existing Coverage &amp; Savings</span>
+                  </div>
+                  <div class="v2-slider-row">
+                    <div class="v2-slider-lbl-row">
+                      <label for="lifeExistingCoverage">Existing Life Insurance</label>
+                      <span class="v2-slider-badge" id="lifeExistingCoverageValue">$0</span>
+                    </div>
+                    <input type="range" class="v2-range" id="lifeExistingCoverage" min="0" max="2000000" step="25000" value="0">
+                  </div>
+                  <div class="v2-slider-row" style="margin-top:16px;">
+                    <div class="v2-slider-lbl-row">
+                      <label for="lifeSavings">Liquid Savings (TFSA, savings)</label>
+                      <span class="v2-slider-badge" id="lifeSavingsValue">$25,000</span>
+                    </div>
+                    <input type="range" class="v2-range" id="lifeSavings" min="0" max="500000" step="5000" value="25000">
+                  </div>
+                </div>
 
-            <!-- Results -->
-            <div class="v2-results-panel">
-              <p class="v2-results-panel-ttl">Life Insurance Needs Summary</p>
+              </div>
+            </div><!-- /v2-inputs-col -->
 
-              <div class="v2-rrow">
-                <span class="v2-rlbl">Income Replacement</span>
-                <span class="v2-rval" id="lifeCalcIncomeReplacement">$1,600,000</span>
-              </div>
-              <div class="v2-rrow">
-                <span class="v2-rlbl">Mortgage Balance</span>
-                <span class="v2-rval" id="lifeCalcMortgage">$400,000</span>
-              </div>
-              <div class="v2-rrow">
-                <span class="v2-rlbl">Other Debts</span>
-                <span class="v2-rval" id="lifeCalcDebts">$20,000</span>
-              </div>
-              <div class="v2-rrow">
-                <span class="v2-rlbl">Education Fund ($50K/child)</span>
-                <span class="v2-rval" id="lifeCalcEducation">$50,000</span>
-              </div>
-              <div class="v2-rrow">
-                <span class="v2-rlbl">Final Expenses</span>
-                <span class="v2-rval" id="lifeCalcFinalExpenses">$15,000</span>
-              </div>
-              <div class="v2-rdiv"></div>
-              <div class="v2-rrow">
-                <span class="v2-rlbl">Total Needs</span>
-                <span class="v2-rval" id="lifeCalcTotalNeeds">$2,085,000</span>
-              </div>
-              <div class="v2-rrow">
-                <span class="v2-rlbl">Less: Existing Coverage</span>
-                <span class="v2-rval" id="lifeCalcExistingCov">– $0</span>
-              </div>
-              <div class="v2-rrow">
-                <span class="v2-rlbl">Less: Liquid Savings</span>
-                <span class="v2-rval" id="lifeCalcExistingSavings">– $25,000</span>
-              </div>
+            <!-- RIGHT: Results -->
+            <div class="v2-results-col">
+              <div class="v2-res-label">Life Insurance Needs Summary</div>
 
-              <div class="v2-rhighlight">
-                <span class="v2-rlbl">Recommended Coverage</span>
-                <span class="v2-rval" id="lifeCalcRecommended">$2,060,000</span>
+              <!-- Hero -->
+              <div class="v2-res-hero">
+                <div class="v2-res-hero-lbl">Recommended Coverage</div>
+                <div class="v2-res-hero-amt" id="lifeCalcRecommended">$2,060,000</div>
+                <div class="v2-res-hero-sub">Additional insurance needed for your family</div>
               </div>
 
               <!-- Coverage bar -->
-              <div class="v2-cov-section">
-                <div class="v2-cov-meta">
-                  <span class="v2-cov-meta-lbl">Coverage already provided</span>
-                  <span class="v2-cov-pct bad" id="lifeCovPct">0% covered</span>
+              <div class="v2-res-cov">
+                <div class="v2-res-cov-hd">
+                  <span class="v2-res-cov-lbl">Currently covered</span>
+                  <span class="v2-res-cov-pct bad" id="lifeCovPct">0% covered</span>
                 </div>
-                <div class="v2-cov-track">
-                  <div class="v2-cov-fill bad" id="lifeCovFill"></div>
+                <div class="v2-res-cov-track">
+                  <div class="v2-res-cov-fill bad" id="lifeCovFill"></div>
                 </div>
               </div>
-            </div>
 
-            <div class="v2-calc-note">Estimate uses the income replacement method. Actual needs depend on your group benefits, spouse's income, and investment growth assumptions.</div>
-            <a href="#" class="v2-tool-cta" onclick="Calendly.initPopupWidget({url:'https://calendly.com/praveengaddam/30min?primary_color=d4a017&text_color=0f172a&background_color=ffffff'});return false;">
-              Get Your Personalized Insurance Review →
-            </a>
-          </div>
+              <!-- Breakdown bars -->
+              <div class="v2-bdown">
+                <div class="v2-bdown-title">What makes up your total need</div>
 
-          <!-- ==========================================
+                <div class="v2-bdown-row">
+                  <div class="v2-bdown-hd">
+                    <span class="v2-bdown-name">Income Replacement</span>
+                    <span class="v2-bdown-val" id="lifeBvalIncome">$1,600,000</span>
+                  </div>
+                  <div class="v2-bdown-track"><div class="v2-bdown-bar bdown-income" id="lifeBdownIncome"></div></div>
+                </div>
+                <div class="v2-bdown-row">
+                  <div class="v2-bdown-hd">
+                    <span class="v2-bdown-name">Mortgage</span>
+                    <span class="v2-bdown-val" id="lifeBvalMortgage">$400,000</span>
+                  </div>
+                  <div class="v2-bdown-track"><div class="v2-bdown-bar bdown-mortgage" id="lifeBdownMortgage"></div></div>
+                </div>
+                <div class="v2-bdown-row">
+                  <div class="v2-bdown-hd">
+                    <span class="v2-bdown-name">Other Debts</span>
+                    <span class="v2-bdown-val" id="lifeBvalDebts">$20,000</span>
+                  </div>
+                  <div class="v2-bdown-track"><div class="v2-bdown-bar bdown-debts" id="lifeBdownDebts"></div></div>
+                </div>
+                <div class="v2-bdown-row">
+                  <div class="v2-bdown-hd">
+                    <span class="v2-bdown-name">Education Fund</span>
+                    <span class="v2-bdown-val" id="lifeBvalEducation">$50,000</span>
+                  </div>
+                  <div class="v2-bdown-track"><div class="v2-bdown-bar bdown-education" id="lifeBdownEducation"></div></div>
+                </div>
+                <div class="v2-bdown-row">
+                  <div class="v2-bdown-hd">
+                    <span class="v2-bdown-name">Final Expenses</span>
+                    <span class="v2-bdown-val" id="lifeBvalFinal">$15,000</span>
+                  </div>
+                  <div class="v2-bdown-track"><div class="v2-bdown-bar bdown-final" id="lifeBdownFinal"></div></div>
+                </div>
+              </div>
+
+              <!-- Totals -->
+              <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.07);">
+                <div class="v2-rr">
+                  <span class="v2-rr-lbl">Total Needs</span>
+                  <span class="v2-rr-val" id="lifeCalcTotalNeeds">$2,085,000</span>
+                </div>
+                <div class="v2-rr">
+                  <span class="v2-rr-lbl">Less: Existing Coverage</span>
+                  <span class="v2-rr-val" id="lifeCalcExistingCov">– $0</span>
+                </div>
+                <div class="v2-rr" style="border-bottom:none;">
+                  <span class="v2-rr-lbl">Less: Liquid Savings</span>
+                  <span class="v2-rr-val" id="lifeCalcExistingSavings">– $25,000</span>
+                </div>
+              </div>
+
+              <a href="#" class="v2-res-cta"
+                onclick="Calendly.initPopupWidget({url:'https://calendly.com/praveengaddam/30min?primary_color=d4a017&text_color=0f172a&background_color=ffffff'});return false;">
+                Get My Personalized Insurance Review →
+              </a>
+              <p class="v2-res-note">Uses the income replacement method. Actual needs depend on your group benefits, spouse's income, and investment growth assumptions.</p>
+            </div><!-- /results-col -->
+
+          </section><!-- /life-insurance-calc -->
+
+
+          <!-- =============================================
                DISABILITY INSURANCE CALCULATOR
-          =========================================== -->
-          <div id="disability-calc" class="tool-panel">
-            <h2 class="v2-panel-title">Disability Insurance Calculator</h2>
-            <p class="v2-panel-desc">Your ability to earn is your most valuable asset. Find out if you're protected — and how long your savings would last if illness or injury took you off work today.</p>
+          ============================================== -->
+          <section id="disability-calc" class="tool-panel v2-tool-section">
 
-            <div class="v2-calc-card">
+            <!-- LEFT: Inputs -->
+            <div class="v2-inputs-col">
+              <div class="v2-inputs-header">
+                <h2>💼 Disability Insurance Calculator</h2>
+                <p>Your ability to earn is your most valuable asset. Find out if you're protected — and how long your savings would last if illness or injury took you off work today.</p>
+              </div>
+              <div class="v2-inputs-body">
 
-              <!-- Step 1 -->
-              <div class="v2-step-block">
-                <div class="v2-step-hd">
-                  <span class="v2-step-num">1</span>
-                  <span class="v2-step-title">Your Monthly Finances</span>
-                </div>
-                <div class="v2-slider-row">
-                  <div class="v2-slider-lbl-row">
-                    <label for="diMonthlyIncome">Monthly Gross Income</label>
-                    <span class="v2-slider-badge" id="diMonthlyIncomeValue">$6,000</span>
+                <!-- Step 1 -->
+                <div class="v2-step-block">
+                  <div class="v2-step-hd">
+                    <span class="v2-step-num">1</span>
+                    <span class="v2-step-title">Your Monthly Finances</span>
                   </div>
-                  <input type="range" class="v2-range" id="diMonthlyIncome" min="0" max="25000" step="500" value="6000">
-                </div>
-                <div class="v2-slider-row" style="margin-top:18px;">
-                  <div class="v2-slider-lbl-row">
-                    <label for="diMonthlyExpenses">Monthly Essential Expenses</label>
-                    <span class="v2-slider-badge" id="diMonthlyExpensesValue">$3,500</span>
+                  <div class="v2-slider-row">
+                    <div class="v2-slider-lbl-row">
+                      <label for="diMonthlyIncome">Monthly Gross Income</label>
+                      <span class="v2-slider-badge" id="diMonthlyIncomeValue">$6,000</span>
+                    </div>
+                    <input type="range" class="v2-range" id="diMonthlyIncome" min="0" max="25000" step="500" value="6000">
                   </div>
-                  <input type="range" class="v2-range" id="diMonthlyExpenses" min="0" max="15000" step="250" value="3500">
-                </div>
-              </div>
-
-              <!-- Step 2 -->
-              <div class="v2-step-block">
-                <div class="v2-step-hd">
-                  <span class="v2-step-num">2</span>
-                  <span class="v2-step-title">Existing Coverage &amp; Emergency Fund</span>
-                </div>
-                <div class="v2-slider-row">
-                  <div class="v2-slider-lbl-row">
-                    <label for="diExistingCoverage">Monthly Group / Employer Disability Benefit</label>
-                    <span class="v2-slider-badge" id="diExistingCoverageValue">$0 — none</span>
+                  <div class="v2-slider-row" style="margin-top:16px;">
+                    <div class="v2-slider-lbl-row">
+                      <label for="diMonthlyExpenses">Monthly Essential Expenses</label>
+                      <span class="v2-slider-badge" id="diMonthlyExpensesValue">$3,500</span>
+                    </div>
+                    <input type="range" class="v2-range" id="diMonthlyExpenses" min="0" max="15000" step="250" value="3500">
                   </div>
-                  <input type="range" class="v2-range" id="diExistingCoverage" min="0" max="10000" step="250" value="0">
                 </div>
-                <div class="v2-slider-row" style="margin-top:18px;">
-                  <div class="v2-slider-lbl-row">
-                    <label for="diEmergencyFund">Emergency Fund (months of savings)</label>
-                    <span class="v2-slider-badge" id="diEmergencyFundValue">3 months</span>
+
+                <!-- Step 2 -->
+                <div class="v2-step-block">
+                  <div class="v2-step-hd">
+                    <span class="v2-step-num">2</span>
+                    <span class="v2-step-title">Existing Coverage &amp; Emergency Fund</span>
                   </div>
-                  <input type="range" class="v2-range" id="diEmergencyFund" min="0" max="24" step="1" value="3">
+                  <div class="v2-slider-row">
+                    <div class="v2-slider-lbl-row">
+                      <label for="diExistingCoverage">Monthly Employer Disability Benefit</label>
+                      <span class="v2-slider-badge" id="diExistingCoverageValue">$0 — none</span>
+                    </div>
+                    <input type="range" class="v2-range" id="diExistingCoverage" min="0" max="10000" step="250" value="0">
+                  </div>
+                  <div class="v2-slider-row" style="margin-top:16px;">
+                    <div class="v2-slider-lbl-row">
+                      <label for="diEmergencyFund">Emergency Fund (months saved)</label>
+                      <span class="v2-slider-badge" id="diEmergencyFundValue">3 months</span>
+                    </div>
+                    <input type="range" class="v2-range" id="diEmergencyFund" min="0" max="24" step="1" value="3">
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- /v2-inputs-col -->
+
+            <!-- RIGHT: Results -->
+            <div class="v2-results-col">
+              <div class="v2-res-label">Disability Coverage Analysis</div>
+
+              <!-- SVG Ring -->
+              <div class="v2-ring-wrap">
+                <div class="v2-ring-svg-wrap">
+                  <svg viewBox="0 0 148 148" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Track -->
+                    <circle cx="74" cy="74" r="58" fill="none" stroke="rgba(255,255,255,0.09)" stroke-width="11"/>
+                    <!-- Fill arc -->
+                    <circle cx="74" cy="74" r="58" fill="none" stroke="#ef4444" stroke-width="11"
+                      stroke-dasharray="364.42" stroke-dashoffset="364.42"
+                      stroke-linecap="round" id="diRingArc"
+                      style="transition: stroke-dashoffset .55s ease, stroke .3s;"/>
+                  </svg>
+                  <div class="v2-ring-center">
+                    <div class="v2-ring-pct" id="diRingPct">0%</div>
+                    <div class="v2-ring-sublbl">protected</div>
+                  </div>
                 </div>
               </div>
 
-            </div><!-- /v2-calc-card -->
-
-            <!-- Results -->
-            <div class="v2-results-panel">
-              <p class="v2-results-panel-ttl">Your Disability Coverage Analysis</p>
-
-              <div class="v2-rrow">
-                <span class="v2-rlbl">Monthly Gross Income</span>
-                <span class="v2-rval" id="diCalcGrossIncome">$6,000</span>
+              <!-- Coverage rows -->
+              <div class="v2-rr">
+                <span class="v2-rr-lbl">Monthly Gross Income</span>
+                <span class="v2-rr-val" id="diCalcGrossIncome">$6,000</span>
               </div>
-              <div class="v2-rrow">
-                <span class="v2-rlbl">Industry Standard (70% of income)</span>
-                <span class="v2-rval" id="diCalcRecommendedBenefit">$4,200</span>
+              <div class="v2-rr">
+                <span class="v2-rr-lbl">70% Benchmark Benefit</span>
+                <span class="v2-rr-val" id="diCalcRecommendedBenefit">$4,200</span>
               </div>
-              <div class="v2-rdiv"></div>
-              <div class="v2-rrow">
-                <span class="v2-rlbl">Your Existing Coverage</span>
-                <span class="v2-rval" id="diCalcExistingCoverage">$0</span>
+              <div class="v2-rdiv-res"></div>
+              <div class="v2-rr">
+                <span class="v2-rr-lbl">Your Existing Coverage</span>
+                <span class="v2-rr-val" id="diCalcExistingCoverage">$0</span>
               </div>
-              <div class="v2-rhighlight">
-                <span class="v2-rlbl">Monthly Coverage Gap</span>
-                <span class="v2-rval" id="diCalcCoverageGap">$4,200</span>
+              <div class="v2-rr-box">
+                <span class="v2-rr-lbl">Monthly Coverage Gap</span>
+                <span class="v2-rr-val" id="diCalcCoverageGap">$4,200</span>
               </div>
-              <div class="v2-rdiv" style="margin-top:12px;"></div>
-              <div class="v2-rrow">
-                <span class="v2-rlbl">Monthly Essential Expenses</span>
-                <span class="v2-rval" id="diCalcExpenses">$3,500</span>
+              <div class="v2-rr" style="margin-top:8px;">
+                <span class="v2-rr-lbl">Essential Expenses</span>
+                <span class="v2-rr-val" id="diCalcExpenses">$3,500</span>
               </div>
-              <div class="v2-rrow">
-                <span class="v2-rlbl">Monthly Shortfall if Disabled Today</span>
-                <span class="v2-rval" id="diCalcShortfall">$3,500</span>
+              <div class="v2-rr">
+                <span class="v2-rr-lbl">Monthly Shortfall if Disabled</span>
+                <span class="v2-rr-val" id="diCalcShortfall">$3,500</span>
               </div>
-              <div class="v2-rrow">
-                <span class="v2-rlbl">Emergency Fund Would Cover</span>
-                <span class="v2-rval" id="diCalcFundMonths">3 months</span>
+              <div class="v2-rr" style="border-bottom:none;">
+                <span class="v2-rr-lbl">Emergency Fund Covers</span>
+                <span class="v2-rr-val" id="diCalcFundMonths">3 months</span>
               </div>
 
-              <!-- Coverage gauge -->
-              <div class="v2-cov-section">
-                <div class="v2-cov-meta">
-                  <span class="v2-cov-meta-lbl">Income protected by existing coverage</span>
-                  <span class="v2-cov-pct bad" id="diCovPct">0% protected</span>
-                </div>
-                <div class="v2-cov-track">
-                  <div class="v2-cov-fill bad" id="diCovFill"></div>
-                </div>
-              </div>
-
-              <!-- Status note -->
-              <div id="diCoverageStatus" style="margin-top:14px;padding:12px 14px;background:rgba(239,68,68,.08);border-left:3px solid #ef4444;border-radius:6px;font-size:.82rem;color:rgba(255,255,255,.8);line-height:1.5;">
+              <!-- Status block -->
+              <div id="diCoverageStatus" class="v2-res-status bad">
                 <strong>Significant gap.</strong> Without additional coverage, a disability could leave you unable to cover essential expenses after just a few months.
               </div>
-            </div>
 
-            <div class="v2-calc-note">The 70% income replacement standard is used by most Canadian insurers. Actual benefit amounts, waiting periods, and premiums vary by provider and occupation class.</div>
-            <a href="#" class="v2-tool-cta" onclick="Calendly.initPopupWidget({url:'https://calendly.com/praveengaddam/30min?primary_color=d4a017&text_color=0f172a&background_color=ffffff'});return false;">
-              Review Your Disability Protection →
-            </a>
-          </div>
+              <a href="#" class="v2-res-cta"
+                onclick="Calendly.initPopupWidget({url:'https://calendly.com/praveengaddam/30min?primary_color=d4a017&text_color=0f172a&background_color=ffffff'});return false;">
+                Review My Disability Protection →
+              </a>
+              <p class="v2-res-note">The 70% income replacement standard is used by most Canadian insurers. Actual benefit amounts, waiting periods, and premiums vary by provider and occupation class.</p>
+            </div><!-- /results-col -->
 
-          <!-- ==========================================
+          </section><!-- /disability-calc -->
+
+
+          <!-- =============================================
                FINANCIAL NEEDS ANALYSIS
-          =========================================== -->
-          <div id="fna-tool" class="tool-panel">
-            <h2 class="v2-panel-title">Financial Needs Analysis</h2>
-            <p class="v2-panel-desc">A comprehensive one-on-one review of your complete financial picture — the first step to building a plan that actually works for your family.</p>
+          ============================================== -->
+          <section id="fna-tool" class="tool-panel v2-tool-section v2-full-width">
 
             <!-- Public View -->
             <div id="fnaPublicView">
@@ -668,7 +719,7 @@
               </div>
             </div>
 
-            <!-- Password Prompt (hidden) -->
+            <!-- Password Prompt -->
             <div id="fnaPasswordPrompt" style="display:none;">
               <div class="v2-pw-card">
                 <div style="font-size:32px;margin-bottom:14px;">🔒</div>
@@ -683,16 +734,18 @@
               </div>
             </div>
 
-            <!-- Full FNA (hidden until unlocked) -->
+            <!-- Full FNA (unlocked) -->
             <div id="fnaToolContent" style="display:none;">
               <p style="text-align:center;padding:40px;color:#64748b;">Loading FNA tool...</p>
             </div>
-          </div>
 
-        </main>
-      </div>
-    </div>
-  </section>
+          </section><!-- /fna-tool -->
+
+        </div><!-- /v2-tools-body -->
+
+      </div><!-- /tools-wrapper -->
+    </div><!-- /container-full -->
+  </section><!-- /tools-layout -->
 
   <!-- Book Section -->
   <section class="v2-section v2-book">
@@ -714,7 +767,7 @@
     </div>
   </section>
 
-  <!-- Footer (identical to home page) -->
+  <!-- Footer -->
   <footer class="v2-footer">
     <div class="v2-container v2-footer-inner">
       <div class="v2-footer-brand">
@@ -759,8 +812,7 @@
     </div>
   </footer>
 
-  <!-- Chart.js (kept for compatibility) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <script src="script.js?v=3.0"></script>
+  <script src="script.js?v=4.0"></script>
 </body>
 </html>

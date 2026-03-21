@@ -123,53 +123,35 @@ function updateCalculator() {
   // Update income display
   document.getElementById('incomeValue').textContent = formatCurrency(income);
 
-  // Show/hide sections based on income
-  const limitsSection = document.getElementById('limitsSection');
-  const contributionsSection = document.getElementById('contributionsSection');
+  // Bracket chip — show only when income > 0
   const taxBracketInfo = document.getElementById('taxBracketInfo');
-
   if (income > 0) {
-    limitsSection.style.display = 'block';
-    contributionsSection.style.display = 'block';
-    taxBracketInfo.style.display = '';
     taxBracketInfo.classList.add('show');
-
-    // Update tax bracket info
     const bracketInfo = getTaxBracketInfo(income);
     document.getElementById('taxBracketValue').textContent = bracketInfo.range;
     document.getElementById('taxBracketRate').textContent = `Marginal Rate: ${bracketInfo.rate}`;
-
-    // Update max RRSP limit (18% of income, max $31,560 for 2024)
     const maxRRSPLimit = Math.min(Math.round(income * 0.18), 31560);
     document.getElementById('maxRRSP').textContent = formatCurrency(maxRRSPLimit);
-
-    // Update RRSP slider max
     rrspSlider.max = maxRRSPLimit;
   } else {
-    limitsSection.style.display = 'none';
-    contributionsSection.style.display = 'none';
     taxBracketInfo.classList.remove('show');
-    document.getElementById('summarySection').style.display = 'none';
-    return;
+    document.getElementById('maxRRSP').textContent = '$0';
   }
 
   // Calculate contributions and savings
   let totalContributions = 0;
   let totalRefunds = 0;
-  let hasContributions = false;
 
   // RRSP Calculation
   const rrsp = parseInt(rrspSlider.value);
   document.getElementById('rrspValue').textContent = formatCurrency(rrsp);
 
   if (rrspEnabled.checked) {
-    const rrspRefund = calculateTaxSavings(income, rrsp);
-    document.getElementById('rrspSavings').textContent = `Tax Refund: ${formatCurrency(rrspRefund)}`;
+    const rrspRefund = income > 0 ? calculateTaxSavings(income, rrsp) : 0;
+    document.getElementById('rrspSavings').textContent = income > 0 ? `Tax Refund: ${formatCurrency(rrspRefund)}` : 'Enter your income first';
     totalContributions += rrsp;
     totalRefunds += rrspRefund;
-
     if (rrsp > 0) {
-      hasContributions = true;
       document.getElementById('summaryRRSPRow').style.display = 'flex';
       document.getElementById('summaryRRSP').textContent = formatCurrency(rrsp);
       document.getElementById('summaryRRSPRefund').textContent = formatCurrency(rrspRefund);
@@ -181,16 +163,14 @@ function updateCalculator() {
     document.getElementById('summaryRRSPRow').style.display = 'none';
   }
 
-  // TFSA Calculation (no immediate tax benefit)
+  // TFSA Calculation
   const tfsa = parseInt(tfsaSlider.value);
   document.getElementById('tfsaValue').textContent = formatCurrency(tfsa);
 
   if (tfsaEnabled.checked) {
-    document.getElementById('tfsaSavings').textContent = 'No immediate tax refund (tax-free growth)';
+    document.getElementById('tfsaSavings').textContent = 'Tax-free growth — no immediate refund';
     totalContributions += tfsa;
-
     if (tfsa > 0) {
-      hasContributions = true;
       document.getElementById('summaryTFSARow').style.display = 'flex';
       document.getElementById('summaryTFSA').textContent = formatCurrency(tfsa);
     } else {
@@ -201,18 +181,16 @@ function updateCalculator() {
     document.getElementById('summaryTFSARow').style.display = 'none';
   }
 
-  // FHSA Calculation (tax-deductible like RRSP)
+  // FHSA Calculation
   const fhsa = parseInt(fhsaSlider.value);
   document.getElementById('fhsaValue').textContent = formatCurrency(fhsa);
 
   if (fhsaEnabled.checked) {
-    const fhsaRefund = calculateTaxSavings(income, fhsa);
-    document.getElementById('fhsaSavings').textContent = `Tax Refund: ${formatCurrency(fhsaRefund)}`;
+    const fhsaRefund = income > 0 ? calculateTaxSavings(income, fhsa) : 0;
+    document.getElementById('fhsaSavings').textContent = income > 0 ? `Tax Refund: ${formatCurrency(fhsaRefund)}` : 'Enter your income first';
     totalContributions += fhsa;
     totalRefunds += fhsaRefund;
-
     if (fhsa > 0) {
-      hasContributions = true;
       document.getElementById('summaryFHSARow').style.display = 'flex';
       document.getElementById('summaryFHSA').textContent = formatCurrency(fhsa);
       document.getElementById('summaryFHSARefund').textContent = formatCurrency(fhsaRefund);
@@ -224,7 +202,7 @@ function updateCalculator() {
     document.getElementById('summaryFHSARow').style.display = 'none';
   }
 
-  // RESP Calculation (government grant)
+  // RESP Calculation
   const resp = parseInt(respSlider.value);
   document.getElementById('respValue').textContent = formatCurrency(resp);
 
@@ -233,9 +211,7 @@ function updateCalculator() {
     document.getElementById('respSavings').textContent = `Government Grant: ${formatCurrency(respGrant)}`;
     totalContributions += resp;
     totalRefunds += respGrant;
-
     if (resp > 0) {
-      hasContributions = true;
       document.getElementById('summaryRESPRow').style.display = 'flex';
       document.getElementById('summaryRESP').textContent = formatCurrency(resp);
       document.getElementById('summaryRESPGrant').textContent = formatCurrency(respGrant);
@@ -252,13 +228,11 @@ function updateCalculator() {
   document.getElementById('spouseRRSPValue').textContent = formatCurrency(spouseRRSP);
 
   if (spouseRRSPEnabled.checked) {
-    const spouseRRSPRefund = calculateTaxSavings(income, spouseRRSP);
-    document.getElementById('spouseRRSPSavings').textContent = `Tax Refund: ${formatCurrency(spouseRRSPRefund)}`;
+    const spouseRRSPRefund = income > 0 ? calculateTaxSavings(income, spouseRRSP) : 0;
+    document.getElementById('spouseRRSPSavings').textContent = income > 0 ? `Tax Refund: ${formatCurrency(spouseRRSPRefund)}` : 'Enter your income first';
     totalContributions += spouseRRSP;
     totalRefunds += spouseRRSPRefund;
-
     if (spouseRRSP > 0) {
-      hasContributions = true;
       document.getElementById('summarySpouseRRSPRow').style.display = 'flex';
       document.getElementById('summarySpouseRRSP').textContent = formatCurrency(spouseRRSP);
       document.getElementById('summarySpouseRRSPRefund').textContent = formatCurrency(spouseRRSPRefund);
@@ -270,23 +244,13 @@ function updateCalculator() {
     document.getElementById('summarySpouseRRSPRow').style.display = 'none';
   }
 
-  // Show/hide summary section
-  const summarySection = document.getElementById('summarySection');
-  if (hasContributions) {
-    summarySection.style.display = 'block';
-
-    // Update summary values
-    const bracketInfo = getTaxBracketInfo(income);
-    document.getElementById('summarySalary').textContent = formatCurrency(income);
-    document.getElementById('summaryTaxBracket').textContent = `${bracketInfo.range} (${bracketInfo.rate})`;
-    document.getElementById('summaryTotalContributions').textContent = formatCurrency(totalContributions);
-    document.getElementById('summaryTotalRefunds').textContent = formatCurrency(totalRefunds);
-
-    const netCost = totalContributions - totalRefunds;
-    document.getElementById('summaryNetCost').textContent = formatCurrency(netCost);
-  } else {
-    summarySection.style.display = 'none';
-  }
+  // Always update summary values
+  const bi = income > 0 ? getTaxBracketInfo(income) : null;
+  document.getElementById('summarySalary').textContent = formatCurrency(income);
+  document.getElementById('summaryTaxBracket').textContent = bi ? `${bi.range} (${bi.rate})` : '—';
+  document.getElementById('summaryTotalContributions').textContent = formatCurrency(totalContributions);
+  document.getElementById('summaryTotalRefunds').textContent = formatCurrency(totalRefunds);
+  document.getElementById('summaryNetCost').textContent = formatCurrency(totalContributions - totalRefunds);
 }
 
 // Enable/disable sliders based on checkboxes + toggle .on class for v2 styling
@@ -529,8 +493,8 @@ toolNavBtns.forEach(btn => {
     document.getElementById(targetTool).classList.add('active');
 
     // Scroll to top of content on mobile
-    if (window.innerWidth <= 1024) {
-      var contentEl = document.querySelector('.tools-content');
+    if (window.innerWidth <= 860) {
+      var contentEl = document.querySelector('.v2-tools-body');
       if (contentEl) contentEl.scrollIntoView({ behavior: 'smooth' });
     }
   });
@@ -3044,8 +3008,22 @@ function updateLifeInsuranceCalc() {
   var grade = coveredPct >= 80 ? 'good' : coveredPct >= 40 ? 'warn' : 'bad';
   var fillEl = document.getElementById('lifeCovFill');
   var pctEl  = document.getElementById('lifeCovPct');
-  if (fillEl) { fillEl.style.width = coveredPct.toFixed(1) + '%'; fillEl.className = 'v2-cov-fill ' + grade; }
-  if (pctEl)  { pctEl.textContent = Math.round(coveredPct) + '% covered'; pctEl.className = 'v2-cov-pct ' + grade; }
+  if (fillEl) { fillEl.style.width = coveredPct.toFixed(1) + '%'; fillEl.className = 'v2-res-cov-fill ' + grade; }
+  if (pctEl)  { pctEl.textContent = Math.round(coveredPct) + '% covered'; pctEl.className = 'v2-res-cov-pct ' + grade; }
+
+  // Breakdown bars (relative width = component / totalNeeds)
+  var base = totalNeeds > 0 ? totalNeeds : 1;
+  function setBar(barId, valId, amount) {
+    var bar = document.getElementById(barId);
+    var valEl = document.getElementById(valId);
+    if (bar) bar.style.width = Math.min(100, amount / base * 100).toFixed(1) + '%';
+    if (valEl) valEl.textContent = formatCurrency(amount);
+  }
+  setBar('lifeBdownIncome',    'lifeBvalIncome',    incomeReplacement);
+  setBar('lifeBdownMortgage',  'lifeBvalMortgage',  mortgage);
+  setBar('lifeBdownDebts',     'lifeBvalDebts',     otherDebts);
+  setBar('lifeBdownEducation', 'lifeBvalEducation', educationFund);
+  setBar('lifeBdownFinal',     'lifeBvalFinal',     finalExp);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -3095,30 +3073,34 @@ function updateDisabilityCalc() {
   set('diCalcShortfall',          formatCurrency(monthlyShortfall));
   set('diCalcFundMonths',         fundCoversMonths >= 999 ? 'Expenses covered \u2713' : fundCoversMonths + ' months');
 
-  // Coverage gauge
+  // Coverage gauge + SVG ring
   var coveredPct = recommendedBenefit > 0 ? Math.min(100, existingCov / recommendedBenefit * 100) : 0;
   var grade = coveredPct >= 70 ? 'good' : coveredPct >= 40 ? 'warn' : 'bad';
-  var fillEl = document.getElementById('diCovFill');
-  var pctEl  = document.getElementById('diCovPct');
-  if (fillEl) { fillEl.style.width = coveredPct.toFixed(1) + '%'; fillEl.className = 'v2-cov-fill ' + grade; }
-  if (pctEl)  { pctEl.textContent = Math.round(coveredPct) + '% protected'; pctEl.className = 'v2-cov-pct ' + grade; }
+  var gradeColor = grade === 'good' ? '#10b981' : grade === 'warn' ? '#f59e0b' : '#ef4444';
+
+  // SVG ring (circumference = 2π × 58 ≈ 364.42)
+  var circumference = 364.42;
+  var arcEl = document.getElementById('diRingArc');
+  var ringPctEl = document.getElementById('diRingPct');
+  if (arcEl) {
+    arcEl.style.strokeDashoffset = (circumference * (1 - coveredPct / 100)).toFixed(2);
+    arcEl.style.stroke = gradeColor;
+  }
+  if (ringPctEl) ringPctEl.textContent = Math.round(coveredPct) + '%';
 
   // Status note
   var statusEl = document.getElementById('diCoverageStatus');
   if (statusEl) {
     if (coverageGap === 0) {
       statusEl.innerHTML = '<strong>Well covered!</strong> Your existing coverage meets the 70% threshold. Book a free review to confirm your policy terms, waiting period, and benefit period are still right for you.';
-      statusEl.style.background = 'rgba(16,185,129,.08)';
-      statusEl.style.borderLeftColor = '#10b981';
+      statusEl.className = 'v2-res-status good';
     } else if (coverageGap < 2000) {
       statusEl.innerHTML = '<strong>Small gap detected.</strong> You\'re ' + formatCurrency(coverageGap) + '/month short of the recommended 70% benefit. A personal policy can close this quickly.';
-      statusEl.style.background = 'rgba(245,158,11,.08)';
-      statusEl.style.borderLeftColor = '#f59e0b';
+      statusEl.className = 'v2-res-status warn';
     } else {
       var monthsMsg = fundCoversMonths < 999 ? fundCoversMonths + ' months' : 'a short period';
       statusEl.innerHTML = '<strong>Significant gap.</strong> Without additional coverage, a disability could leave you ' + formatCurrency(monthlyShortfall) + '/month short of essential expenses after just ' + monthsMsg + '. Book a free call to review your options.';
-      statusEl.style.background = 'rgba(239,68,68,.08)';
-      statusEl.style.borderLeftColor = '#ef4444';
+      statusEl.className = 'v2-res-status bad';
     }
   }
 }
