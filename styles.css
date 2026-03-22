@@ -8225,6 +8225,40 @@ input[type="range"].v2-range:disabled::-webkit-slider-thumb {
   margin-bottom: 12px;
 }
 
+/* Independence banner */
+.v2-cc-independence-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+  border: 1.5px solid #86efac;
+  border-left: 5px solid #16a34a;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+}
+.v2-cc-ind-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.v2-cc-ind-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.v2-cc-ind-text strong {
+  font-size: .88rem;
+  font-weight: 800;
+  color: #15803d;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.v2-cc-ind-text span {
+  font-size: .78rem;
+  color: #166534;
+  line-height: 1.55;
+}
+
 /* Disclaimer at bottom of tool */
 .v2-cc-disclaimer {
   margin-top: 8px;
