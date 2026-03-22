@@ -3778,6 +3778,52 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  function hexDarken(hex, f) {
+    var h = hex.replace('#', '');
+    var r = Math.round(parseInt(h.slice(0,2),16) * f);
+    var g = Math.round(parseInt(h.slice(2,4),16) * f);
+    var b = Math.round(parseInt(h.slice(4,6),16) * f);
+    return '#' + [r,g,b].map(function(v){ return ('0'+Math.min(255,v).toString(16)).slice(-2); }).join('');
+  }
+
+  function networkLogoHTML(network) {
+    if (network === 'Mastercard') {
+      return '<div class="v2-ccimg-mc"><div class="v2-ccimg-mc-l"></div><div class="v2-ccimg-mc-r"></div></div>';
+    }
+    if (network === 'Visa') {
+      return '<div class="v2-ccimg-visa">VISA</div>';
+    }
+    if (network === 'Amex') {
+      return '<div class="v2-ccimg-amex">AMEX</div>';
+    }
+    return '<div class="v2-ccimg-other">' + network + '</div>';
+  }
+
+  function cardImgHTML(card) {
+    var dark = hexDarken(card.color, 0.52);
+    var shortName = card.name.length > 32 ? card.name.slice(0, 31) + '…' : card.name;
+    var issuerUp  = card.issuer.toUpperCase();
+    var bg = 'linear-gradient(135deg,' + card.color + ' 0%,' + dark + ' 100%)';
+    return (
+      '<div class="v2-cc-card-img" style="background:' + bg + '">' +
+        '<div class="v2-ccimg-shine"></div>' +
+        '<div class="v2-ccimg-inner">' +
+          '<div class="v2-ccimg-top">' +
+            '<div class="v2-ccimg-chip">' +
+              '<div class="v2-ccimg-chip-inner"></div>' +
+            '</div>' +
+            networkLogoHTML(card.network) +
+          '</div>' +
+          '<div class="v2-ccimg-num">•••• &nbsp;•••• &nbsp;•••• &nbsp;••••</div>' +
+          '<div class="v2-ccimg-bottom">' +
+            '<div class="v2-ccimg-issuer">' + issuerUp + '</div>' +
+            '<div class="v2-ccimg-name">' + shortName + '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>'
+    );
+  }
+
   function renderCards() {
     var data = CC[currentCat];
     var intro = document.getElementById('ccIntroBar');
@@ -3789,7 +3835,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var el = document.createElement('div');
       el.className = 'v2-cc-card';
       el.innerHTML =
-        '<div class="v2-cc-strip" style="background:' + card.color + '"></div>' +
+        cardImgHTML(card) +
         '<div class="v2-cc-body">' +
           '<div class="v2-cc-top-row">' +
             '<span class="v2-cc-pick-badge ' + card.badgeClass + '">' + card.badge + '</span>' +
