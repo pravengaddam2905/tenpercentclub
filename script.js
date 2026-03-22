@@ -3868,3 +3868,169 @@ document.addEventListener('DOMContentLoaded', function() {
 
   document.addEventListener('DOMContentLoaded', initCreditCards);
 })();
+
+/* ============================================================
+   REWARDS CALCULATOR
+   ============================================================ */
+(function () {
+  'use strict';
+
+  // Effective reward rates in % per $1 spent per category
+  // For points cards: rate = points/$1 × $/point × 100
+  var CALC_CARDS = [
+    { id: 'pc-elite',     name: 'PC Financial World Elite Mastercard', fee: 0,      type: 'points',   pts: 'PC Optimum',
+      r: { groceries: 4.5, dining: 1.0, gas: 3.0, travel: 1.0, shopping: 1.0, entertainment: 1.0, other: 1.0 } },
+    { id: 'scotia-gold',  name: 'Scotiabank Gold American Express',    fee: 120,    type: 'points',   pts: 'Scene+',
+      r: { groceries: 5.4, dining: 5.4, gas: 2.7, travel: 2.7, shopping: 0.9, entertainment: 2.7, other: 0.9 } },
+    { id: 'bmo-cashback', name: 'BMO CashBack World Elite Mastercard', fee: 120,    type: 'cashback', pts: null,
+      r: { groceries: 5.0, dining: 1.0, gas: 3.0, travel: 1.0, shopping: 1.0, entertainment: 1.0, other: 1.0 } },
+    { id: 'cibc-div',     name: 'CIBC Dividend Visa Infinite',         fee: 120,    type: 'cashback', pts: null,
+      r: { groceries: 4.0, dining: 2.0, gas: 4.0, travel: 1.0, shopping: 1.0, entertainment: 1.0, other: 1.0 } },
+    { id: 'amex-cobalt',  name: 'American Express Cobalt',             fee: 155.88, type: 'points',   pts: 'Amex MR',
+      r: { groceries: 5.0, dining: 5.0, gas: 2.0, travel: 2.0, shopping: 1.0, entertainment: 1.0, other: 1.0 } },
+    { id: 'amex-plat',    name: 'American Express Platinum Card',      fee: 799,    type: 'points',   pts: 'Amex MR',
+      r: { groceries: 3.6, dining: 3.6, gas: 2.4, travel: 3.6, shopping: 1.2, entertainment: 1.2, other: 1.2 } },
+    { id: 'simplii',      name: 'Simplii Financial Cash Back Visa',    fee: 0,      type: 'cashback', pts: null,
+      r: { groceries: 1.5, dining: 4.0, gas: 1.5, travel: 1.5, shopping: 1.5, entertainment: 1.5, other: 0.5 } },
+    { id: 'tangerine',    name: 'Tangerine Money-Back Mastercard',     fee: 0,      type: 'cashback', pts: null,
+      r: { groceries: 2.0, dining: 2.0, gas: 0.5, travel: 0.5, shopping: 0.5, entertainment: 0.5, other: 0.5 } },
+    { id: 'td-aeroplan',  name: 'TD Aeroplan Visa Infinite',           fee: 139,    type: 'points',   pts: 'Aeroplan',
+      r: { groceries: 2.25, dining: 2.25, gas: 2.25, travel: 3.0, shopping: 1.0, entertainment: 1.0, other: 1.0 } },
+    { id: 'cibc-aeroplan',name: 'CIBC Aeroplan Visa Infinite',         fee: 139,    type: 'points',   pts: 'Aeroplan',
+      r: { groceries: 2.25, dining: 2.25, gas: 2.25, travel: 3.0, shopping: 1.0, entertainment: 1.0, other: 1.0 } },
+    { id: 'rogers',       name: 'Rogers World Elite Mastercard',       fee: 0,      type: 'cashback', pts: null,
+      r: { groceries: 1.5, dining: 1.5, gas: 1.5, travel: 1.5, shopping: 1.5, entertainment: 1.5, other: 1.5 } },
+    { id: 'rbc-avion',    name: 'RBC Avion Visa Infinite',             fee: 120,    type: 'points',   pts: 'RBC Rewards',
+      r: { groceries: 1.0, dining: 1.0, gas: 1.0, travel: 1.25, shopping: 1.0, entertainment: 1.0, other: 1.0 } },
+  ];
+
+  var SPEND_CATS = [
+    { id: 'groceries',    icon: '🛒', label: 'Groceries' },
+    { id: 'dining',       icon: '🍽️', label: 'Dining & Delivery' },
+    { id: 'gas',          icon: '⛽', label: 'Gas' },
+    { id: 'travel',       icon: '✈️', label: 'Travel' },
+    { id: 'shopping',     icon: '🛍️', label: 'Shopping' },
+    { id: 'entertainment',icon: '🎬', label: 'Entertainment' },
+    { id: 'other',        icon: '🏷️', label: 'Everything Else' },
+  ];
+
+  // Approx points per $ of reward value (for display only)
+  var PTS_PER_DOLLAR = { 'PC Optimum': 10000, 'Scene+': 111, 'Amex MR': 100, 'Aeroplan': 67, 'RBC Rewards': 100 };
+
+  function getSpend() {
+    var spend = {};
+    SPEND_CATS.forEach(function (c) {
+      var el = document.getElementById('ccSpend_' + c.id);
+      spend[c.id] = el ? (parseFloat(el.value) || 0) : 0;
+    });
+    return spend;
+  }
+
+  function calcNet(card, spend) {
+    var gross = 0;
+    SPEND_CATS.forEach(function (c) {
+      gross += (spend[c.id] || 0) * (card.r[c.id] || 0) / 100;
+    });
+    return { gross: gross, net: gross - card.fee };
+  }
+
+  function fmt(n) { return n.toLocaleString('en-CA', { minimumFractionDigits: 0, maximumFractionDigits: 0 }); }
+
+  function renderResults(card) {
+    var results = document.getElementById('ccCalcResults');
+    if (!results) return;
+    var spend = getSpend();
+    var calc  = calcNet(card, spend);
+    var gross = calc.gross;
+    var net   = calc.net;
+
+    var breakdown = [];
+    SPEND_CATS.forEach(function (c) {
+      if (spend[c.id] > 0) {
+        var earned = spend[c.id] * (card.r[c.id] || 0) / 100;
+        breakdown.push({ icon: c.icon, label: c.label, rate: card.r[c.id] || 0, earned: earned });
+      }
+    });
+
+    var html = '<div class="v2-cc-calc-summary">' +
+      '<div class="v2-cc-calc-sum-box gross"><div class="v2-cc-calc-sum-lbl">Gross Rewards</div><div class="v2-cc-calc-sum-val">$' + fmt(gross) + '</div></div>' +
+      '<div class="v2-cc-calc-sum-box fee"><div class="v2-cc-calc-sum-lbl">Annual Fee</div><div class="v2-cc-calc-sum-val">-$' + fmt(card.fee) + '</div></div>' +
+      '<div class="v2-cc-calc-sum-box net ' + (net >= 0 ? 'pos' : 'neg') + '"><div class="v2-cc-calc-sum-lbl">Net Benefit</div><div class="v2-cc-calc-sum-val">' + (net >= 0 ? '+$' : '-$') + fmt(Math.abs(net)) + '</div></div>' +
+      '</div>';
+
+    if (card.type === 'points' && card.pts) {
+      var ptsRate = PTS_PER_DOLLAR[card.pts] || 100;
+      var totalPts = Math.round(gross * ptsRate);
+      html += '<div class="v2-cc-calc-pts-note">≈ <strong>' + totalPts.toLocaleString() + ' ' + card.pts + ' pts</strong> · redeemable for ~$' + fmt(gross) + ' in rewards</div>';
+    }
+
+    if (breakdown.length > 0) {
+      html += '<div class="v2-cc-calc-bkdn-title">Breakdown by Category</div><div class="v2-cc-calc-bkdn">';
+      breakdown.forEach(function (b) {
+        html += '<div class="v2-cc-calc-bkdn-row">' +
+          '<span class="v2-cc-calc-bkdn-cat">' + b.icon + ' ' + b.label + '</span>' +
+          '<span class="v2-cc-calc-bkdn-rate">' + b.rate + '%</span>' +
+          '<span class="v2-cc-calc-bkdn-earned">+$' + fmt(b.earned) + '</span>' +
+          '</div>';
+      });
+      html += '</div>';
+    } else {
+      html += '<div class="v2-cc-calc-empty">Enter your annual spending above to see the breakdown</div>';
+    }
+
+    results.innerHTML = html;
+  }
+
+  function onCalcChange() {
+    var sel = document.getElementById('ccCalcCard');
+    var results = document.getElementById('ccCalcResults');
+    if (!sel || !results) return;
+    var cardId = sel.value;
+    if (!cardId) {
+      results.innerHTML = '<div class="v2-cc-calc-empty">Select a card and enter your annual spending to see your estimated rewards</div>';
+      return;
+    }
+    var card = null;
+    CALC_CARDS.forEach(function (c) { if (c.id === cardId) card = c; });
+    if (card) renderResults(card);
+  }
+
+  function findBestCard() {
+    var spend = getSpend();
+    var best = null, bestNet = -Infinity;
+    CALC_CARDS.forEach(function (c) {
+      var n = calcNet(c, spend).net;
+      if (n > bestNet) { bestNet = n; best = c; }
+    });
+    var el = document.getElementById('ccBestResult');
+    if (!el) return;
+    if (!best) { el.style.display = 'none'; return; }
+    el.style.display = 'block';
+    el.innerHTML = '<strong>🏆 Best for your spending: ' + best.name + '</strong>' +
+      '<span>Net annual benefit: +$' + fmt(bestNet) + (best.type === 'cashback' ? ' cashback' : ' in ' + best.pts + ' rewards') +
+      (best.fee > 0 ? ' after $' + fmt(best.fee) + ' fee' : ' · No annual fee') + '</span>';
+    // Also select this card in the dropdown
+    var sel = document.getElementById('ccCalcCard');
+    if (sel) { sel.value = best.id; renderResults(best); }
+  }
+
+  function initRewardsCalc() {
+    var sel = document.getElementById('ccCalcCard');
+    if (!sel) return;
+    CALC_CARDS.forEach(function (c) {
+      var o = document.createElement('option');
+      o.value = c.id;
+      o.textContent = c.name + (c.fee > 0 ? ' ($' + c.fee + '/yr)' : ' (No Fee)');
+      sel.appendChild(o);
+    });
+    sel.addEventListener('change', onCalcChange);
+    SPEND_CATS.forEach(function (c) {
+      var inp = document.getElementById('ccSpend_' + c.id);
+      if (inp) inp.addEventListener('input', onCalcChange);
+    });
+    var bestBtn = document.getElementById('ccFindBestBtn');
+    if (bestBtn) bestBtn.addEventListener('click', findBestCard);
+  }
+
+  document.addEventListener('DOMContentLoaded', initRewardsCalc);
+})();

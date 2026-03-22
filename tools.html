@@ -664,24 +664,88 @@
                CREDIT CARD FINDER
           ============================================== -->
           <section id="credit-cards" class="tool-panel v2-tool-section v2-full-width">
-            <div class="v2-cc-tool">
-              <div class="v2-cc-header">
-                <h2>💳 Canadian Credit Card Finder</h2>
-                <p>Find the best Canadian credit card for every spending category — researched and ranked by rewards, fees, and real-world value.</p>
-              </div>
-              <div class="v2-cc-cats" id="ccCatBtns"></div>
-              <div class="v2-cc-independence-banner">
-                <div class="v2-cc-ind-icon">🔍</div>
-                <div class="v2-cc-ind-text">
-                  <strong>Independent Research — No Affiliations, No Promotions</strong>
-                  <span>These recommendations are based solely on my own research and analysis of publicly available information. I am not affiliated with, sponsored by, or compensated by any bank or card issuer. No card is promoted for financial gain — my only goal is to help you find the best fit for your spending habits.</span>
+            <div class="v2-cc-split">
+
+              <!-- LEFT: Card Finder -->
+              <div class="v2-cc-left">
+                <div class="v2-cc-tool">
+                  <div class="v2-cc-header">
+                    <h2>💳 Canadian Credit Card Finder</h2>
+                    <p>Find the best Canadian credit card for every spending category — researched and ranked by rewards, fees, and real-world value.</p>
+                  </div>
+                  <div class="v2-cc-cats" id="ccCatBtns"></div>
+                  <div class="v2-cc-independence-banner">
+                    <div class="v2-cc-ind-icon">🔍</div>
+                    <div class="v2-cc-ind-text">
+                      <strong>Independent Research — No Affiliations, No Promotions</strong>
+                      <span>These recommendations are based solely on my own research and analysis of publicly available information. I am not affiliated with, sponsored by, or compensated by any bank or card issuer. No card is promoted for financial gain — my only goal is to help you find the best fit for your spending habits.</span>
+                    </div>
+                  </div>
+                  <div class="v2-cc-intro-bar" id="ccIntroBar"></div>
+                  <div class="v2-cc-grid" id="ccGrid"></div>
+                  <div class="v2-cc-disclaimer">
+                    ⚠️ Card details are accurate as of early 2025. Annual fees, rates, and welcome bonuses change frequently — always verify directly with the issuer before applying. This is general information only and not personalized financial advice.
+                  </div>
                 </div>
               </div>
-              <div class="v2-cc-intro-bar" id="ccIntroBar"></div>
-              <div class="v2-cc-grid" id="ccGrid"></div>
-              <div class="v2-cc-disclaimer">
-                ⚠️ Card details are accurate as of early 2025. Annual fees, rates, and welcome bonuses change frequently — always verify directly with the issuer before applying. This is general information only and not personalized financial advice.
+
+              <!-- RIGHT: Rewards Calculator -->
+              <div class="v2-cc-right">
+                <div class="v2-cc-calc">
+                  <div class="v2-cc-calc-hd">
+                    <div class="v2-cc-calc-icon-wrap">💰</div>
+                    <div>
+                      <h3 class="v2-cc-calc-title">Rewards Calculator</h3>
+                      <p class="v2-cc-calc-sub">See how much you'd earn with any card</p>
+                    </div>
+                  </div>
+
+                  <label class="v2-cc-calc-field-lbl">Select a Card</label>
+                  <select id="ccCalcCard" class="v2-cc-calc-select">
+                    <option value="">— Choose a credit card —</option>
+                  </select>
+
+                  <div class="v2-cc-calc-section-hd">Annual Spending by Category</div>
+                  <div class="v2-cc-calc-fields">
+                    <div class="v2-cc-calc-field">
+                      <span>🛒</span><label>Groceries</label>
+                      <div class="v2-cc-calc-inp-wrap"><span>$</span><input type="number" id="ccSpend_groceries" min="0" step="500" value="0" placeholder="0"></div>
+                    </div>
+                    <div class="v2-cc-calc-field">
+                      <span>🍽️</span><label>Dining &amp; Delivery</label>
+                      <div class="v2-cc-calc-inp-wrap"><span>$</span><input type="number" id="ccSpend_dining" min="0" step="500" value="0" placeholder="0"></div>
+                    </div>
+                    <div class="v2-cc-calc-field">
+                      <span>⛽</span><label>Gas</label>
+                      <div class="v2-cc-calc-inp-wrap"><span>$</span><input type="number" id="ccSpend_gas" min="0" step="500" value="0" placeholder="0"></div>
+                    </div>
+                    <div class="v2-cc-calc-field">
+                      <span>✈️</span><label>Travel</label>
+                      <div class="v2-cc-calc-inp-wrap"><span>$</span><input type="number" id="ccSpend_travel" min="0" step="500" value="0" placeholder="0"></div>
+                    </div>
+                    <div class="v2-cc-calc-field">
+                      <span>🛍️</span><label>Shopping</label>
+                      <div class="v2-cc-calc-inp-wrap"><span>$</span><input type="number" id="ccSpend_shopping" min="0" step="500" value="0" placeholder="0"></div>
+                    </div>
+                    <div class="v2-cc-calc-field">
+                      <span>🎬</span><label>Entertainment</label>
+                      <div class="v2-cc-calc-inp-wrap"><span>$</span><input type="number" id="ccSpend_entertainment" min="0" step="500" value="0" placeholder="0"></div>
+                    </div>
+                    <div class="v2-cc-calc-field">
+                      <span>🏷️</span><label>Everything Else</label>
+                      <div class="v2-cc-calc-inp-wrap"><span>$</span><input type="number" id="ccSpend_other" min="0" step="500" value="0" placeholder="0"></div>
+                    </div>
+                  </div>
+
+                  <button class="v2-cc-calc-best-btn" id="ccFindBestBtn" type="button">✨ Find Best Card for My Spending</button>
+                  <div id="ccBestResult" class="v2-cc-best-result" style="display:none"></div>
+
+                  <div class="v2-cc-calc-results" id="ccCalcResults">
+                    <div class="v2-cc-calc-empty">Select a card and enter your annual spending to see your estimated rewards</div>
+                  </div>
+                </div>
               </div>
+
             </div>
           </section>
 

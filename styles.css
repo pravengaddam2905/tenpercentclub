@@ -7890,9 +7890,251 @@ input[type="range"].v2-range:disabled::-webkit-slider-thumb {
 /* ============================================================
    CREDIT CARD FINDER TOOL
    ============================================================ */
-.v2-cc-tool {
-  max-width: 1100px;
+
+/* Split layout: finder (left) + calculator (right) */
+.v2-cc-split {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 28px;
+  align-items: start;
 }
+.v2-cc-right {
+  position: sticky;
+  top: 128px;
+}
+
+/* ── Rewards Calculator Panel ─────────────────────── */
+.v2-cc-calc {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.05), 0 6px 24px rgba(0,0,0,.05);
+  border: 1px solid #e8ecf0;
+  padding: 22px;
+}
+.v2-cc-calc-hd {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.v2-cc-calc-icon-wrap {
+  font-size: 22px;
+  width: 46px;
+  height: 46px;
+  background: linear-gradient(135deg, var(--v2-teal), #005f6b);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.v2-cc-calc-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--v2-navy);
+  margin: 0 0 2px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.v2-cc-calc-sub {
+  font-size: .73rem;
+  color: #94a3b8;
+  margin: 0;
+}
+.v2-cc-calc-field-lbl {
+  display: block;
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: #94a3b8;
+  margin-bottom: 6px;
+}
+.v2-cc-calc-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 9px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: .82rem;
+  color: var(--v2-navy);
+  background: #f8fafc;
+  cursor: pointer;
+  margin-bottom: 18px;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 34px;
+}
+.v2-cc-calc-select:focus { border-color: var(--v2-teal); }
+.v2-cc-calc-section-hd {
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #94a3b8;
+  margin-bottom: 10px;
+}
+.v2-cc-calc-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.v2-cc-calc-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 7px 10px;
+}
+.v2-cc-calc-field > span:first-child { font-size: 15px; flex-shrink: 0; }
+.v2-cc-calc-field label {
+  flex: 1;
+  font-size: .775rem;
+  color: #374151;
+  font-weight: 500;
+  cursor: default;
+}
+.v2-cc-calc-inp-wrap {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 4px 7px;
+  flex-shrink: 0;
+}
+.v2-cc-calc-inp-wrap > span { font-size: .78rem; color: #64748b; }
+.v2-cc-calc-inp-wrap input {
+  width: 68px;
+  border: none;
+  outline: none;
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--v2-navy);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: transparent;
+  text-align: right;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+.v2-cc-calc-inp-wrap input::-webkit-outer-spin-button,
+.v2-cc-calc-inp-wrap input::-webkit-inner-spin-button { -webkit-appearance: none; appearance: none; }
+
+/* Best card button */
+.v2-cc-calc-best-btn {
+  width: 100%;
+  padding: 10px;
+  background: linear-gradient(135deg, var(--v2-navy), #1a3a5c);
+  color: #fff;
+  border: none;
+  border-radius: 9px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: .82rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 14px;
+  transition: opacity .2s;
+}
+.v2-cc-calc-best-btn:hover { opacity: .88; }
+
+/* Best card result chip */
+.v2-cc-best-result {
+  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+  border: 1.5px solid #86efac;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  font-size: .8rem;
+}
+.v2-cc-best-result strong { color: #15803d; display: block; margin-bottom: 3px; }
+.v2-cc-best-result span { color: #166534; }
+
+/* Results area */
+.v2-cc-calc-results { border-top: 1px dashed #e2e8f0; padding-top: 14px; }
+.v2-cc-calc-empty {
+  text-align: center;
+  color: #94a3b8;
+  font-size: .78rem;
+  padding: 12px 0 4px;
+  line-height: 1.5;
+}
+
+/* Summary 3-box row */
+.v2-cc-calc-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.v2-cc-calc-sum-box {
+  border-radius: 10px;
+  padding: 10px 6px;
+  text-align: center;
+}
+.v2-cc-calc-sum-box.gross { background: #f0fdf4; }
+.v2-cc-calc-sum-box.fee   { background: #fffbeb; }
+.v2-cc-calc-sum-box.net.pos { background: linear-gradient(135deg, var(--v2-teal), #005f6b); }
+.v2-cc-calc-sum-box.net.neg { background: #fef2f2; }
+.v2-cc-calc-sum-lbl {
+  font-size: .62rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  margin-bottom: 4px;
+}
+.v2-cc-calc-sum-box.net.pos .v2-cc-calc-sum-lbl { color: rgba(255,255,255,.7); }
+.v2-cc-calc-sum-val {
+  font-size: 1.1rem;
+  font-weight: 800;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--v2-navy);
+}
+.v2-cc-calc-sum-box.gross .v2-cc-calc-sum-val { color: #15803d; }
+.v2-cc-calc-sum-box.fee   .v2-cc-calc-sum-val { color: #b45309; }
+.v2-cc-calc-sum-box.net.pos .v2-cc-calc-sum-val { color: #fff; }
+.v2-cc-calc-sum-box.net.neg .v2-cc-calc-sum-val { color: #dc2626; }
+
+/* Points note */
+.v2-cc-calc-pts-note {
+  background: rgba(0,151,167,.07);
+  border: 1px solid rgba(0,151,167,.2);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: .75rem;
+  color: #0e7490;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+/* Category breakdown */
+.v2-cc-calc-bkdn-title {
+  font-size: .67rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: #94a3b8;
+  margin-bottom: 6px;
+}
+.v2-cc-calc-bkdn { display: flex; flex-direction: column; }
+.v2-cc-calc-bkdn-row {
+  display: flex;
+  align-items: center;
+  font-size: .76rem;
+  padding: 5px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+.v2-cc-calc-bkdn-row:last-child { border-bottom: none; }
+.v2-cc-calc-bkdn-cat { flex: 1; color: #374151; }
+.v2-cc-calc-bkdn-rate { color: #94a3b8; font-size: .69rem; margin-right: 10px; }
+.v2-cc-calc-bkdn-earned { font-weight: 700; color: #15803d; min-width: 44px; text-align: right; }
+
+.v2-cc-tool { max-width: 100%; }
 .v2-cc-header {
   margin-bottom: 28px;
 }
@@ -8271,6 +8513,10 @@ input[type="range"].v2-range:disabled::-webkit-slider-thumb {
   line-height: 1.6;
 }
 
+@media (max-width: 1024px) {
+  .v2-cc-split { grid-template-columns: 1fr; }
+  .v2-cc-right { position: static; }
+}
 @media (max-width: 640px) {
   .v2-cc-grid { grid-template-columns: 1fr; }
   .v2-cc-cats { gap: 6px; }
