@@ -360,25 +360,31 @@
                   <div class="v2-step-hd"><span class="v2-step-num">1</span><span class="v2-step-title">Income Replacement</span></div>
                   <div class="v2-slider-row">
                     <div class="v2-slider-lbl-row">
-                      <label for="lifeAnnualIncome">Annual Income</label>
+                      <div class="v2-lbl-tip">
+                        <label for="lifeAnnualIncome">Annual Income</label>
+                        <span class="v2-tip-wrap"><button class="v2-tip-btn" type="button">?</button><span class="v2-tip-box">Your current yearly employment income. This is the base for calculating how much your family would need to maintain their lifestyle. Include salary, self-employment, and any regular earnings.</span></span>
+                      </div>
                       <div class="v2-editable-badge">
                         <span class="v2-editable-prefix">$</span>
                         <input type="number" class="v2-editable-input wider" id="lifeAnnualIncomeValue"
-                          min="0" max="300000" step="1000" value="80000" placeholder="80000">
+                          min="0" max="300000" step="1000" value="0" placeholder="0">
                       </div>
                     </div>
-                    <input type="range" class="v2-range" id="lifeAnnualIncome" min="0" max="300000" step="5000" value="80000">
+                    <input type="range" class="v2-range" id="lifeAnnualIncome" min="0" max="300000" step="5000" value="0">
                   </div>
                   <div class="v2-slider-row" style="margin-top:16px;">
                     <div class="v2-slider-lbl-row">
-                      <label for="lifeYearsReplace">Years of income to replace</label>
+                      <div class="v2-lbl-tip">
+                        <label for="lifeYearsReplace">Years of income to replace</label>
+                        <span class="v2-tip-wrap"><button class="v2-tip-btn" type="button">?</button><span class="v2-tip-box">How long your family would need financial support — typically until your youngest child is independent (age 18–25) or until your planned retirement. A common choice is 20–25 years.</span></span>
+                      </div>
                       <div class="v2-editable-badge">
                         <input type="number" class="v2-editable-input sm" id="lifeYearsReplaceValue"
-                          min="5" max="30" step="1" value="20" placeholder="20">
+                          min="0" max="30" step="1" value="0" placeholder="0">
                         <span class="v2-editable-suffix"> yrs</span>
                       </div>
                     </div>
-                    <input type="range" class="v2-range" id="lifeYearsReplace" min="5" max="30" step="1" value="20">
+                    <input type="range" class="v2-range" id="lifeYearsReplace" min="0" max="30" step="1" value="0">
                   </div>
                 </div>
 
@@ -386,25 +392,31 @@
                   <div class="v2-step-hd"><span class="v2-step-num">2</span><span class="v2-step-title">Outstanding Debts</span></div>
                   <div class="v2-slider-row">
                     <div class="v2-slider-lbl-row">
-                      <label for="lifeMortgage">Mortgage Balance</label>
+                      <div class="v2-lbl-tip">
+                        <label for="lifeMortgage">Mortgage Balance</label>
+                        <span class="v2-tip-wrap"><button class="v2-tip-btn" type="button">?</button><span class="v2-tip-box">The remaining amount owed on your home. Including this ensures your family can keep the house without financial hardship. Check your latest mortgage statement for the exact balance.</span></span>
+                      </div>
                       <div class="v2-editable-badge">
                         <span class="v2-editable-prefix">$</span>
                         <input type="number" class="v2-editable-input wider" id="lifeMortgageValue"
-                          min="0" max="1500000" step="10000" value="400000" placeholder="400000">
+                          min="0" max="1500000" step="10000" value="0" placeholder="0">
                       </div>
                     </div>
-                    <input type="range" class="v2-range" id="lifeMortgage" min="0" max="1500000" step="25000" value="400000">
+                    <input type="range" class="v2-range" id="lifeMortgage" min="0" max="1500000" step="25000" value="0">
                   </div>
                   <div class="v2-slider-row" style="margin-top:16px;">
                     <div class="v2-slider-lbl-row">
-                      <label for="lifeOtherDebts">Other Debts (car, credit cards)</label>
+                      <div class="v2-lbl-tip">
+                        <label for="lifeOtherDebts">Other Debts (car, credit cards)</label>
+                        <span class="v2-tip-wrap"><button class="v2-tip-btn" type="button">?</button><span class="v2-tip-box">Total of car loans, credit card balances, lines of credit, and student loans. These debts don't disappear when you do — your estate would need to settle them.</span></span>
+                      </div>
                       <div class="v2-editable-badge">
                         <span class="v2-editable-prefix">$</span>
                         <input type="number" class="v2-editable-input wider" id="lifeOtherDebtsValue"
-                          min="0" max="200000" step="1000" value="20000" placeholder="20000">
+                          min="0" max="200000" step="1000" value="0" placeholder="0">
                       </div>
                     </div>
-                    <input type="range" class="v2-range" id="lifeOtherDebts" min="0" max="200000" step="5000" value="20000">
+                    <input type="range" class="v2-range" id="lifeOtherDebts" min="0" max="200000" step="5000" value="0">
                   </div>
                 </div>
 
@@ -412,25 +424,31 @@
                   <div class="v2-step-hd"><span class="v2-step-num">3</span><span class="v2-step-title">Children &amp; Final Expenses</span></div>
                   <div class="v2-slider-row">
                     <div class="v2-slider-lbl-row">
-                      <label for="lifeNumChildren">Number of Children</label>
+                      <div class="v2-lbl-tip">
+                        <label for="lifeNumChildren">Number of Children</label>
+                        <span class="v2-tip-wrap"><button class="v2-tip-btn" type="button">?</button><span class="v2-tip-box">Each child adds approximately $60,000 in post-secondary education costs (4-year university estimate). Enter the number of dependent children you want to fund for education.</span></span>
+                      </div>
                       <div class="v2-editable-badge">
                         <input type="number" class="v2-editable-input sm" id="lifeNumChildrenValue"
-                          min="0" max="6" step="1" value="1" placeholder="1">
+                          min="0" max="6" step="1" value="0" placeholder="0">
                         <span class="v2-editable-suffix"> kids</span>
                       </div>
                     </div>
-                    <input type="range" class="v2-range" id="lifeNumChildren" min="0" max="6" step="1" value="1">
+                    <input type="range" class="v2-range" id="lifeNumChildren" min="0" max="6" step="1" value="0">
                   </div>
                   <div class="v2-slider-row" style="margin-top:16px;">
                     <div class="v2-slider-lbl-row">
-                      <label for="lifeFinalExpenses">Final Expenses (funeral, estate)</label>
+                      <div class="v2-lbl-tip">
+                        <label for="lifeFinalExpenses">Final Expenses (funeral, estate)</label>
+                        <span class="v2-tip-wrap"><button class="v2-tip-btn" type="button">?</button><span class="v2-tip-box">Average Canadian funeral and burial costs range from $8,000–$20,000. Add probate and estate settlement fees. Most advisors recommend budgeting $15,000–$25,000 for this.</span></span>
+                      </div>
                       <div class="v2-editable-badge">
                         <span class="v2-editable-prefix">$</span>
                         <input type="number" class="v2-editable-input wider" id="lifeFinalExpensesValue"
-                          min="10000" max="50000" step="1000" value="15000" placeholder="15000">
+                          min="0" max="50000" step="1000" value="0" placeholder="0">
                       </div>
                     </div>
-                    <input type="range" class="v2-range" id="lifeFinalExpenses" min="10000" max="50000" step="1000" value="15000">
+                    <input type="range" class="v2-range" id="lifeFinalExpenses" min="0" max="50000" step="1000" value="0">
                   </div>
                 </div>
 
@@ -438,7 +456,10 @@
                   <div class="v2-step-hd"><span class="v2-step-num">4</span><span class="v2-step-title">Existing Coverage &amp; Savings</span></div>
                   <div class="v2-slider-row">
                     <div class="v2-slider-lbl-row">
-                      <label for="lifeExistingCoverage">Existing Life Insurance</label>
+                      <div class="v2-lbl-tip">
+                        <label for="lifeExistingCoverage">Existing Life Insurance</label>
+                        <span class="v2-tip-wrap"><button class="v2-tip-btn" type="button">?</button><span class="v2-tip-box">Include group life insurance from your employer (usually 1–2× your annual salary — check your benefits booklet) plus any individual policies you currently hold. This reduces the new coverage needed.</span></span>
+                      </div>
                       <div class="v2-editable-badge">
                         <span class="v2-editable-prefix">$</span>
                         <input type="number" class="v2-editable-input wider" id="lifeExistingCoverageValue"
@@ -449,14 +470,17 @@
                   </div>
                   <div class="v2-slider-row" style="margin-top:16px;">
                     <div class="v2-slider-lbl-row">
-                      <label for="lifeSavings">Liquid Savings (TFSA, savings)</label>
+                      <div class="v2-lbl-tip">
+                        <label for="lifeSavings">Liquid Savings (TFSA, savings)</label>
+                        <span class="v2-tip-wrap"><button class="v2-tip-btn" type="button">?</button><span class="v2-tip-box">Easily accessible savings your family could use — TFSA balance and high-interest savings accounts. RRSP is excluded here because early withdrawal carries large tax penalties.</span></span>
+                      </div>
                       <div class="v2-editable-badge">
                         <span class="v2-editable-prefix">$</span>
                         <input type="number" class="v2-editable-input wider" id="lifeSavingsValue"
-                          min="0" max="500000" step="1000" value="25000" placeholder="25000">
+                          min="0" max="500000" step="1000" value="0" placeholder="0">
                       </div>
                     </div>
-                    <input type="range" class="v2-range" id="lifeSavings" min="0" max="500000" step="5000" value="25000">
+                    <input type="range" class="v2-range" id="lifeSavings" min="0" max="500000" step="5000" value="0">
                   </div>
                 </div>
 
@@ -534,25 +558,31 @@
                   <div class="v2-step-hd"><span class="v2-step-num">1</span><span class="v2-step-title">Your Monthly Finances</span></div>
                   <div class="v2-slider-row">
                     <div class="v2-slider-lbl-row">
-                      <label for="diMonthlyIncome">Monthly Gross Income</label>
+                      <div class="v2-lbl-tip">
+                        <label for="diMonthlyIncome">Monthly Gross Income</label>
+                        <span class="v2-tip-wrap"><button class="v2-tip-btn" type="button">?</button><span class="v2-tip-box">Your total monthly income before taxes and deductions. Disability insurance typically replaces 60–70% of this amount if illness or injury prevents you from working.</span></span>
+                      </div>
                       <div class="v2-editable-badge">
                         <span class="v2-editable-prefix">$</span>
                         <input type="number" class="v2-editable-input wider" id="diMonthlyIncomeValue"
-                          min="0" max="25000" step="100" value="6000" placeholder="6000">
+                          min="0" max="25000" step="100" value="0" placeholder="0">
                       </div>
                     </div>
-                    <input type="range" class="v2-range" id="diMonthlyIncome" min="0" max="25000" step="500" value="6000">
+                    <input type="range" class="v2-range" id="diMonthlyIncome" min="0" max="25000" step="500" value="0">
                   </div>
                   <div class="v2-slider-row" style="margin-top:16px;">
                     <div class="v2-slider-lbl-row">
-                      <label for="diMonthlyExpenses">Monthly Essential Expenses</label>
+                      <div class="v2-lbl-tip">
+                        <label for="diMonthlyExpenses">Monthly Essential Expenses</label>
+                        <span class="v2-tip-wrap"><button class="v2-tip-btn" type="button">?</button><span class="v2-tip-box">The minimum you need each month to cover rent/mortgage, food, utilities, transportation, medications, and insurance premiums. This is your financial floor during a disability.</span></span>
+                      </div>
                       <div class="v2-editable-badge">
                         <span class="v2-editable-prefix">$</span>
                         <input type="number" class="v2-editable-input wider" id="diMonthlyExpensesValue"
-                          min="0" max="15000" step="100" value="3500" placeholder="3500">
+                          min="0" max="15000" step="100" value="0" placeholder="0">
                       </div>
                     </div>
-                    <input type="range" class="v2-range" id="diMonthlyExpenses" min="0" max="15000" step="250" value="3500">
+                    <input type="range" class="v2-range" id="diMonthlyExpenses" min="0" max="15000" step="250" value="0">
                   </div>
                 </div>
 
@@ -560,7 +590,10 @@
                   <div class="v2-step-hd"><span class="v2-step-num">2</span><span class="v2-step-title">Existing Coverage &amp; Emergency Fund</span></div>
                   <div class="v2-slider-row">
                     <div class="v2-slider-lbl-row">
-                      <label for="diExistingCoverage">Monthly Employer Disability Benefit</label>
+                      <div class="v2-lbl-tip">
+                        <label for="diExistingCoverage">Monthly Employer Disability Benefit</label>
+                        <span class="v2-tip-wrap"><button class="v2-tip-btn" type="button">?</button><span class="v2-tip-box">Many employers provide group LTD (Long-Term Disability) coverage paying 60–66% of your salary. Check your benefits booklet. If you're self-employed or have no group plan, leave this at $0.</span></span>
+                      </div>
                       <div class="v2-editable-badge">
                         <span class="v2-editable-prefix">$</span>
                         <input type="number" class="v2-editable-input wider" id="diExistingCoverageValue"
@@ -571,14 +604,17 @@
                   </div>
                   <div class="v2-slider-row" style="margin-top:16px;">
                     <div class="v2-slider-lbl-row">
-                      <label for="diEmergencyFund">Emergency Fund (months saved)</label>
+                      <div class="v2-lbl-tip">
+                        <label for="diEmergencyFund">Emergency Fund (months saved)</label>
+                        <span class="v2-tip-wrap"><button class="v2-tip-btn" type="button">?</button><span class="v2-tip-box">How many months of expenses you have saved in accessible cash. A 3–6 month fund bridges the standard 90–120 day waiting period before disability benefits begin paying out.</span></span>
+                      </div>
                       <div class="v2-editable-badge">
                         <input type="number" class="v2-editable-input sm" id="diEmergencyFundValue"
-                          min="0" max="24" step="1" value="3" placeholder="3">
+                          min="0" max="24" step="1" value="0" placeholder="0">
                         <span class="v2-editable-suffix"> mo</span>
                       </div>
                     </div>
-                    <input type="range" class="v2-range" id="diEmergencyFund" min="0" max="24" step="1" value="3">
+                    <input type="range" class="v2-range" id="diEmergencyFund" min="0" max="24" step="1" value="0">
                   </div>
                 </div>
 

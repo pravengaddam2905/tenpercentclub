@@ -6988,6 +6988,72 @@ p {
   color: #374151;
   line-height: 1.4;
 }
+
+/* ── Label + tooltip group ─────────────────────────── */
+.v2-lbl-tip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.v2-tip-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.v2-tip-btn {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #dde3ec;
+  border: none;
+  color: #64748b;
+  font-size: 9px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background .15s, color .15s;
+  padding: 0;
+}
+.v2-tip-btn:hover {
+  background: var(--v2-teal);
+  color: #fff;
+}
+.v2-tip-box {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e293b;
+  color: #e2e8f0;
+  font-size: .715rem;
+  font-weight: 400;
+  line-height: 1.55;
+  padding: 10px 13px;
+  border-radius: 8px;
+  width: 250px;
+  z-index: 300;
+  pointer-events: none;
+  box-shadow: 0 8px 28px rgba(0,0,0,.28);
+  white-space: normal;
+  text-align: left;
+}
+.v2-tip-box::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #1e293b;
+}
+.v2-tip-wrap:hover .v2-tip-box {
+  display: block;
+}
 .v2-slider-badge {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: .92rem;
